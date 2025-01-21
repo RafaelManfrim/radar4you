@@ -6,6 +6,9 @@ import { Admin } from '@pages/Admin'
 import { History } from '@pages/History'
 import { Profile } from '@pages/Profile'
 import { LandingPage } from '@pages/LandingPage'
+import { Register } from '@/pages/Register'
+import { ForgotMyPassword } from '@/pages/ForgotMyPassword'
+import { NewPassword } from '@/pages/NewPassword'
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +18,18 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/registro',
+    element: <Register />,
+  },
+  {
+    path: '/esqueci-minha-senha',
+    element: <ForgotMyPassword />,
+  },
+  {
+    path: '/nova-senha',
+    element: <NewPassword />,
   },
   {
     path: '/calculadora',
