@@ -1,36 +1,122 @@
+import { Input } from '@/components/Form/Input'
 import { Logo } from '@/components/Logo'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Center, Flex, Input } from '@chakra-ui/react'
+import { useAuth } from '@/contexts/AuthContext'
+import { Box, Center, Flex } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
+import { GoogleLoginButton } from 'react-social-login-buttons'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { useEffect } from 'react'
+
+export const registerSchema = z
+  .object({
+    firstName: z.string().nonempty(),
+    email: z.string().email().nonempty(),
+    password: z.string().min(6),
+    confirmPassword: z.string().min(6),
+  })
+  .refine((schema) => schema.password === schema.confirmPassword, {
+    message: 'As senhas não são iguais',
+  })
+
+export type RegisterFormData = z.infer<typeof registerSchema>
 
 export function Register() {
+  const { signInwithGoogle, register } = useAuth()
+
+  const form = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+  })
+
+  function handleRegistration(data: RegisterFormData) {
+    register({
+      email: data.email,
+      first_name: data.firstName,
+      password: data.password,
+      login_provider: 'email',
+    })
+  }
+
+  useEffect(() => {
+    if (form.formState.errors) {
+      console.log(form.formState.errors)
+      const values = form.getValues()
+      console.log(values)
+    }
+  }, [form.formState.errors])
+
   return (
     <Center h="100vh">
-      <Flex gap="4" flexDir="column" minW="96">
+      <Flex
+        as="form"
+        gap="4"
+        flexDir="column"
+        w="100%"
+        maxW="96"
+        bg="gray.50"
+        p="4"
+        borderRadius="6px"
+        onSubmit={form.handleSubmit(handleRegistration)}
+      >
         <Logo />
         <h2>Registro</h2>
-        <Input placeholder="Digite seu primeiro nome" />
-        <Input placeholder="Digite seu e-mail" />
-        <Input placeholder="Digite sua senha" />
-        <Input placeholder="Confirme sua senha" />
-        <Checkbox>
+        <Input
+          placeholder="Digite seu primeiro nome"
+          register={form.register('firstName')}
+        />
+        <Input
+          placeholder="Digite seu e-mail"
+          register={form.register('email')}
+        />
+        <Input
+          placeholder="Digite sua senha"
+          type="password"
+          register={form.register('password')}
+        />
+        <Input
+          placeholder="Confirme sua senha"
+          type="password"
+          register={form.register('confirmPassword')}
+        />
+        <Checkbox inputProps={{ required: true }}>
           Eu aceito os <a href="">termos de uso</a> e a{' '}
           <a href="">política de privacidade</a>
         </Checkbox>
 
-        <Button>Registrar-se</Button>
+        <Button type="submit">Registrar-se</Button>
 
         <hr />
 
-        <span>Possui uma conta?</span>
+        <span>
+          Possui uma conta?{' '}
+          <Link to="/login">
+            <Box as="span" color="purple.500">
+              Entrar
+            </Box>
+          </Link>
+        </span>
 
-        <p>
-          <a href="">Entre</a>
-        </p>
+        <Flex bgColor="purple.400" h="2px" justify="center" align="center">
+          <Box bgColor="white" px="2" color="purple.500">
+            Ou
+          </Box>
+        </Flex>
 
-        <Button mb="4">Entrar com Google</Button>
-
-        <Button mb="4">Entrar com Facebook</Button>
+        <GoogleLoginButton
+          text="Entre com o Google"
+          style={{
+            height: '42px',
+            fontSize: '18px',
+            lineHeight: '18px',
+            width: '100%',
+            margin: '0',
+            boxShadow: 'rgba(0, 0, 0, 0.2) 0px 1px 2px',
+          }}
+          onClick={signInwithGoogle}
+        />
       </Flex>
     </Center>
   )

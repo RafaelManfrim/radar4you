@@ -11,12 +11,21 @@ dependencies:
   '@emotion/react':
     specifier: ^11.14.0
     version: 11.14.0(@types/react@18.3.18)(react@18.3.1)
+  '@hookform/resolvers':
+    specifier: ^3.10.0
+    version: 3.10.0(react-hook-form@7.54.2)
   axios:
     specifier: ^1.7.9
     version: 1.7.9
   firebase:
     specifier: ^11.2.0
     version: 11.2.0
+  js-cookie:
+    specifier: ^3.0.5
+    version: 3.0.5
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   next-themes:
     specifier: ^0.4.4
     version: 0.4.4(react-dom@18.3.1)(react@18.3.1)
@@ -29,6 +38,9 @@ dependencies:
   react-google-button:
     specifier: ^0.8.0
     version: 0.8.0(react@18.3.1)
+  react-hook-form:
+    specifier: ^7.54.2
+    version: 7.54.2(react@18.3.1)
   react-icons:
     specifier: ^5.4.0
     version: 5.4.0(react@18.3.1)
@@ -49,6 +61,9 @@ devDependencies:
   '@rocketseat/eslint-config':
     specifier: ^2.2.2
     version: 2.2.2(eslint@8.57.1)(typescript@5.6.3)
+  '@types/lodash':
+    specifier: ^4.17.14
+    version: 4.17.14
   '@types/react':
     specifier: ^18.3.18
     version: 18.3.18
@@ -1218,6 +1233,14 @@ packages:
       yargs: 17.7.2
     dev: false
 
+  /@hookform/resolvers@3.10.0(react-hook-form@7.54.2):
+    resolution: {integrity: sha512-79Dv+3mDF7i+2ajj7SkypSKHhl1cbln1OGavqrsF7p6mbUv11xpqpacPsGDCTRvCSjEEIez2ef1NveSVL3b0Ag==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
+    dependencies:
+      react-hook-form: 7.54.2(react@18.3.1)
+    dev: false
+
   /@humanwhocodes/config-array@0.13.0:
     resolution: {integrity: sha512-DZLEEqFWQFiyK6h5YIeynKx7JlvCYWL0cImfSRXZ9l4Sg2efkFGTuFf6vzXjK1cq6IYkU+Eg/JizXw+TD2vRNw==}
     engines: {node: '>=10.10.0'}
@@ -1585,6 +1608,10 @@ packages:
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: true
+
+  /@types/lodash@4.17.14:
+    resolution: {integrity: sha512-jsxagdikDiDBeIRaPYtArcT8my4tN1og7MtMRquFT3XNA6axxyHDRUemqDz/taRDdOUn0GnGHRCuff4q48sW9A==}
     dev: true
 
   /@types/node@22.10.7:
@@ -3934,6 +3961,11 @@ packages:
       set-function-name: 2.0.2
     dev: true
 
+  /js-cookie@3.0.5:
+    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
+    engines: {node: '>=14'}
+    dev: false
+
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -4031,6 +4063,10 @@ packages:
   /lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
     dev: true
+
+  /lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: false
 
   /long@5.2.4:
     resolution: {integrity: sha512-qtzLbJE8hq7VabR3mISmVGtoXP8KGc2Z/AT8OuqlYD7JTR3oqrgwdjnk07wpj1twXxYmgDXgoKVWUG/fReSzHg==}
@@ -4374,6 +4410,15 @@ packages:
       react: '>= 16.8.0'
     dependencies:
       prop-types: 15.8.1
+      react: 18.3.1
+    dev: false
+
+  /react-hook-form@7.54.2(react@18.3.1):
+    resolution: {integrity: sha512-eHpAUgUjWbZocoQYUHposymRb4ZP6d0uwUnooL2uOybA9/3tPUvoAKqEWK1WaSiTxxOfTpffNZP7QwlnM3/gEg==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
+    dependencies:
       react: 18.3.1
     dev: false
 

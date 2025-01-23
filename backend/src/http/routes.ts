@@ -6,10 +6,14 @@ import { createUser } from './controllers/create-user'
 import { authenticateUser } from './controllers/authenticate-user'
 import { forgotMyPassword } from './controllers/forgot-my-password'
 import { newPassword } from './controllers/new-password'
+import { logout } from './controllers/logout'
+import { userData } from './controllers/user-data'
 
 export function appRoutes(app: FastifyInstance) {
   app.post('/register', createUser)
   app.post('/login', authenticateUser)
+  app.post('/logout', logout)
+  app.post('/me', userData)
   app.post('/forgot-my-password', forgotMyPassword)
   app.post('/new-password', newPassword)
 

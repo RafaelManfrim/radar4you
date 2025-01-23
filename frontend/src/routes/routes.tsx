@@ -36,15 +36,15 @@ export const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: '/historico',
+    path: '/calculadora/historico',
     element: <History />,
   },
   {
-    path: '/perfil',
+    path: '/calculadora/perfil',
     element: <Profile />,
   },
   {
-    path: '/admin',
+    path: '/calculadora/admin',
     element: <Admin />,
   },
 ])
