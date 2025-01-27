@@ -15,8 +15,9 @@ export async function up(knex: Knex): Promise<void> {
       .boolean('is_email_notifications_enabled')
       .notNullable()
       .defaultTo(false)
-    table.timestamps(true, true) // Adiciona created_at e updated_at automaticamente
     table.string('profile_picture_url')
+    table.enum('role', ['ADMIN', 'USER']).defaultTo('USER')
+    table.timestamps(true, true) // Adiciona created_at e updated_at automaticamente
   })
 }
 

@@ -53,6 +53,7 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
     firebase_uid,
     is_email_notifications_enabled: false,
     accepted_terms_at: new Date(),
+    role: 'USER',
     created_at: new Date(),
     updated_at: new Date(),
     profile_picture_url,

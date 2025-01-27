@@ -44,7 +44,7 @@ type AuthContextData = {
   register: (data: RegisterData) => Promise<void>
   signIn: (data: SignInData) => Promise<void>
   signInwithGoogle: () => Promise<void>
-  signOut: () => Promise<void>
+  // signOut: () => Promise<void>
   changeUser: (user: User) => void
   getTokens: () => Tokens
 }
@@ -60,8 +60,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const authEnabled = true
 
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
+  // const navigate = useNavigate()
+  // const { pathname } = useLocation()
 
   const isAuthenticated = !!(authEnabled
     ? authData && Object.keys(authData).length > 0
@@ -106,66 +106,66 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   }
 
-  async function processEffect(pathname: string) {
-    if (!authEnabled) return
+  // async function processEffect(pathname: string) {
+  //   if (!authEnabled) return
 
-    try {
-      const landingPagePath = '/'
-      const securePath = '/calculadora'
+  //   try {
+  //     const landingPagePath = '/'
+  //     const securePath = '/calculadora'
 
-      const unauthenticatedPaths = [
-        '/login',
-        '/registro',
-        '/esqueci-minha-senha',
-        '/nova-senha',
-      ]
+  //     const unauthenticatedPaths = [
+  //       '/login',
+  //       '/registro',
+  //       '/esqueci-minha-senha',
+  //       '/nova-senha',
+  //     ]
 
-      if (pathname.includes(securePath)) {
-        const { access } = getTokens()
+  //     if (pathname.includes(securePath)) {
+  //       const { access } = getTokens()
 
-        // const loginPath = '/participant/login'
-        // const forgotMyPsswordPath = '/participant/forgot-my-password/'
-        // const resetPasswordPath = '/participant/reset-password/'
+  //       // const loginPath = '/participant/login'
+  //       // const forgotMyPsswordPath = '/participant/forgot-my-password/'
+  //       // const resetPasswordPath = '/participant/reset-password/'
 
-        if (access) {
-          if (unauthenticatedPaths.some((path) => pathname.includes(path))) {
-            return navigate('/calculadora')
-          }
+  //       if (access) {
+  //         if (unauthenticatedPaths.some((path) => pathname.includes(path))) {
+  //           return navigate('/calculadora')
+  //         }
 
-          try {
-            // TODO: Implementar rota de me
-            // const url = `${import.meta.env.VITE_AUTH_ME as string}`
-            // const response = await api.get(url, {
-            //   headers: {
-            //     'Content-Type': 'application/json',
-            //     Authorization: `Bearer ${access || getTokens()?.access}`,
-            //   },
-            // })
-            // const json = response.data
-            // changeUser(json.person)
-          } catch (error: unknown) {
-            console.log(error)
-            signOut()
-          }
-        } else {
-          if (
-            !unauthenticatedPaths.some((path) => pathname.includes(path)) &&
-            pathname !== landingPagePath
-          ) {
-            signOut()
-          }
-        }
-      }
-    } catch (error: unknown) {
-      console.log(error)
-      signOut()
-    }
-  }
+  //         try {
+  //           // TODO: Implementar rota de me
+  //           // const url = `${import.meta.env.VITE_AUTH_ME as string}`
+  //           // const response = await api.get(url, {
+  //           //   headers: {
+  //           //     'Content-Type': 'application/json',
+  //           //     Authorization: `Bearer ${access || getTokens()?.access}`,
+  //           //   },
+  //           // })
+  //           // const json = response.data
+  //           // changeUser(json.person)
+  //         } catch (error: unknown) {
+  //           console.log(error)
+  //           signOut()
+  //         }
+  //       } else {
+  //         if (
+  //           !unauthenticatedPaths.some((path) => pathname.includes(path)) &&
+  //           pathname !== landingPagePath
+  //         ) {
+  //           signOut()
+  //         }
+  //       }
+  //     }
+  //   } catch (error: unknown) {
+  //     console.log(error)
+  //     signOut()
+  //   }
+  // }
 
-  useEffect(() => {
-    processEffect(pathname)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+  // useEffect(() => {
+  //   processEffect(pathname)
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [pathname])
 
   async function register(data: RegisterData) {
     try {
@@ -225,32 +225,32 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     })
   }
 
-  async function signOut() {
-    try {
-      const { access } = getTokens()
+  // async function signOut() {
+  //   try {
+  //     const { access } = getTokens()
 
-      Cookies.remove('the-brocks.access', { path: '/calculadora' })
-      Cookies.remove('the-brocks.refresh', { path: '/calculadora' })
+  //     Cookies.remove('the-brocks.access', { path: '/calculadora' })
+  //     Cookies.remove('the-brocks.refresh', { path: '/calculadora' })
 
-      if (access) {
-        // TODO: Implementar rota de logout
-        // const url = `${import.meta.env.VITE_AUTH_SIGNOUT as string}`
-        // await api.post(url, {
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     Authorization: `Bearer ${access || getTokens()?.access}`,
-        //   },
-        // })
-      }
+  //     if (access) {
+  //       // TODO: Implementar rota de logout
+  //       // const url = `${import.meta.env.VITE_AUTH_SIGNOUT as string}`
+  //       // await api.post(url, {
+  //       //   headers: {
+  //       //     'Content-Type': 'application/json',
+  //       //     Authorization: `Bearer ${access || getTokens()?.access}`,
+  //       //   },
+  //       // })
+  //     }
 
-      setAuthData(undefined)
-      navigate('/login')
-    } catch (err: unknown) {
-      console.log(err)
-      setAuthData(undefined)
-      navigate('/login')
-    }
-  }
+  //     setAuthData(undefined)
+  //     navigate('/login')
+  //   } catch (err: unknown) {
+  //     console.log(err)
+  //     setAuthData(undefined)
+  //     navigate('/login')
+  //   }
+  // }
 
   return (
     <AuthContext.Provider
@@ -259,7 +259,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         isAuthenticated,
         getTokens,
         changeUser,
-        signOut,
+        // signOut,
         signInwithGoogle,
         register,
         signIn,
