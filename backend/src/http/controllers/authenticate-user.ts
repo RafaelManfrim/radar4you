@@ -4,6 +4,7 @@ import { compare } from 'bcryptjs'
 
 import { knex } from '@/database'
 import { generateTokensJWT } from '@/utils/generate-tokens-jwt'
+import { decodeJWT } from '@/utils/decode-jwt'
 
 export async function authenticateUser(
   request: FastifyRequest,
@@ -66,8 +67,22 @@ export async function authenticateUser(
         message: 'Invalid Credentials',
       })
     }
-  } else if (login_provider === 'google') {
-    // TODO: Implement Google OAuth token verification and return a JWT to the user
+  } else if (login_provider === 'google' && oauth_token) {
+    const data = decodeJWT(oauth_token)
+
+    user = await knex('users')
+      .where({
+        firebase_uid: data.sub,
+        email: data.email,
+        login_provider,
+      })
+      .first()
+
+    if (!user) {
+      return reply.status(400).send({
+        message: 'Invalid Credentials',
+      })
+    }
   } else if (login_provider === 'facebook') {
     // TODO: Implement Facebook OAuth token verification and return a JWT to the user
   }
@@ -78,7 +93,7 @@ export async function authenticateUser(
     })
   }
 
-  const { token, refreshToken } = await generateTokensJWT(user, reply)
+  const { access, refresh } = await generateTokensJWT(user, reply)
 
   await knex('user_refresh_tokens')
     .where({
@@ -88,16 +103,16 @@ export async function authenticateUser(
 
   await knex('user_refresh_tokens').insert({
     user_id: user.id,
-    token: refreshToken,
+    token: refresh,
     expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   })
 
-  return reply
-    .setCookie('refreshToken', refreshToken, {
-      path: '/',
-      secure: true,
-      sameSite: true,
-      httpOnly: true,
-    })
-    .send({ token })
+  return reply.send({
+    access,
+    refresh,
+    user: {
+      ...user,
+      password_hash: undefined,
+    },
+  })
 }

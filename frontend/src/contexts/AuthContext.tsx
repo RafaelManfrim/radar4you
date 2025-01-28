@@ -26,6 +26,8 @@ export interface SignInData {
 
 export interface User {
   id: string
+  email: string
+  first_name: string
 }
 
 type Tokens = {
@@ -44,7 +46,7 @@ type AuthContextData = {
   register: (data: RegisterData) => Promise<void>
   signIn: (data: SignInData) => Promise<void>
   signInwithGoogle: () => Promise<void>
-  // signOut: () => Promise<void>
+  signOut: () => Promise<void>
   changeUser: (user: User) => void
   getTokens: () => Tokens
 }
@@ -60,16 +62,16 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const authEnabled = true
 
-  // const navigate = useNavigate()
-  // const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
 
   const isAuthenticated = !!(authEnabled
     ? authData && Object.keys(authData).length > 0
     : true)
 
   function getTokens() {
-    const access = Cookies.get('the-brocks.access')
-    const refresh = Cookies.get('the-brocks.refresh')
+    const access = String(Cookies.get('the-brocks.access'))
+    const refresh = String(Cookies.get('the-brocks.refresh'))
 
     if (access && refresh) {
       setAuthData(
@@ -106,70 +108,69 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   }
 
-  // async function processEffect(pathname: string) {
-  //   if (!authEnabled) return
+  async function processEffect(pathname: string) {
+    if (!authEnabled) return
 
-  //   try {
-  //     const landingPagePath = '/'
-  //     const securePath = '/calculadora'
+    try {
+      const landingPagePath = '/'
+      const securePath = '/calculadora'
 
-  //     const unauthenticatedPaths = [
-  //       '/login',
-  //       '/registro',
-  //       '/esqueci-minha-senha',
-  //       '/nova-senha',
-  //     ]
+      const unauthenticatedPaths = [
+        '/login',
+        '/registro',
+        '/esqueci-minha-senha',
+        '/nova-senha',
+      ]
 
-  //     if (pathname.includes(securePath)) {
-  //       const { access } = getTokens()
+      if (pathname.includes(securePath)) {
+        const { access } = getTokens()
 
-  //       // const loginPath = '/participant/login'
-  //       // const forgotMyPsswordPath = '/participant/forgot-my-password/'
-  //       // const resetPasswordPath = '/participant/reset-password/'
+        if (access) {
+          if (unauthenticatedPaths.some((path) => pathname.includes(path))) {
+            return navigate('/calculadora')
+          }
 
-  //       if (access) {
-  //         if (unauthenticatedPaths.some((path) => pathname.includes(path))) {
-  //           return navigate('/calculadora')
-  //         }
+          try {
+            const response = await api.get('/me')
 
-  //         try {
-  //           // TODO: Implementar rota de me
-  //           // const url = `${import.meta.env.VITE_AUTH_ME as string}`
-  //           // const response = await api.get(url, {
-  //           //   headers: {
-  //           //     'Content-Type': 'application/json',
-  //           //     Authorization: `Bearer ${access || getTokens()?.access}`,
-  //           //   },
-  //           // })
-  //           // const json = response.data
-  //           // changeUser(json.person)
-  //         } catch (error: unknown) {
-  //           console.log(error)
-  //           signOut()
-  //         }
-  //       } else {
-  //         if (
-  //           !unauthenticatedPaths.some((path) => pathname.includes(path)) &&
-  //           pathname !== landingPagePath
-  //         ) {
-  //           signOut()
-  //         }
-  //       }
-  //     }
-  //   } catch (error: unknown) {
-  //     console.log(error)
-  //     signOut()
-  //   }
-  // }
+            changeUser(response.data.user)
+          } catch (error: unknown) {
+            console.log(error)
+            signOut()
+          }
+        } else {
+          if (
+            !unauthenticatedPaths.some((path) => pathname.includes(path)) &&
+            pathname !== landingPagePath
+          ) {
+            signOut()
+          }
+        }
+      }
+    } catch (error: unknown) {
+      console.log(error)
+      signOut()
+    }
+  }
 
-  // useEffect(() => {
-  //   processEffect(pathname)
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [pathname])
+  useEffect(() => {
+    processEffect(pathname)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
 
   async function register(data: RegisterData) {
     try {
       await api.post('/register', data)
+
+      if (data.login_provider === 'email') {
+        await signIn({
+          login_provider: data.login_provider,
+          credentials: {
+            email: data.email,
+            password: data.password ?? '',
+          },
+        })
+      }
     } catch (error) {
       console.log(error)
 
@@ -181,9 +182,29 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     try {
       const authResponse = await api.post('/login', data)
 
-      if (authResponse) {
-        setAuthData(authResponse.data)
-      }
+      const { access, refresh, user } = authResponse.data
+
+      Cookies.set('the-brocks.access', access, {
+        expires: 1 / 24 / 2, // 30 minutes
+        path: '/calculadora',
+      })
+
+      Cookies.set('the-brocks.refresh', refresh, {
+        expires: 7, // 7 days
+        path: '/calculadora',
+      })
+
+      api.defaults.headers.common.Authorization = `Bearer ${access}`
+
+      setAuthData({
+        tokens: {
+          access,
+          refresh,
+        },
+        user,
+      })
+
+      navigate('/calculadora')
     } catch (error) {
       console.log(error)
 
@@ -194,12 +215,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   async function signInwithGoogle() {
     const provider = new GoogleAuthProvider()
     signInWithPopup(auth, provider).then(async (result) => {
-      console.log(result)
-
       if (result.user) {
         const { email, displayName, photoURL, uid } = result.user
 
-        const accessToken = result.user.accessToken
+        const accessToken = await result.user.getIdToken()
 
         if (!email) {
           throw new Error('E-mail não encontrado')
@@ -220,37 +239,35 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
             firebase_uid: uid,
             profile_picture_url: photoURL ?? undefined,
           })
+
+          await signIn({
+            login_provider: 'google',
+            oauth_token: accessToken,
+          })
         }
       }
     })
   }
 
-  // async function signOut() {
-  //   try {
-  //     const { access } = getTokens()
+  async function signOut() {
+    try {
+      const { access } = getTokens()
 
-  //     Cookies.remove('the-brocks.access', { path: '/calculadora' })
-  //     Cookies.remove('the-brocks.refresh', { path: '/calculadora' })
+      Cookies.remove('the-brocks.access', { path: '/calculadora' })
+      Cookies.remove('the-brocks.refresh', { path: '/calculadora' })
 
-  //     if (access) {
-  //       // TODO: Implementar rota de logout
-  //       // const url = `${import.meta.env.VITE_AUTH_SIGNOUT as string}`
-  //       // await api.post(url, {
-  //       //   headers: {
-  //       //     'Content-Type': 'application/json',
-  //       //     Authorization: `Bearer ${access || getTokens()?.access}`,
-  //       //   },
-  //       // })
-  //     }
+      if (access) {
+        await api.post('/logout')
+      }
 
-  //     setAuthData(undefined)
-  //     navigate('/login')
-  //   } catch (err: unknown) {
-  //     console.log(err)
-  //     setAuthData(undefined)
-  //     navigate('/login')
-  //   }
-  // }
+      setAuthData(undefined)
+      navigate('/login')
+    } catch (err: unknown) {
+      console.log(err)
+      setAuthData(undefined)
+      navigate('/login')
+    }
+  }
 
   return (
     <AuthContext.Provider
@@ -259,7 +276,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         isAuthenticated,
         getTokens,
         changeUser,
-        // signOut,
+        signOut,
         signInwithGoogle,
         register,
         signIn,

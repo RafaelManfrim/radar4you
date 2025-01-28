@@ -40,14 +40,6 @@ export function Register() {
     })
   }
 
-  useEffect(() => {
-    if (form.formState.errors) {
-      console.log(form.formState.errors)
-      const values = form.getValues()
-      console.log(values)
-    }
-  }, [form.formState.errors])
-
   return (
     <Center h="100vh">
       <Flex

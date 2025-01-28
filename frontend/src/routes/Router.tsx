@@ -19,12 +19,12 @@ export function Router() {
       <Route path="/esqueci-minha-senha" element={<ForgotMyPassword />} />
       <Route path="/nova-senha" element={<NewPassword />} />
       <Route path="/calculadora">
-        <Route path="/" element={<App />} />
-        <Route path="/historico" element={<History />} />
-        <Route path="/perfil" element={<Profile />} />
+        <Route path="/calculadora/" element={<App />} />
+        <Route path="/calculadora/historico" element={<History />} />
+        <Route path="/calculadora/perfil" element={<Profile />} />
       </Route>
       <Route path="/admin">
-        <Route path="/" element={<Admin />} />
+        <Route path="/admin/" element={<Admin />} />
       </Route>
     </Routes>
   )

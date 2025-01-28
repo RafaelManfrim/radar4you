@@ -2,7 +2,7 @@ import { FastifyReply } from 'fastify'
 import { User } from 'knex/types/tables'
 
 export async function generateTokensJWT(user: User, reply: FastifyReply) {
-  const token = await reply.jwtSign(
+  const access = await reply.jwtSign(
     {
       role: user.role,
     },
@@ -13,7 +13,7 @@ export async function generateTokensJWT(user: User, reply: FastifyReply) {
     },
   )
 
-  const refreshToken = await reply.jwtSign(
+  const refresh = await reply.jwtSign(
     {
       role: user.role,
     },
@@ -26,7 +26,7 @@ export async function generateTokensJWT(user: User, reply: FastifyReply) {
   )
 
   return {
-    token,
-    refreshToken,
+    access,
+    refresh,
   }
 }

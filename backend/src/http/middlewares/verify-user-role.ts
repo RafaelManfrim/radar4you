@@ -5,7 +5,7 @@ export function verifyUserRole(roleToVerify: 'ADMIN' | 'USER') {
     const { role } = request.user
 
     if (role !== roleToVerify) {
-      return reply.code(401).send({ message: 'Unauthorized.' })
+      return reply.code(403).send({ message: 'Forbiden' })
     }
   }
 }

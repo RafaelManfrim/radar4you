@@ -2,18 +2,28 @@ import { generateTokensJWT } from '@/utils/generate-tokens-jwt'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { knex } from '@/database'
+import { z } from 'zod'
+import { decodeJWT } from '@/utils/decode-jwt'
 
 export async function refreshAccessToken(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  await request.jwtVerify({ onlyCookie: true })
+  const refreshAccessTokenBodySchema = z.object({
+    refresh: z.string(),
+  })
 
-  const user = await knex('users').where('id', request.user.sub).first()
+  const { refresh: oldRefresh } = refreshAccessTokenBodySchema.parse(
+    request.body,
+  )
+
+  const data = await decodeJWT(oldRefresh)
+
+  const user = await knex('users').where('id', data.sub).first()
 
   if (!user) {
-    return reply.status(401).send({
-      message: 'Access token is required for this user to refresh the token',
+    return reply.status(400).send({
+      message: 'User not found',
     })
   }
 
@@ -22,7 +32,7 @@ export async function refreshAccessToken(
     .first()
 
   if (!refreshTokenInDb) {
-    return reply.status(401).send({
+    return reply.status(400).send({
       message: 'Refresh token not found',
     })
   }
@@ -35,16 +45,7 @@ export async function refreshAccessToken(
     })
   }
 
-  const { token, refreshToken } = await generateTokensJWT(user, reply)
+  const { access, refresh } = await generateTokensJWT(user, reply)
 
-  return reply
-    .setCookie('refreshToken', refreshToken, {
-      path: '/',
-      secure: true,
-      sameSite: true,
-      httpOnly: true,
-    })
-    .send({
-      token,
-    })
+  return reply.send({ access, refresh })
 }

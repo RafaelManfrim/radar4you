@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { randomUUID } from 'node:crypto'
 import { z } from 'zod'
 
-import { knex } from '../../database'
+import { knex } from '@/database'
 import { hash } from 'bcryptjs'
 
 export async function createUser(request: FastifyRequest, reply: FastifyReply) {
@@ -44,20 +44,26 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
   const password_hash =
     login_provider === 'email' ? await hash(password as string, 6) : undefined
 
-  await knex('users').insert({
-    id: randomUUID(),
-    email,
-    password_hash,
-    first_name,
-    login_provider,
-    firebase_uid,
-    is_email_notifications_enabled: false,
-    accepted_terms_at: new Date(),
-    role: 'USER',
-    created_at: new Date(),
-    updated_at: new Date(),
-    profile_picture_url,
-  })
+  try {
+    await knex('users').insert({
+      id: randomUUID(),
+      email,
+      password_hash,
+      first_name,
+      login_provider,
+      firebase_uid,
+      is_email_notifications_enabled: false,
+      accepted_terms_at: new Date(),
+      role: 'USER',
+      created_at: new Date(),
+      updated_at: new Date(),
+      profile_picture_url,
+    })
+  } catch (error) {
+    return reply.status(400).send({
+      message: 'User already exists',
+    })
+  }
 
   return reply.status(201).send()
 }
