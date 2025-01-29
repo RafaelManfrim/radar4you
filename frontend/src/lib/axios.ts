@@ -50,12 +50,12 @@ api.interceptors.response.use(
 
             Cookies.set('the-brocks.access', access!, {
               expires: 1 / 24 / 2, // 30 minutes
-              path: '/calculadora',
+              path: '/',
             })
 
             Cookies.set('the-brocks.refresh', response.data.refresh, {
               expires: 7, // 7 days
-              path: '/calculadora',
+              path: '/',
             })
 
             api.defaults.headers.common.Authorization = `Bearer ${access}`

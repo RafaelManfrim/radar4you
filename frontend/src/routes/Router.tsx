@@ -9,6 +9,9 @@ import { LandingPage } from '@pages/LandingPage'
 import { Register } from '@/pages/Register'
 import { ForgotMyPassword } from '@/pages/ForgotMyPassword'
 import { NewPassword } from '@/pages/NewPassword'
+import { AdminLayout } from '@/layouts/AdminLayout'
+import { AppLayout } from '@/layouts/AppLayout'
+import { AcessoNegado } from '@/pages/AcessoNegado'
 
 export function Router() {
   return (
@@ -18,12 +21,13 @@ export function Router() {
       <Route path="/registro" element={<Register />} />
       <Route path="/esqueci-minha-senha" element={<ForgotMyPassword />} />
       <Route path="/nova-senha" element={<NewPassword />} />
-      <Route path="/calculadora">
+      <Route path="/acesso-negado" element={<AcessoNegado />} />
+      <Route path="/calculadora" element={<AppLayout />}>
         <Route path="/calculadora/" element={<App />} />
         <Route path="/calculadora/historico" element={<History />} />
         <Route path="/calculadora/perfil" element={<Profile />} />
       </Route>
-      <Route path="/admin">
+      <Route path="/admin" element={<AdminLayout />}>
         <Route path="/admin/" element={<Admin />} />
       </Route>
     </Routes>

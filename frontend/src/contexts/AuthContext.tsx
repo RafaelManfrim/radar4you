@@ -28,6 +28,7 @@ export interface User {
   id: string
   email: string
   first_name: string
+  role: 'USER' | 'ADMIN'
 }
 
 type Tokens = {
@@ -65,13 +66,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
-  const isAuthenticated = !!(authEnabled
-    ? authData && Object.keys(authData).length > 0
-    : true)
+  const isAuthenticated = authEnabled
+    ? !!(authData && Object.keys(authData).length > 0)
+    : true
 
   function getTokens() {
-    const access = String(Cookies.get('the-brocks.access'))
-    const refresh = String(Cookies.get('the-brocks.refresh'))
+    const access = Cookies.get('the-brocks.access')
+    const refresh = Cookies.get('the-brocks.refresh')
 
     if (access && refresh) {
       setAuthData(
@@ -98,13 +99,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     const userHasChanged = !_.isEqual(userParam, authData?.user)
 
     if (userHasChanged) {
-      setAuthData(
-        (state) =>
-          state && {
-            ...state,
-            user: userParam,
-          },
-      )
+      setAuthData((state) => ({
+        tokens: state?.tokens ? state.tokens : getTokens(),
+        user: userParam,
+      }))
     }
   }
 
@@ -114,6 +112,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     try {
       const landingPagePath = '/'
       const securePath = '/calculadora'
+      const adminPath = '/admin'
+      const otherPaths = ['/acesso-negado']
 
       const unauthenticatedPaths = [
         '/login',
@@ -122,7 +122,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         '/nova-senha',
       ]
 
-      if (pathname.includes(securePath)) {
+      if (pathname.includes(securePath) || pathname.includes(adminPath)) {
         const { access } = getTokens()
 
         if (access) {
@@ -145,6 +145,15 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
           ) {
             signOut()
           }
+        }
+      } else if (
+        !otherPaths.some((path) => pathname.includes(path)) &&
+        pathname !== landingPagePath
+      ) {
+        const { refresh } = getTokens()
+
+        if (refresh) {
+          navigate('/calculadora')
         }
       }
     } catch (error: unknown) {
@@ -186,12 +195,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
       Cookies.set('the-brocks.access', access, {
         expires: 1 / 24 / 2, // 30 minutes
-        path: '/calculadora',
+        path: '/',
       })
 
       Cookies.set('the-brocks.refresh', refresh, {
         expires: 7, // 7 days
-        path: '/calculadora',
+        path: '/',
       })
 
       api.defaults.headers.common.Authorization = `Bearer ${access}`
@@ -253,19 +262,19 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     try {
       const { access } = getTokens()
 
-      Cookies.remove('the-brocks.access', { path: '/calculadora' })
-      Cookies.remove('the-brocks.refresh', { path: '/calculadora' })
+      Cookies.remove('the-brocks.access', { path: '/' })
+      Cookies.remove('the-brocks.refresh', { path: '/' })
 
       if (access) {
         await api.post('/logout')
       }
 
       setAuthData(undefined)
-      navigate('/login')
+      navigate('/')
     } catch (err: unknown) {
       console.log(err)
       setAuthData(undefined)
-      navigate('/login')
+      navigate('/')
     }
   }
 

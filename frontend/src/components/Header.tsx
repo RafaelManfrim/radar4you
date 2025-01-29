@@ -1,11 +1,14 @@
-import { Flex } from '@chakra-ui/react'
+import { Flex, HStack } from '@chakra-ui/react'
 import { Logo } from './Logo'
 import { NavLinkComponent } from './NavLink'
 import { Button } from './ui/button'
 import { useAuth } from '@/contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import { Can } from './Can'
 
 export function Header() {
   const { signOut } = useAuth()
+  const navigate = useNavigate()
 
   return (
     <Flex as="header" w="full" bg="gray.200" justify="center" p="6">
@@ -24,9 +27,12 @@ export function Header() {
           <NavLinkComponent title="Perfil" to="/calculadora/perfil" />
         </Flex>
 
-        <Flex>
+        <HStack>
+          <Can>
+            <Button onClick={() => navigate('/admin')}>Admin</Button>
+          </Can>
           <Button onClick={signOut}>Sair</Button>
-        </Flex>
+        </HStack>
       </Flex>
     </Flex>
   )

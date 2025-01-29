@@ -8,6 +8,7 @@ import { logout } from '../controllers/logout'
 import { userData } from '../controllers/user-data'
 import { refreshAccessToken } from '../controllers/refresh-access-token'
 import { verifyJWT } from '../middlewares/verify-jwt'
+import { turnUserAdmin } from '../controllers/turn-user-admin'
 
 export function userRoutes(app: FastifyInstance) {
   app.post('/register', createUser)
@@ -15,6 +16,7 @@ export function userRoutes(app: FastifyInstance) {
   app.post('/forgot-my-password', forgotMyPassword)
   app.post('/new-password', newPassword)
   app.patch('/token/refresh', refreshAccessToken)
+  app.post('/turn-user-admin', turnUserAdmin)
 
   app.post('/logout', { onRequest: [verifyJWT] }, logout)
   app.get('/me', { onRequest: [verifyJWT] }, userData)

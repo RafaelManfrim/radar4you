@@ -7,11 +7,14 @@
 - [ ] Criação de usuário via facebook
 
 - [x] Authenticação de usuário via e-mail
-- [ ] Authenticação de usuário via google
+- [x] Authenticação de usuário via google
 - [ ] Authenticação de usuário via facebook
 
-- [ ] Proteção da aplicação para usuário logado
-- [ ] Proteção do admin para usuário logado e com permissões administrativas
+- [x] Proteção da aplicação para usuário logado
+- [x] Proteção do admin para usuário logado e com permissões administrativas
+
+- [ ] Melhorias na Experiência do Usuário
+- [ ] Melhorias Visuais
 
 ## Banco de dados
 

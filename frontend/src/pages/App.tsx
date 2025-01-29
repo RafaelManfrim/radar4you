@@ -1,6 +1,6 @@
 import { Text, HStack, Center } from '@chakra-ui/react'
 import { LuTable } from 'react-icons/lu'
-import { Header } from '@components/Header'
+
 import { useState } from 'react'
 // import {
 //   RadioCardItem,
@@ -20,8 +20,6 @@ export function App() {
 
   return (
     <div>
-      <Header />
-
       <LayoutContainer>
         {/* <Text as="h1" textAlign="center">
           Calculadora
