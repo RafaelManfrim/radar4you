@@ -12,6 +12,8 @@ import { NewPassword } from '@/pages/NewPassword'
 import { AdminLayout } from '@/layouts/AdminLayout'
 import { AppLayout } from '@/layouts/AppLayout'
 import { AcessoNegado } from '@/pages/AcessoNegado'
+import { Bandeiras } from '@/pages/Bandeiras'
+import { Cartoes } from '@/pages/Cartoes'
 
 export function Router() {
   return (
@@ -28,7 +30,9 @@ export function Router() {
         <Route path="/calculadora/perfil" element={<Profile />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
-        <Route path="/admin/" element={<Admin />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/bandeiras" element={<Bandeiras />} />
+        <Route path="/admin/cartoes" element={<Cartoes />} />
       </Route>
     </Routes>
   )

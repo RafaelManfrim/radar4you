@@ -26,8 +26,17 @@ declare module 'knex/types/tables' {
     updated_at: Date
   }
 
+  export interface CardBrands {
+    id: string
+    name: string
+    logo_url?: string
+    created_at: Date
+    updated_at: Date
+  }
+
   export interface Tables {
     users: User
     user_refresh_tokens: UserRefreshTokens
+    card_brands: CardBrands
   }
 }
