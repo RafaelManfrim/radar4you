@@ -34,9 +34,44 @@ declare module 'knex/types/tables' {
     updated_at: Date
   }
 
+  export interface FinancialInstutions {
+    id: string
+    name: string
+    logo_url?: string
+    created_at: Date
+    updated_at: Date
+  }
+
+  export interface Cards {
+    id: string
+    user_id: string
+    card_brand_id: string
+    financial_institution_id: string
+    created_at: Date
+    updated_at: Date
+  }
+
+  export interface UserCards {
+    id: string
+    user_id: string
+    card_id: string
+    created_at: Date
+    updated_at: Date
+  }
+
+  export interface DollarQuotes {
+    id: string
+    exchange_rate: number
+    retrieved_at: Date
+  }
+
   export interface Tables {
     users: User
     user_refresh_tokens: UserRefreshTokens
     card_brands: CardBrands
+    financial_institutions: FinancialInstutions
+    cards: Cards
+    user_cards: UserCards
+    dollar_quotes: DollarQuotes
   }
 }

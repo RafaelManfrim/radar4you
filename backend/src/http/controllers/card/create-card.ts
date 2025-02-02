@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { randomUUID } from 'node:crypto'
 import { z } from 'zod'
 
-import { knex } from '../../database'
+import { knex } from '@/database'
 
 export async function createCard(request: FastifyRequest, reply: FastifyReply) {
   const createCardBodySchema = z.object({})

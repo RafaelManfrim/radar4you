@@ -43,10 +43,11 @@
 
 ### Banco de dados
 
-- [ ] Tabela Bandeira
-- [ ] Tabela Cartão
-- [ ] Tabela Cartão Usuário
-- [ ] Tabela Dólar
+- [x] Tabela Bandeira
+- [x] Tabela Instituição Financeira
+- [x] Tabela Cartão
+- [x] Tabela Cartão Usuário
+- [x] Tabela Dólar
 - [ ] Tabela Simulação
 
 ### Funcionalidades da Aplicação (Cadastros, Cálculos)
@@ -54,6 +55,7 @@
 #### Admin
 
 - [ ] Cadastro de Bandeira
+- [ ] Cadastro de Instituição Financeira
 - [ ] Cadastro de Cartão
 
 #### Usuario

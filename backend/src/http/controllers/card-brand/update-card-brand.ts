@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { knex } from '../../database'
+import { knex } from '@/database'
 import { z } from 'zod'
 
 export async function updateCardBrand(
@@ -28,10 +28,15 @@ export async function updateCardBrand(
     })
   }
 
-  await knex('card_brands').where({ id }).update({
-    name,
-    logo_url,
-  })
+  const updateCardBrandReturn = await knex('card_brands')
+    .where({ id })
+    .update({
+      name,
+      logo_url,
+    })
+    .returning('*')
 
-  return reply.send({})
+  return reply.send({
+    cardBrand: updateCardBrandReturn[0],
+  })
 }

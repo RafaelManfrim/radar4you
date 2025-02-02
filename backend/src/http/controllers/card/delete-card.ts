@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-import { knex } from '../../database'
+import { knex } from '@/database'
 
 export async function deleteCard(request: FastifyRequest, reply: FastifyReply) {
   const deleteCardParamsSchema = z.object({

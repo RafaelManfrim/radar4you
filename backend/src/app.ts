@@ -7,6 +7,8 @@ import { ZodError } from 'zod'
 import { userRoutes } from './http/routes/userRoutes'
 import { env } from './env'
 import { cardRoutes } from './http/routes/cardRoutes'
+import { cardBrandRoutes } from './http/routes/cardBrandRoutes'
+import { financialInstitutionRoutes } from './http/routes/financialInstitutionRoutes'
 
 const app = fastify()
 
@@ -26,6 +28,8 @@ app.register(fastifyJwt, {
 app.register(fastifyCookie)
 
 app.register(userRoutes)
+app.register(cardBrandRoutes)
+app.register(financialInstitutionRoutes)
 app.register(cardRoutes)
 
 app.setErrorHandler((error, _, reply) => {

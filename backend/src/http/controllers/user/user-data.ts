@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { knex } from '../../database'
+import { knex } from '@/database'
 
 export async function userData(request: FastifyRequest, reply: FastifyReply) {
   const user = await knex('users').where('id', request.user.sub).first()

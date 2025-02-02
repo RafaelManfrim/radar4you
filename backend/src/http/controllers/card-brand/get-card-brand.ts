@@ -1,17 +1,17 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { knex } from '../../database'
+import { knex } from '@/database'
 import { z } from 'zod'
 
-export async function deleteCardBrand(
+export async function getCardBrand(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const deleteCardBrandParamsSchema = z.object({
+  const getCardBrandParamsSchema = z.object({
     id: z.string(),
   })
 
-  const { id } = deleteCardBrandParamsSchema.parse(request.params)
+  const { id } = getCardBrandParamsSchema.parse(request.params)
 
   const cardBrand = await knex('card_brands').where({ id }).first()
 
@@ -21,7 +21,7 @@ export async function deleteCardBrand(
     })
   }
 
-  await knex('card_brands').where({ id }).delete()
-
-  return reply.status(204).send()
+  return reply.send({
+    cardBrand,
+  })
 }

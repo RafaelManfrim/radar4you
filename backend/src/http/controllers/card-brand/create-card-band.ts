@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { randomUUID } from 'node:crypto'
 import { z } from 'zod'
 
-import { knex } from '../../database'
+import { knex } from '@/database'
 
 export async function createCardBrand(
   request: FastifyRequest,
@@ -15,7 +15,7 @@ export async function createCardBrand(
 
   const { name, logo_url } = createCardBrandBodySchema.parse(request.body)
 
-  const cardBrand = await knex('card_brands')
+  const createCardBrandReturn = await knex('card_brands')
     .insert({
       id: randomUUID(),
       name,
@@ -24,6 +24,6 @@ export async function createCardBrand(
     .returning('*')
 
   return reply.send({
-    cardBrand,
+    cardBrand: createCardBrandReturn[0],
   })
 }

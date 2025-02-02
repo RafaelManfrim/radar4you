@@ -1,14 +1,14 @@
 import { FastifyInstance } from 'fastify'
 
-import { createUser } from '../controllers/create-user'
-import { authenticateUser } from '../controllers/authenticate-user'
-import { forgotMyPassword } from '../controllers/forgot-my-password'
-import { newPassword } from '../controllers/new-password'
-import { logout } from '../controllers/logout'
-import { userData } from '../controllers/user-data'
-import { refreshAccessToken } from '../controllers/refresh-access-token'
+import { createUser } from '../controllers/user/create-user'
+import { authenticateUser } from '../controllers/user/authenticate-user'
+import { forgotMyPassword } from '../controllers/user/forgot-my-password'
+import { newPassword } from '../controllers/user/new-password'
+import { logout } from '../controllers/user/logout'
+import { userData } from '../controllers/user/user-data'
+import { refreshAccessToken } from '../controllers/user/refresh-access-token'
+import { turnUserAdmin } from '../controllers/user/turn-user-admin'
 import { verifyJWT } from '../middlewares/verify-jwt'
-import { turnUserAdmin } from '../controllers/turn-user-admin'
 
 export function userRoutes(app: FastifyInstance) {
   app.post('/register', createUser)
