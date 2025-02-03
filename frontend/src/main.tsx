@@ -6,6 +6,7 @@ import { AuthContextProvider } from '@contexts/AuthContext'
 import { Provider } from '@components/ui/provider'
 import { Router } from './routes/Router'
 import { SidebarProvider } from './contexts/SidebarContext'
+import { Toaster } from './components/ui/toaster'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
           </AuthContextProvider>
         </BrowserRouter>
       </SidebarProvider>
+      <Toaster />
     </Provider>
   </StrictMode>,
 )

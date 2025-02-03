@@ -1,16 +1,15 @@
 import {
-  Flex,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  ModalProps as ChakraModalProps,
-} from '@chakra-ui/react'
-
-// import { Button, ButtonProps } from '@components/Button'
+  DialogActionTrigger,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Button, ButtonProps } from '../ui/button'
+import { Dialog, Flex } from '@chakra-ui/react'
 
 export interface ModalFooterButton extends ButtonProps {
   text: string
@@ -18,7 +17,6 @@ export interface ModalFooterButton extends ButtonProps {
 
 export interface ModalProps {
   headerText: string
-  hasOverlay?: boolean
   hasHeaderCloseButton?: boolean
   isDisabledHeaderCloseButton?: boolean
   hasFooterCloseButton?: boolean
@@ -27,11 +25,10 @@ export interface ModalProps {
   footerButtons?: ModalFooterButton[]
 }
 
-interface BaseModalProps extends ModalProps, ChakraModalProps {}
+interface BaseModalProps extends ModalProps, Dialog.RootProps {}
 
 export function BaseModal({
   headerText,
-  hasOverlay = true,
   hasHeaderCloseButton = true,
   isDisabledHeaderCloseButton = false,
   hasFooterCloseButton = true,
@@ -39,45 +36,53 @@ export function BaseModal({
   closeButtonText = 'Cancelar',
   footerButtons,
   children,
-  isOpen,
+  open,
   onClose,
   size = '3xl',
   ...rest
 }: BaseModalProps) {
+  // Close on ESC
+
   return (
-    <Modal {...rest} isOpen={isOpen} onClose={onClose} size={size}>
-      {hasOverlay && <ModalOverlay />}
-      <ModalContent bgColor="base.card">
-        <ModalHeader>{headerText}</ModalHeader>
-
+    <DialogRoot
+      {...rest}
+      open={open}
+      onClose={onClose}
+      onEscapeKeyDown={onClose}
+      onInteractOutside={onClose}
+    >
+      <DialogContent>
         {hasHeaderCloseButton && (
-          <ModalCloseButton disabled={isDisabledHeaderCloseButton} />
+          <DialogCloseTrigger
+            onClick={onClose}
+            disabled={isDisabledHeaderCloseButton}
+          />
         )}
-
-        <ModalBody pb={6}>{children}</ModalBody>
-
-        <ModalFooter>
-          <Flex justifyContent="space-between" flex={1} gap={3}>
-            {hasFooterCloseButton && (
+        <DialogHeader>
+          <DialogTitle>{headerText}</DialogTitle>
+        </DialogHeader>
+        <DialogBody>{children}</DialogBody>
+        <DialogFooter>
+          {hasFooterCloseButton && (
+            <DialogActionTrigger asChild>
               <Button
+                variant="outline"
                 onClick={onClose}
                 isDisabled={isDisabledFooterCloseButton}
-                colorExtendedScheme="gray"
               >
                 {closeButtonText}
               </Button>
-            )}
-
-            <Flex gap={3}>
-              {footerButtons?.map((footerButton, index) => (
-                <Button key={index} {...footerButton}>
-                  {footerButton.text}
-                </Button>
-              ))}
-            </Flex>
+            </DialogActionTrigger>
+          )}
+          <Flex gap={3}>
+            {footerButtons?.map((footerButton, index) => (
+              <Button key={index} {...footerButton}>
+                {footerButton.text}
+              </Button>
+            ))}
           </Flex>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
   )
 }

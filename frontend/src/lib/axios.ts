@@ -84,11 +84,13 @@ api.interceptors.response.use(
           },
         })
       })
-    } else {
-      Cookies.remove('the-brocks.access')
-      Cookies.remove('the-brocks.refresh')
-      window.location.href = '/login'
-      return Promise.reject(new Error())
     }
+
+    // else {
+    //   Cookies.remove('the-brocks.access')
+    //   Cookies.remove('the-brocks.refresh')
+    //   window.location.href = '/login'
+    // }
+    return Promise.reject(new Error())
   },
 )
