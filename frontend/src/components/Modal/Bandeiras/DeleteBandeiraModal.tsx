@@ -27,7 +27,7 @@ export function DeleteBandeiraModal({
 
       toaster.create({
         title: `Bandeira deletada`,
-        description: `O Bandeira foi deletada com sucesso!`,
+        description: `A bandeira foi deletada com sucesso!`,
         type: 'success',
       })
     } catch (error) {

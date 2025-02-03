@@ -33,6 +33,7 @@ export async function updateCardBrand(
     .update({
       name,
       logo_url,
+      updated_at: new Date(),
     })
     .returning('*')
 

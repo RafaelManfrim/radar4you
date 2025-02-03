@@ -12,14 +12,14 @@
 ### RNF
 
 - [ ] O sistema deve buscar a cotação do dólar a cada 5 minutos
-- [ ] O sistema deve ter bandeiras pré cadastradas pelo admin
-- [ ] O sistema deve ter os cartões pré cadastradas pelo admin
+- [x] O sistema deve ter bandeiras pré cadastradas pelo admin
+- [x] O sistema deve ter os cartões pré cadastradas pelo admin
 - [ ] O sistema deve mostrar um avatar com a inicial do usuário (Futuramente: Avatar Desenhado escolhido pelo Usuário)
 
 ### RN
 
 - [ ] O cadastro de cotação do dólar deve salvar o valor da cotação e a data/hora da busca
-- [ ] O cadastro de cartão deve conter Nome, Instituição, Bandeira, Taxa de Conversão de Pontos/Dólar
+- [x] O cadastro de cartão deve conter Nome, Instituição, Bandeira, Moeda de Conversão, Taxa de Conversão de Pontos/Dólar
 - [ ] O cadastro da escolha de um cartão pelo usuário deve ter a referência de qual cartão e um apelido
 - [ ] O usuário não pode ter mais de 3 cartões ligados à ele (Futuramente: plano premium liberando quantidade ilimitada)
 
@@ -54,8 +54,8 @@
 
 #### Admin
 
-- [ ] Cadastro de Bandeira
-- [ ] Cadastro de Instituição Financeira
+- [x] Cadastro de Bandeira
+- [x] Cadastro de Instituição Financeira
 - [ ] Cadastro de Cartão
 
 #### Usuario

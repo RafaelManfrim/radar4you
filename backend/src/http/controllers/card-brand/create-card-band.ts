@@ -20,10 +20,12 @@ export async function createCardBrand(
       id: randomUUID(),
       name,
       logo_url,
+      created_at: new Date(),
+      updated_at: new Date(),
     })
     .returning('*')
 
-  return reply.send({
+  return reply.status(201).send({
     cardBrand: createCardBrandReturn[0],
   })
 }

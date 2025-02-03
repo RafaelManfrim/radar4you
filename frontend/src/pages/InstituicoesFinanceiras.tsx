@@ -1,6 +1,6 @@
 import { Card } from '@/components/Card'
-import { CreateOrEditBandeiraModal } from '@/components/Modal/Bandeiras/CreateOrEditBandeiraModal'
-import { DeleteBandeiraModal } from '@/components/Modal/Bandeiras/DeleteBandeiraModal'
+import { CreateOrEditInstituicaoFinanceiraModal } from '@/components/Modal/InstituicoesFinanceiras/CreateOrEditInstituicaoFinanceiraModal'
+import { DeleteInstituicaoFinanceiraModal } from '@/components/Modal/InstituicoesFinanceiras/DeleteInstituicaoFinanceiraModal'
 import { Button } from '@/components/ui/button'
 import { api } from '@/lib/axios'
 import { Flex, HStack, Table, useDisclosure } from '@chakra-ui/react'

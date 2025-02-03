@@ -9,6 +9,7 @@ interface NavSectionProps {
   isNavigateLink?: boolean
   children?: ReactNode
   isDisabled?: boolean
+  iconOnly: boolean
 }
 
 export function NavSection({
@@ -18,6 +19,7 @@ export function NavSection({
   isNavigateLink,
   children,
   isDisabled = true,
+  iconOnly,
 }: NavSectionProps) {
   const { open, onOpen, onClose } = useDisclosure()
 
@@ -42,16 +44,18 @@ export function NavSection({
           transition="all 0.2s"
           color={isDisabled ? 'base.label' : undefined}
         >
-          <Flex gap="2" px="2">
-            <IconProp />
-            <Box
-              as="strong"
-              fontWeight="bold"
-              fontSize="small"
-              textTransform="uppercase"
-            >
-              {title}
-            </Box>
+          <Flex gap="2" px="2" align="center" w="full">
+            <IconProp size={20} />
+            {!iconOnly && (
+              <Box
+                as="strong"
+                fontWeight="bold"
+                fontSize="small"
+                textTransform="uppercase"
+              >
+                {title}
+              </Box>
+            )}
           </Flex>
         </Flex>
       </ActiveSection>

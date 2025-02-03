@@ -1,7 +1,5 @@
 import { Dialog, Flex, UseDisclosureReturn } from '@chakra-ui/react'
-// import { useRef } from 'react'
 import { BaseModal, ModalFooterButton } from '../BaseModal'
-import { Bandeira } from '@/pages/Bandeiras'
 import { api } from '@/lib/axios'
 import { toaster } from '@/components/ui/toaster'
 import { useForm } from 'react-hook-form'
@@ -9,63 +7,69 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Field } from '@/components/ui/field'
 import { Input } from '@/components/Form/Input'
+import { InstituicaoFinanceira } from '@/pages/InstituicoesFinanceiras'
 
 const schema = z.object({
   name: z.string().nonempty('O nome é obrigatório'),
   logo_url: z.string().optional(),
 })
 
-type CreateOrEditBandeiraFormSchema = z.infer<typeof schema>
+type CreateOrEditInstituicaoFinanceiraFormSchema = z.infer<typeof schema>
 
-interface CreateOrEditBandeiraModalProps
+interface CreateOrEditInstituicaoFinanceiraModalProps
   extends Omit<Dialog.RootProps, 'isOpen' | 'onClose' | 'children'> {
-  selectedBandeira?: Bandeira
-  onSave: (bandeira: Bandeira) => void
+  selectedInstituicaoFinanceira?: InstituicaoFinanceira
+  onSave: (instituicaoFinanceira: InstituicaoFinanceira) => void
   disclosure: UseDisclosureReturn
 }
 
-export function CreateOrEditBandeiraModal({
-  selectedBandeira,
+export function CreateOrEditInstituicaoFinanceiraModal({
+  selectedInstituicaoFinanceira,
   onSave,
   disclosure,
   ...rest
-}: CreateOrEditBandeiraModalProps) {
+}: CreateOrEditInstituicaoFinanceiraModalProps) {
   // const initialRef = useRef(null)
 
-  const isEditing = !!selectedBandeira
+  const isEditing = !!selectedInstituicaoFinanceira
 
-  const form = useForm<CreateOrEditBandeiraFormSchema>({
+  const form = useForm<CreateOrEditInstituicaoFinanceiraFormSchema>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: selectedBandeira?.name ?? '',
-      logo_url: selectedBandeira?.logo_url ?? '',
+      name: selectedInstituicaoFinanceira?.name ?? '',
+      logo_url: selectedInstituicaoFinanceira?.logo_url ?? '',
     },
   })
 
-  async function handleSaveClick(data: CreateOrEditBandeiraFormSchema) {
+  async function handleSaveClick(
+    data: CreateOrEditInstituicaoFinanceiraFormSchema,
+  ) {
     try {
       let response
 
       if (isEditing) {
-        response = await api.put(`/card-brands/${selectedBandeira.id}`, data)
+        response = await api.put(
+          `/financial-institutions/${selectedInstituicaoFinanceira.id}`,
+          data,
+        )
       } else {
-        response = await api.post('/card-brands', {
+        response = await api.post('/financial-institutions', {
           ...data,
         })
       }
 
-      onSave(response.data.cardBrand)
+      onSave(response.data.financialInstitution)
 
       disclosure.onClose()
 
       toaster.create({
-        title: `Bandeira ${isEditing ? 'editada' : 'cadastrada'}`,
-        description: `O Bandeira foi ${isEditing ? 'editada' : 'cadastrada'} com sucesso!`,
+        title: `Instituição financeira ${isEditing ? 'editada' : 'cadastrada'}`,
+        description: `A instituição financeira foi ${isEditing ? 'editada' : 'cadastrada'} com sucesso!`,
         type: 'success',
       })
     } catch (error) {
       toaster.create({
-        title: `Falha ao ${isEditing ? 'editar' : 'cadastrar'} bandeira`,
+        title: `Falha ao ${isEditing ? 'editar' : 'cadastrar'} instituição financeira`,
         type: 'error',
       })
     }
@@ -84,7 +88,7 @@ export function CreateOrEditBandeiraModal({
   return (
     <BaseModal
       {...rest}
-      headerText={`${isEditing ? 'Editar' : 'Cadastrar'} Bandeira`}
+      headerText={`${isEditing ? 'Editar' : 'Cadastrar'} Instituição financeira`}
       // initialFocusRef={initialRef}
       open={disclosure.open}
       onClose={disclosure.onClose}
@@ -98,7 +102,7 @@ export function CreateOrEditBandeiraModal({
         gap="4"
       >
         <Field
-          label="Nome da Bandeira"
+          label="Nome da instituição financeira"
           invalid={!!form.formState.errors.name}
           errorText={form.formState.errors.name?.message}
           required

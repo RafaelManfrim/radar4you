@@ -22,5 +22,5 @@ export async function deleteCard(request: FastifyRequest, reply: FastifyReply) {
 
   await knex('cards').where('id', id).delete()
 
-  return reply.send()
+  return reply.status(204).send()
 }

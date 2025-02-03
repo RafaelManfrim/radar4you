@@ -37,6 +37,7 @@ export async function updateFinancialInstitution(
     .update({
       name,
       logo_url,
+      updated_at: new Date(),
     })
     .returning('*')
 

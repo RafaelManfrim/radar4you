@@ -2,37 +2,39 @@ import { api } from '@/lib/axios'
 import { BaseModal, ModalFooterButton } from '../BaseModal'
 import { toaster } from '@/components/ui/toaster'
 import { Dialog, UseDisclosureReturn } from '@chakra-ui/react'
-import { Bandeira } from '@/pages/Bandeiras'
+import { InstituicaoFinanceira } from '@/pages/InstituicoesFinanceiras'
 
-interface DeleteBandeiraModalProps
+interface DeleteInstituicaoFinanceiraModalProps
   extends Omit<Dialog.RootProps, 'isOpen' | 'onClose' | 'children'> {
-  selectedBandeira: Bandeira
-  onDelete: (bandeira: Bandeira) => void
+  selectedInstituicaoFinanceira: InstituicaoFinanceira
+  onDelete: (instituicaoFinanceira: InstituicaoFinanceira) => void
   disclosure: UseDisclosureReturn
 }
 
-export function DeleteBandeiraModal({
-  selectedBandeira,
+export function DeleteInstituicaoFinanceiraModal({
+  selectedInstituicaoFinanceira,
   onDelete,
   disclosure,
   ...rest
-}: DeleteBandeiraModalProps) {
+}: DeleteInstituicaoFinanceiraModalProps) {
   async function handleDeleteClick() {
     try {
-      await api.delete(`/card-brands/${selectedBandeira.id}`)
+      await api.delete(
+        `/financial-institutions/${selectedInstituicaoFinanceira.id}`,
+      )
 
-      onDelete(selectedBandeira)
+      onDelete(selectedInstituicaoFinanceira)
 
       disclosure.onClose()
 
       toaster.create({
-        title: `Bandeira deletada`,
-        description: `O Bandeira foi deletada com sucesso!`,
+        title: `Instituição financeira deletada`,
+        description: `A instituição financeira foi deletada com sucesso!`,
         type: 'success',
       })
     } catch (error) {
       toaster.create({
-        title: `Falha ao deletar bandeira`,
+        title: `Falha ao deletar instituição financeira`,
         type: 'error',
       })
     }
@@ -51,13 +53,14 @@ export function DeleteBandeiraModal({
   return (
     <BaseModal
       {...rest}
-      headerText={'Excluir Bandeira'}
+      headerText="Excluir Instituição financeira"
       open={disclosure.open}
       onClose={disclosure.onClose}
       footerButtons={footerButtons}
       size="2xl"
     >
-      Tem certeza que deseja excluir a bandeira: {selectedBandeira.name}?
+      Tem certeza que deseja excluir a instituição financeira:{' '}
+      {selectedInstituicaoFinanceira.name}?
     </BaseModal>
   )
 }

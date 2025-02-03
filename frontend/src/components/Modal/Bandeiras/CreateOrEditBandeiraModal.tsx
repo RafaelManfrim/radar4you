@@ -60,7 +60,7 @@ export function CreateOrEditBandeiraModal({
 
       toaster.create({
         title: `Bandeira ${isEditing ? 'editada' : 'cadastrada'}`,
-        description: `O Bandeira foi ${isEditing ? 'editada' : 'cadastrada'} com sucesso!`,
+        description: `A bandeira foi ${isEditing ? 'editada' : 'cadastrada'} com sucesso!`,
         type: 'success',
       })
     } catch (error) {

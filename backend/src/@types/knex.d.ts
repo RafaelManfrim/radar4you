@@ -44,9 +44,11 @@ declare module 'knex/types/tables' {
 
   export interface Cards {
     id: string
-    user_id: string
+    title: string
     card_brand_id: string
     financial_institution_id: string
+    points_currency: 'USD' | 'BRL'
+    points_conversion_rate: number
     created_at: Date
     updated_at: Date
   }

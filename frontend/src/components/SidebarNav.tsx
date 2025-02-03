@@ -1,11 +1,15 @@
 import { Skeleton, Stack } from '@chakra-ui/react'
 import { HiHome } from 'react-icons/hi'
-import { FaCreditCard, FaFlag } from 'react-icons/fa'
+import { FaBuilding, FaCreditCard, FaFlag } from 'react-icons/fa'
 
 import { useAuth } from '@contexts/AuthContext'
 import { NavSection } from './NavSection'
 
-export function SidebarNav() {
+interface SidebarNavProps {
+  iconsOnly: boolean
+}
+
+export function SidebarNav({ iconsOnly }: SidebarNavProps) {
   const { isAuthenticated } = useAuth()
 
   return (
@@ -18,6 +22,7 @@ export function SidebarNav() {
             icon={HiHome}
             isNavigateLink
             isDisabled={false}
+            iconOnly={iconsOnly}
           />
           <NavSection
             to="/admin/bandeiras"
@@ -25,6 +30,15 @@ export function SidebarNav() {
             icon={FaFlag}
             isNavigateLink
             isDisabled={false}
+            iconOnly={iconsOnly}
+          />
+          <NavSection
+            to="/admin/instituicoes-financeiras"
+            title="Inst. Financeiras"
+            icon={FaBuilding}
+            isNavigateLink
+            isDisabled={false}
+            iconOnly={iconsOnly}
           />
           <NavSection
             to="/admin/cartoes"
@@ -32,6 +46,7 @@ export function SidebarNav() {
             icon={FaCreditCard}
             isNavigateLink
             isDisabled={false}
+            iconOnly={iconsOnly}
           />
         </>
       ) : (

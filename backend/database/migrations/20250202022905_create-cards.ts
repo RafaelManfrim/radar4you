@@ -16,6 +16,8 @@ export async function up(knex: Knex): Promise<void> {
       .references('id')
       .inTable('card_brands')
       .onDelete('CASCADE')
+    table.enum('points_currency', ['USD', 'BRL']).notNullable()
+    table.decimal('points_conversion_rate', 10, 2).notNullable()
     table.timestamps(true, true) // Adiciona created_at e updated_at automaticamente
   })
 }

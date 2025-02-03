@@ -22,10 +22,12 @@ export async function createFinancialInstitution(
       id: randomUUID(),
       name,
       logo_url,
+      created_at: new Date(),
+      updated_at: new Date(),
     })
     .returning('*')
 
-  return reply.send({
+  return reply.status(201).send({
     financialInstitution: createFinancialInstitutionReturn[0],
   })
 }
