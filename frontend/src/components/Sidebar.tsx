@@ -6,17 +6,26 @@ import { Logo } from './Logo'
 import { Button } from './ui/button'
 import { FaComputer } from 'react-icons/fa6'
 import { FaSignOutAlt } from 'react-icons/fa'
+import { useAuth } from '@/contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 interface SidebarProps {
   isVisible: boolean
 }
 
 export function Sidebar({ isVisible }: SidebarProps) {
+  const navigate = useNavigate()
+  const { signOut } = useAuth()
+
   const sidebarRef = useRef<HTMLDivElement>(null)
 
   const isSidebarIconsOnly = useBreakpointValue({
     base: true,
     md: false,
   })
+
+  function handleGoBackToApp() {
+    navigate('/calculadora')
+  }
 
   return (
     <Box
@@ -44,10 +53,12 @@ export function Sidebar({ isVisible }: SidebarProps) {
         </Box>
       </Box>
       <Flex flexDir="column" gap="4">
-        <Button>
+        <Button onClick={handleGoBackToApp}>
           {isSidebarIconsOnly ? <FaComputer /> : 'Voltar à Aplicação'}
         </Button>
-        <Button>{isSidebarIconsOnly ? <FaSignOutAlt /> : 'Sair'}</Button>
+        <Button onClick={signOut}>
+          {isSidebarIconsOnly ? <FaSignOutAlt /> : 'Sair'}
+        </Button>
       </Flex>
     </Box>
   )

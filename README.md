@@ -56,7 +56,7 @@
 
 - [x] Cadastro de Bandeira
 - [x] Cadastro de Instituição Financeira
-- [ ] Cadastro de Cartão
+- [x] Cadastro de Cartão
 
 #### Usuario
 
