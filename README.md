@@ -5,7 +5,7 @@
 ### RF
 
 - [ ] Usuário deve poder escolher um cartão
-- [ ] Usuário deve poder realizar simulações (Pontos, Gestão de Pontos e Simulador)
+- [ ] Usuário deve poder realizar simulações
 - [ ] Usuário deve poder ver o histórico de simulações realizadas (Filtrando por: Tipo, Período e Cartão)
 - [ ] Usuário deve poder decidir se quer receber avisos por e-mail (Futuramente: Informar outro e-mail para receber avisos)
 
@@ -22,6 +22,11 @@
 - [x] O cadastro de cartão deve conter Nome, Instituição, Bandeira, Moeda de Conversão, Taxa de Conversão de Pontos/Dólar
 - [ ] O cadastro da escolha de um cartão pelo usuário deve ter a referência de qual cartão e um apelido
 - [ ] O usuário não pode ter mais de 3 cartões ligados à ele (Futuramente: plano premium liberando quantidade ilimitada)
+
+- [ ] A simulação deve estar relacionada à um cartão do usuário, tipos (Compra, Período e Gasto Mensal)
+- [ ] O tipo "compra" recebe o valor e retorna quantos pontos o usuário vai receber
+- [ ] O tipo "gasto mensal" recebe quantos pontos o usuário quer acumular e em quantos meses e retorna o quanto deverá ser gasto mensalmente
+- [ ] O tipo "período" recebe o valor do gasto mensal e a quantidade de pontos almejada e retorna o período que será necessário para alcançar
 
 ## Todo List
 

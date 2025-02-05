@@ -48,7 +48,19 @@ export async function updateCard(request: FastifyRequest, reply: FastifyReply) {
     })
     .returning('*')
 
+  const financialInstitution = await knex('financial_institutions')
+    .where('id', financial_institution_id)
+    .first()
+
+  const cardBrand = await knex('card_brands').where('id', brand_id).first()
+
   return reply.send({
-    card: updateCardReturn[0],
+    card: {
+      ...updateCardReturn[0],
+      financial_institution_name: financialInstitution?.name,
+      financial_institution_logo_url: financialInstitution?.logo_url,
+      card_brand_name: cardBrand?.name,
+      card_brand_logo_url: cardBrand?.logo_url,
+    },
   })
 }

@@ -1,18 +1,23 @@
-import { Text, HStack, Center } from '@chakra-ui/react'
-import { LuTable } from 'react-icons/lu'
+import { Text, HStack, Center, Flex, VStack } from '@chakra-ui/react'
 
 import { useState } from 'react'
+
+import { LayoutContainer } from '@/components/LayoutContainer'
+import { SegmentedControl } from '@/components/ui/segmented-control'
+import { FaHourglass, FaNewspaper, FaShoppingBag } from 'react-icons/fa'
+import { Button } from '@/components/ui/button'
+import { Field } from '@/components/ui/field'
+import { Input } from '@/components/Form/Input'
 // import {
 //   RadioCardItem,
 //   RadioCardLabel,
 //   RadioCardRoot,
-// } from '@components/ui/radio-card'
-import { LayoutContainer } from '@/components/LayoutContainer'
-import { SegmentedControl } from '@/components/ui/segmented-control'
+// } from '@/components/ui/radio-card'
+
 const tipos = [
-  { value: 1, label: 'Pontos' },
-  { value: 2, label: 'Gestão de Pontos' },
-  { value: 3, label: 'Simulador' },
+  { value: 1, label: 'Pontos por Compra', icon: FaShoppingBag },
+  { value: 2, label: 'Encontrar Gasto Mensal', icon: FaNewspaper },
+  { value: 3, label: 'Descobrir Tempo Necessário', icon: FaHourglass },
 ]
 
 export function App() {
@@ -44,47 +49,179 @@ export function App() {
           </HStack>
         </RadioCardRoot> */}
 
-        <Center>
+        <Center flexDir="column">
           <SegmentedControl
             size={['xs', 'xs', 'sm', 'md']}
             mb="6"
             defaultValue="1"
             onValueChange={(e) => setTipo(Number(e.value))}
             items={tipos.map((tipo) => {
+              const Icon = tipo.icon
+
               return {
                 value: String(tipo.value),
                 label: (
                   <HStack>
-                    <LuTable />
+                    <Icon />
                     {tipo.label}
                   </HStack>
                 ),
               }
             })}
           />
+
+          <Text as="h2" textAlign="center" mb="2">
+            Meus Cartões
+          </Text>
+
+          <HStack>
+            {Array.from({ length: 3 }, (_, index) => (
+              <Flex
+                key={index}
+                w="full"
+                maxW={400}
+                bgColor="gray.100"
+                p="4"
+                rounded="md"
+                align="center"
+                justify="space-between"
+                mb="4"
+                {...(index % 2 === 1 && { bgColor: 'purple.100' })}
+              >
+                <Text>Cartão {index + 1}</Text>
+                {/* <Button>Adicionar</Button> */}
+              </Flex>
+            ))}
+          </HStack>
+
+          <Text as="h2" textAlign="center" mb="2">
+            Sujestão de Cartões
+          </Text>
+
+          <HStack>
+            {Array.from({ length: 5 }, (_, index) => (
+              <Flex
+                key={index}
+                w="full"
+                maxW={400}
+                bgColor="gray.100"
+                p="4"
+                rounded="md"
+                align="center"
+                justify="space-between"
+                mb="4"
+                {...(index % 2 === 1 && { bgColor: 'purple.100' })}
+              >
+                <Text>Cartão {index + 1}</Text>
+                {/* <Button>Adicionar</Button> */}
+              </Flex>
+            ))}
+          </HStack>
+
+          <Text as="h2" textAlign="center" mb="2">
+            Cálculo
+          </Text>
+
+          {tipo === 1 && (
+            <VStack
+              w="full"
+              maxW={400}
+              bgColor="gray.100"
+              p="4"
+              rounded="md"
+              align="end"
+            >
+              <Field
+                label="Valor Gasto"
+                // invalid={!!form.formState.errors.name}
+                // errorText={form.formState.errors.name?.message}
+                // required
+              >
+                <Input
+                // register={form.register('name', {
+                //   required: 'O nome é obrigatório',
+                // })}
+                />
+              </Field>
+              <Button>Calcular</Button>
+            </VStack>
+          )}
+
+          {tipo === 2 && (
+            <VStack
+              w="full"
+              maxW={400}
+              bgColor="gray.100"
+              p="4"
+              rounded="md"
+              align="end"
+            >
+              <Field
+                label="Quantos pontos você quer acumular?"
+                // invalid={!!form.formState.errors.name}
+                // errorText={form.formState.errors.name?.message}
+                // required
+              >
+                <Input
+                // register={form.register('name', {
+                //   required: 'O nome é obrigatório',
+                // })}
+                />
+              </Field>
+              <Field
+                label="Em quantos meses?"
+                // invalid={!!form.formState.errors.name}
+                // errorText={form.formState.errors.name?.message}
+                // required
+              >
+                <Input
+                // register={form.register('name', {
+                //   required: 'O nome é obrigatório',
+                // })}
+                />
+              </Field>
+              <Button>Calcular</Button>
+            </VStack>
+          )}
+
+          {tipo === 3 && (
+            <VStack
+              w="full"
+              maxW={400}
+              bgColor="gray.100"
+              p="4"
+              rounded="md"
+              align="end"
+            >
+              <Field
+                label="Quantos pontos você quer acumular?"
+                // invalid={!!form.formState.errors.name}
+                // errorText={form.formState.errors.name?.message}
+                // required
+              >
+                <Input
+                // register={form.register('name', {
+                //   required: 'O nome é obrigatório',
+                // })}
+                />
+              </Field>
+              <Field
+                label="Qual seu gasto mensal?"
+                // invalid={!!form.formState.errors.name}
+                // errorText={form.formState.errors.name?.message}
+                // required
+              >
+                <Input
+                // register={form.register('name', {
+                //   required: 'O nome é obrigatório',
+                // })}
+                />
+              </Field>
+
+              <Button>Calcular</Button>
+            </VStack>
+          )}
         </Center>
-
-        <Text as="h2" textAlign="center">
-          {tipos.find((t) => t.value === tipo)?.label}
-        </Text>
-
-        {/* {tipo === 1 && (
-          <Flex>
-            <Text>Calculadora de Pontos</Text>
-          </Flex>
-        )}
-
-        {tipo === 2 && (
-          <Flex>
-            <Text>Calculadora Gestão de Pontos</Text>
-          </Flex>
-        )}
-
-        {tipo === 3 && (
-          <Flex>
-            <Text>Calculadora Simulador</Text>
-          </Flex>
-        )} */}
       </LayoutContainer>
     </div>
   )
