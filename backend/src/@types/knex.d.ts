@@ -42,6 +42,7 @@ declare module 'knex/types/tables' {
     updated_at: Date
   }
 
+  // TODO: ADICIONAR CAMPOS "SALA-VIP", "BENEFÍCIOS GERAIS" e "anuidade", "cashback", "imagem"
   export interface Cards {
     id: string
     title: string

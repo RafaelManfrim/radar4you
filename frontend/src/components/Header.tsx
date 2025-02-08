@@ -17,6 +17,7 @@ import { Avatar, AvatarGroup } from './ui/avatar'
 
 const navegacao = [
   { title: 'Calculadora', to: '/calculadora' },
+  { title: 'Cartões', to: '/calculadora/cartoes' },
   { title: 'Histórico', to: '/calculadora/historico' },
   { title: 'Perfil', to: '/calculadora/perfil' },
 ]

@@ -72,6 +72,7 @@ export function App() {
 
           <Text as="h2" textAlign="center" mb="2">
             Meus Cartões
+            <Text color="purple.500">Adicionar</Text>
           </Text>
 
           <HStack>
@@ -96,6 +97,7 @@ export function App() {
 
           <Text as="h2" textAlign="center" mb="2">
             Sujestão de Cartões
+            <Text color="purple.500">Ver todos</Text>
           </Text>
 
           <HStack>

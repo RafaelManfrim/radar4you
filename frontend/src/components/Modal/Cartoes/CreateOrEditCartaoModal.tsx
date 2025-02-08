@@ -130,19 +130,6 @@ export function CreateOrEditCartaoModal({
         gap="4"
       >
         <Field
-          label="Nome do Cartão"
-          invalid={!!form.formState.errors.title}
-          errorText={form.formState.errors.title?.message}
-          required
-        >
-          <Input
-            register={form.register('title', {
-              required: 'O nome é obrigatório',
-            })}
-          />
-        </Field>
-
-        <Field
           label="Instiuição Financeira"
           invalid={!!form.formState.errors.financial_institution_id}
           errorText={form.formState.errors.financial_institution_id?.message}
@@ -217,14 +204,14 @@ export function CreateOrEditCartaoModal({
         </Field>
 
         <Field
-          label="Taxa de Conversão"
-          invalid={!!form.formState.errors.points_conversion_rate}
-          errorText={form.formState.errors.points_conversion_rate?.message}
+          label="Nome do Cartão"
+          invalid={!!form.formState.errors.title}
+          errorText={form.formState.errors.title?.message}
           required
         >
           <Input
-            register={form.register('points_conversion_rate', {
-              valueAsNumber: true,
+            register={form.register('title', {
+              required: 'O nome é obrigatório',
             })}
           />
         </Field>
@@ -263,6 +250,19 @@ export function CreateOrEditCartaoModal({
                 </SelectContent>
               </SelectRoot>
             )}
+          />
+        </Field>
+
+        <Field
+          label="Pontos"
+          invalid={!!form.formState.errors.points_conversion_rate}
+          errorText={form.formState.errors.points_conversion_rate?.message}
+          required
+        >
+          <Input
+            register={form.register('points_conversion_rate', {
+              valueAsNumber: true,
+            })}
           />
         </Field>
       </Flex>
