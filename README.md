@@ -4,7 +4,7 @@
 
 ### RF
 
-- [ ] Usuário deve poder escolher um cartão
+- [x] Usuário deve poder escolher um cartão
 - [ ] Usuário deve poder realizar simulações
 - [ ] Usuário deve poder ver o histórico de simulações realizadas (Filtrando por: Tipo, Período e Cartão)
 - [ ] Usuário deve poder decidir se quer receber avisos por e-mail (Futuramente: Informar outro e-mail para receber avisos)
@@ -20,8 +20,8 @@
 
 - [ ] O cadastro de cotação do dólar deve salvar o valor da cotação e a data/hora da busca
 - [x] O cadastro de cartão deve conter Nome, Instituição, Bandeira, Moeda de Conversão, Taxa de Conversão de Pontos/Dólar
-- [ ] O cadastro da escolha de um cartão pelo usuário deve ter a referência de qual cartão e um apelido
-- [ ] O usuário não pode ter mais de 3 cartões ligados à ele (Futuramente: plano premium liberando quantidade ilimitada)
+- [x] O cadastro da escolha de um cartão pelo usuário deve ter a referência de qual cartão
+- [x] O usuário não pode ter mais de 3 cartões ligados à ele (Futuramente: plano premium liberando quantidade ilimitada)
 
 - [ ] A simulação deve estar relacionada à um cartão do usuário, tipos (Compra, Período e Gasto Mensal)
 - [ ] O tipo "compra" recebe o valor e retorna quantos pontos o usuário vai receber
@@ -65,7 +65,7 @@
 
 #### Usuario
 
-- [ ] Escolha de Cartão
+- [x] Escolha de Cartão
 - [ ] Realização de Simulação
 
 ### Funcionalidades de Usuário (Histórico, Perfil)
