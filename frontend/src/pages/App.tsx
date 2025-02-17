@@ -1,6 +1,6 @@
 import { Text, HStack, Center, Flex, VStack } from '@chakra-ui/react'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { LayoutContainer } from '@/components/LayoutContainer'
 import { SegmentedControl } from '@/components/ui/segmented-control'
@@ -8,6 +8,14 @@ import { FaHourglass, FaNewspaper, FaShoppingBag } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
 import { Field } from '@/components/ui/field'
 import { Input } from '@/components/Form/Input'
+import { api } from '@/lib/axios'
+import { Cartao } from './admin/Cartoes'
+import { UserCard } from './Cartoes'
+import { Link } from 'react-router-dom'
+import { toaster } from '@/components/ui/toaster'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 // import {
 //   RadioCardItem,
 //   RadioCardLabel,
@@ -20,8 +28,114 @@ const tipos = [
   { value: 3, label: 'Descobrir Tempo Necessário', icon: FaHourglass },
 ]
 
+const tipo1Schema = z.object({
+  valorGasto: z.number(),
+})
+
+const tipo2Schema = z.object({
+  pontos: z.number(),
+  meses: z.number(),
+})
+
+const tipo3Schema = z.object({
+  pontos: z.number(),
+  gastoMensal: z.number(),
+})
+
+type Tipo1FormType = z.infer<typeof tipo1Schema>
+type Tipo2FormType = z.infer<typeof tipo2Schema>
+type Tipo3FormType = z.infer<typeof tipo3Schema>
+
 export function App() {
   const [tipo, setTipo] = useState(1)
+
+  const [cartoes, setCartoes] = useState<Cartao[]>()
+  const [cartoesUsuario, setCartoesUsuario] = useState<UserCard[]>()
+
+  const [selectedCards, setSelectedCards] = useState<Cartao[]>([])
+
+  const tipo1Form = useForm<Tipo1FormType>({
+    resolver: zodResolver(tipo1Schema),
+  })
+
+  const tipo2Form = useForm<Tipo2FormType>({
+    resolver: zodResolver(tipo2Schema),
+  })
+
+  const tipo3Form = useForm<Tipo3FormType>({
+    resolver: zodResolver(tipo3Schema),
+  })
+
+  function handleSelectCard(card: Cartao) {
+    const cardIsSelected = selectedCards.some((c) => c.id === card.id)
+
+    if (selectedCards.length >= 3 && !cardIsSelected) {
+      return toaster.create({
+        title: 'Ops!',
+        description:
+          'Você já selecionou o limite de 3 cartões para uma simulação.',
+        type: 'info',
+        duration: 2000,
+      })
+    }
+
+    setSelectedCards((current) => {
+      if (current.some((c) => c.id === card.id)) {
+        return current.filter((c) => c.id !== card.id)
+      }
+
+      return [...current, card]
+    })
+  }
+
+  async function handleSimulate(
+    data: Tipo1FormType | Tipo2FormType | Tipo3FormType,
+  ) {
+    if (selectedCards.length < 1) {
+      return toaster.create({
+        title: 'Ops!',
+        description: 'Selecione pelo menos 1 cartão para simular.',
+        type: 'info',
+        duration: 2000,
+      })
+    }
+
+    if (tipo === 1) {
+      // Simulate points by purchase
+    }
+
+    if (tipo === 2) {
+      // Simulate monthly expense
+    }
+
+    if (tipo === 3) {
+      // Simulate time to reach points
+    }
+  }
+
+  useEffect(() => {
+    async function fetchCartoes() {
+      try {
+        const response = await api.get('cards')
+        setCartoes(response.data.cards)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    async function fetchCartoesUsuario() {
+      try {
+        const response = await api.get('user/cards')
+        const userCards = response.data.userCards
+        setCartoesUsuario(userCards)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    fetchCartoes()
+    fetchCartoesUsuario()
+  }, [])
 
   return (
     <div>
@@ -72,13 +186,15 @@ export function App() {
 
           <Text as="h2" textAlign="center" mb="2">
             Meus Cartões
-            <Text color="purple.500">Adicionar</Text>
+            <Text fontSize="sm" color="purple.500">
+              <Link to="/calculadora/cartoes">Adicionar</Link>
+            </Text>
           </Text>
 
           <HStack>
-            {Array.from({ length: 3 }, (_, index) => (
+            {cartoesUsuario?.map((cartao) => (
               <Flex
-                key={index}
+                key={cartao.id}
                 w="full"
                 maxW={400}
                 bgColor="gray.100"
@@ -87,41 +203,79 @@ export function App() {
                 align="center"
                 justify="space-between"
                 mb="4"
-                {...(index % 2 === 1 && { bgColor: 'purple.100' })}
+                fontSize="sm"
+                cursor="pointer"
+                _hover={{
+                  filter: 'brightness(0.97)',
+                  transition: 'filter 0.2s',
+                }}
+                onClick={() =>
+                  handleSelectCard(
+                    cartoes?.find(
+                      (card) => card.id === cartao.card_id,
+                    ) as Cartao,
+                  )
+                }
+                {...(cartao.card_id ===
+                  selectedCards.find((card) => card.id === cartao.card_id)
+                    ?.id && {
+                  bgColor: 'purple.100',
+                })}
               >
-                <Text>Cartão {index + 1}</Text>
-                {/* <Button>Adicionar</Button> */}
+                <Text>
+                  {cartoes?.find((card) => card.id === cartao.card_id)?.title}
+                </Text>
               </Flex>
             ))}
           </HStack>
 
           <Text as="h2" textAlign="center" mb="2">
             Sujestão de Cartões
-            <Text color="purple.500">Ver todos</Text>
+            <Text fontSize="sm" color="purple.500">
+              <Link to="/calculadora/cartoes">Ver todos</Link>
+            </Text>
           </Text>
 
           <HStack>
-            {Array.from({ length: 5 }, (_, index) => (
-              <Flex
-                key={index}
-                w="full"
-                maxW={400}
-                bgColor="gray.100"
-                p="4"
-                rounded="md"
-                align="center"
-                justify="space-between"
-                mb="4"
-                {...(index % 2 === 1 && { bgColor: 'purple.100' })}
-              >
-                <Text>Cartão {index + 1}</Text>
-                {/* <Button>Adicionar</Button> */}
-              </Flex>
-            ))}
+            {cartoes
+              ?.filter((card) =>
+                cartoesUsuario?.every(
+                  (userCard) => userCard.card_id !== card.id,
+                ),
+              )
+              .map((cartao) => (
+                <Flex
+                  key={cartao.id}
+                  w="full"
+                  maxW={400}
+                  bgColor="gray.100"
+                  p="4"
+                  rounded="md"
+                  align="center"
+                  justify="space-between"
+                  mb="4"
+                  fontSize="sm"
+                  cursor="pointer"
+                  _hover={{
+                    filter: 'brightness(0.97)',
+                    transition: 'filter 0.2s',
+                  }}
+                  onClick={() =>
+                    handleSelectCard(
+                      cartoes?.find((card) => card.id === cartao.id) as Cartao,
+                    )
+                  }
+                  {...(selectedCards.some((card) => card.id === cartao.id) && {
+                    bgColor: 'purple.100',
+                  })}
+                >
+                  <Text>{cartao.title}</Text>
+                </Flex>
+              ))}
           </HStack>
 
           <Text as="h2" textAlign="center" mb="2">
-            Cálculo
+            Simulação
           </Text>
 
           {tipo === 1 && (
@@ -135,17 +289,20 @@ export function App() {
             >
               <Field
                 label="Valor Gasto"
-                // invalid={!!form.formState.errors.name}
-                // errorText={form.formState.errors.name?.message}
-                // required
+                invalid={!!tipo1Form.formState.errors.valorGasto}
+                errorText={tipo1Form.formState.errors.valorGasto?.message}
+                required
               >
                 <Input
-                // register={form.register('name', {
-                //   required: 'O nome é obrigatório',
-                // })}
+                  register={tipo1Form.register('valorGasto', {
+                    required: 'Informe o valor gasto',
+                    valueAsNumber: true,
+                  })}
                 />
               </Field>
-              <Button>Calcular</Button>
+              <Button onClick={tipo1Form.handleSubmit(handleSimulate)}>
+                Calcular
+              </Button>
             </VStack>
           )}
 
@@ -160,29 +317,33 @@ export function App() {
             >
               <Field
                 label="Quantos pontos você quer acumular?"
-                // invalid={!!form.formState.errors.name}
-                // errorText={form.formState.errors.name?.message}
-                // required
+                invalid={!!tipo2Form.formState.errors.pontos}
+                errorText={tipo2Form.formState.errors.pontos?.message}
+                required
               >
                 <Input
-                // register={form.register('name', {
-                //   required: 'O nome é obrigatório',
-                // })}
+                  register={tipo2Form.register('pontos', {
+                    required: 'Informe a quantidade de pontos',
+                    valueAsNumber: true,
+                  })}
                 />
               </Field>
               <Field
                 label="Em quantos meses?"
-                // invalid={!!form.formState.errors.name}
-                // errorText={form.formState.errors.name?.message}
-                // required
+                invalid={!!tipo2Form.formState.errors.meses}
+                errorText={tipo2Form.formState.errors.meses?.message}
+                required
               >
                 <Input
-                // register={form.register('name', {
-                //   required: 'O nome é obrigatório',
-                // })}
+                  register={tipo2Form.register('meses', {
+                    required: 'Informe a quantidade de meses',
+                    valueAsNumber: true,
+                  })}
                 />
               </Field>
-              <Button>Calcular</Button>
+              <Button onClick={tipo2Form.handleSubmit(handleSimulate)}>
+                Calcular
+              </Button>
             </VStack>
           )}
 
@@ -197,30 +358,34 @@ export function App() {
             >
               <Field
                 label="Quantos pontos você quer acumular?"
-                // invalid={!!form.formState.errors.name}
-                // errorText={form.formState.errors.name?.message}
-                // required
+                invalid={!!tipo3Form.formState.errors.pontos}
+                errorText={tipo3Form.formState.errors.pontos?.message}
+                required
               >
                 <Input
-                // register={form.register('name', {
-                //   required: 'O nome é obrigatório',
-                // })}
+                  register={tipo3Form.register('pontos', {
+                    required: 'Informe a quantidade de pontos',
+                    valueAsNumber: true,
+                  })}
                 />
               </Field>
               <Field
                 label="Qual seu gasto mensal?"
-                // invalid={!!form.formState.errors.name}
-                // errorText={form.formState.errors.name?.message}
-                // required
+                invalid={!!tipo3Form.formState.errors.gastoMensal}
+                errorText={tipo3Form.formState.errors.gastoMensal?.message}
+                required
               >
                 <Input
-                // register={form.register('name', {
-                //   required: 'O nome é obrigatório',
-                // })}
+                  register={tipo3Form.register('gastoMensal', {
+                    required: 'Informe o gasto mensal',
+                    valueAsNumber: true,
+                  })}
                 />
               </Field>
 
-              <Button>Calcular</Button>
+              <Button onClick={tipo3Form.handleSubmit(handleSimulate)}>
+                Calcular
+              </Button>
             </VStack>
           )}
         </Center>
