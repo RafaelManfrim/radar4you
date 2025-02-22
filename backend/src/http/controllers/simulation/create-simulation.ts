@@ -51,6 +51,7 @@ export async function createSimulation(
 
   const cards = await knex('cards').whereIn('id', cards_ids)
 
+  // TODO: CORRIGIR POIS ESTÁ BUSCANDO SEMPRE
   const fiveMinutesAgo =
     env.DATABASE_CLIENT === 'sqlite'
       ? knex.raw("datetime('now', '-5 minutes')")
@@ -103,8 +104,10 @@ export async function createSimulation(
 
         if (simulation_type === 'purchase' && amount) {
           if (card.points_currency === 'BRL') {
-            amountInDollar = (amount * 100) / dollar_quotes?.exchange_rate
-
+            // Pontos ganhos com a compra
+            earned_points = Math.floor(amount * card.points_conversion_rate)
+          } else {
+            amountInDollar = amount / dollar_quotes?.exchange_rate
             // Pontos ganhos com a compra
             earned_points = Math.floor(
               amountInDollar * card.points_conversion_rate,
@@ -117,9 +120,14 @@ export async function createSimulation(
           desired_points &&
           months
         ) {
-          // Valor necessário para gastar mensalmente
-          required_spending =
-            ((desired_points / card.points_conversion_rate) * 100) / months
+          if (card.points_currency === 'BRL') {
+            const totalValue = desired_points / card.points_conversion_rate // Valor total gasto em Reais
+            required_spending = totalValue / months
+          } else {
+            const totalValue = desired_points / card.points_conversion_rate // Valor total gasto em Dolar
+            const totalValueInBRL = totalValue * dollar_quotes.exchange_rate
+            required_spending = totalValueInBRL / months
+          }
         }
 
         if (
@@ -127,10 +135,21 @@ export async function createSimulation(
           desired_points &&
           monthly_spending
         ) {
-          // Tempo necessário para atingir os pontos desejados
-          required_months = Math.ceil(
-            desired_points / card.points_conversion_rate / monthly_spending,
-          )
+          if (card.points_currency === 'BRL') {
+            // Tempo necessário para atingir os pontos desejados
+            const pointsPerMonth = Math.floor(
+              monthly_spending * card.points_conversion_rate,
+            )
+
+            required_months = Math.ceil(desired_points / pointsPerMonth)
+          } else {
+            const monthlySpendingInDollar =
+              monthly_spending / dollar_quotes.exchange_rate
+            const pointsPerMonthInDolar = Math.floor(
+              monthlySpendingInDollar * card.points_conversion_rate,
+            )
+            required_months = Math.ceil(desired_points / pointsPerMonthInDolar)
+          }
         }
 
         return {
