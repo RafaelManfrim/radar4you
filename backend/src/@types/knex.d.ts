@@ -68,6 +68,27 @@ declare module 'knex/types/tables' {
     retrieved_at: Date
   }
 
+  export interface Simulations {
+    id: string
+    user_id: string
+    simulation_type: 'purchase' | 'monthly_spending' | 'period'
+    amount: number
+    desired_points: number
+    monthly_spending: number
+    months: number
+    created_at: Date
+    updated_at: Date
+  }
+
+  export interface SimulationCards {
+    id: string
+    simulation_id: string
+    card_id: string
+    required_spending: number
+    required_months: number
+    earned_points: number
+  }
+
   export interface Tables {
     users: User
     user_refresh_tokens: UserRefreshTokens
@@ -76,5 +97,7 @@ declare module 'knex/types/tables' {
     cards: Cards
     user_cards: UserCards
     dollar_quotes: DollarQuotes
+    simulations: Simulations
+    simulation_cards: SimulationCards
   }
 }

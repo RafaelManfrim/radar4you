@@ -9,6 +9,7 @@ import { env } from './env'
 import { cardRoutes } from './http/routes/cardRoutes'
 import { cardBrandRoutes } from './http/routes/cardBrandRoutes'
 import { financialInstitutionRoutes } from './http/routes/financialInstitutionRoutes'
+import { simulationRoutes } from './http/routes/simulationRoutes'
 
 const app = fastify()
 
@@ -31,6 +32,7 @@ app.register(userRoutes)
 app.register(cardBrandRoutes)
 app.register(financialInstitutionRoutes)
 app.register(cardRoutes)
+app.register(simulationRoutes)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
