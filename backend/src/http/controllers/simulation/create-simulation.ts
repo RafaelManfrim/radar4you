@@ -3,7 +3,6 @@ import { randomUUID } from 'node:crypto'
 import { z } from 'zod'
 
 import { knex } from '@/database'
-import { env } from '@/env'
 
 export async function createSimulation(
   request: FastifyRequest,
@@ -51,19 +50,18 @@ export async function createSimulation(
 
   const cards = await knex('cards').whereIn('id', cards_ids)
 
-  // TODO: CORRIGIR POIS ESTÁ BUSCANDO SEMPRE
-  const fiveMinutesAgo =
-    env.DATABASE_CLIENT === 'sqlite'
-      ? knex.raw("datetime('now', '-5 minutes')")
-      : knex.raw("NOW() - INTERVAL '5 minutes'")
-
   let dollar_quotes = await knex('dollar_quotes')
-    .where('retrieved_at', '>=', fiveMinutesAgo)
     .orderBy('retrieved_at', 'desc')
     .first()
 
+  const dollarQuotesIsOutdated =
+    dollar_quotes &&
+    new Date().getTime() - new Date(dollar_quotes.retrieved_at).getTime() >
+      300000 // 5 minutes
+
   // Se não tiver a cotação do dolar, busca a última cotação disponível na API externa e salvar no banco de dados
-  if (!dollar_quotes) {
+  if (!dollar_quotes || dollarQuotesIsOutdated) {
+    console.log('Fetching dollar quotes')
     dollar_quotes = (
       await fetch('https://economia.awesomeapi.com.br/last/USD-BRL')
         .then((response) => {
