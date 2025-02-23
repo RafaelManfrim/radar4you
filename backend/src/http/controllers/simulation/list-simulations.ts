@@ -2,20 +2,40 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { knex } from '@/database'
 
-export async function listSimulations(_: FastifyRequest, reply: FastifyReply) {
-  const simulations = await knex('simulations').returning('*')
+export async function listSimulations(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  const simulations = await knex('simulations')
+    .where({
+      user_id: request.user.sub,
+    })
+    .returning('*')
 
   return reply.send({
-    simulations: simulations.map(async (simulation) => {
-      const simulationCards = await knex('simulation_cards').where(
-        'simulation_id',
-        simulation.id,
-      )
+    simulations: await Promise.all(
+      simulations.map(async (simulation) => {
+        const simulationCards = await knex('simulation_cards').where(
+          'simulation_id',
+          simulation.id,
+        )
 
-      return {
-        ...simulation,
-        simulationCards,
-      }
-    }),
+        return {
+          ...simulation,
+          simulationCards: await Promise.all(
+            simulationCards.map(async (simulationCard) => {
+              const card = await knex('cards')
+                .where('id', simulationCard.card_id)
+                .first()
+
+              return {
+                ...simulationCard,
+                card,
+              }
+            }),
+          ),
+        }
+      }),
+    ),
   })
 }
