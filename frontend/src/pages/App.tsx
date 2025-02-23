@@ -88,6 +88,25 @@ export function App() {
     })
   }
 
+  function isTipo1Form(data: unknown): data is Tipo1FormType {
+    return !!data && typeof data === 'object' && 'valorGasto' in data
+  }
+
+  function isTipo2Form(data: unknown): data is Tipo2FormType {
+    return (
+      !!data && typeof data === 'object' && 'pontos' in data && 'meses' in data
+    )
+  }
+
+  function isTipo3Form(data: unknown): data is Tipo3FormType {
+    return (
+      !!data &&
+      typeof data === 'object' &&
+      'pontos' in data &&
+      'gastoMensal' in data
+    )
+  }
+
   async function handleSimulate(
     data: Tipo1FormType | Tipo2FormType | Tipo3FormType,
   ) {
@@ -100,17 +119,44 @@ export function App() {
       })
     }
 
-    if (tipo === 1) {
-      // Simulate points by purchase
+    if (tipo === 1 && isTipo1Form(data)) {
+      await api.post('simulations', {
+        cards_ids: selectedCards.map((card) => card.id),
+        simulation_type: 'purchase',
+        amount: data.valorGasto,
+      })
+
+      tipo1Form.reset()
     }
 
-    if (tipo === 2) {
-      // Simulate monthly expense
+    if (tipo === 2 && isTipo2Form(data)) {
+      await api.post('simulations', {
+        cards_ids: selectedCards.map((card) => card.id),
+        simulation_type: 'monthly_spending',
+        desired_points: data.pontos,
+        months: data.meses,
+      })
+
+      tipo2Form.reset()
     }
 
-    if (tipo === 3) {
-      // Simulate time to reach points
+    if (tipo === 3 && isTipo3Form(data)) {
+      api.post('simulations', {
+        cards_ids: selectedCards.map((card) => card.id),
+        simulation_type: 'period',
+        desired_points: data.pontos,
+        monthly_spending: data.gastoMensal,
+      })
+
+      tipo3Form.reset()
     }
+
+    toaster.create({
+      title: 'Sucesso!',
+      description: 'Sua simulação foi realizada com sucesso.',
+      type: 'success',
+      duration: 2000,
+    })
   }
 
   useEffect(() => {

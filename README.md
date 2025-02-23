@@ -5,7 +5,7 @@
 ### RF
 
 - [x] Usuário deve poder escolher um cartão
-- [ ] Usuário deve poder realizar simulações
+- [x] Usuário deve poder realizar simulações
 - [ ] Usuário deve poder ver o histórico de simulações realizadas (Filtrando por: Tipo, Período e Cartão)
 - [ ] Usuário deve poder decidir se quer receber avisos por e-mail (Futuramente: Informar outro e-mail para receber avisos)
 
@@ -23,10 +23,10 @@
 - [x] O cadastro da escolha de um cartão pelo usuário deve ter a referência de qual cartão
 - [x] O usuário não pode ter mais de 3 cartões ligados à ele (Futuramente: plano premium liberando quantidade ilimitada)
 
-- [ ] A simulação deve estar relacionada à um cartão do usuário, tipos (Compra, Período e Gasto Mensal)
-- [ ] O tipo "compra" recebe o valor e retorna quantos pontos o usuário vai receber
-- [ ] O tipo "gasto mensal" recebe quantos pontos o usuário quer acumular e em quantos meses e retorna o quanto deverá ser gasto mensalmente
-- [ ] O tipo "período" recebe o valor do gasto mensal e a quantidade de pontos almejada e retorna o período que será necessário para alcançar
+- [x] A simulação deve estar relacionada à um cartão do usuário, tipos (Compra, Período e Gasto Mensal)
+- [x] O tipo "compra" recebe o valor e retorna quantos pontos o usuário vai receber
+- [x] O tipo "gasto mensal" recebe quantos pontos o usuário quer acumular e em quantos meses e retorna o quanto deverá ser gasto mensalmente
+- [x] O tipo "período" recebe o valor do gasto mensal e a quantidade de pontos almejada e retorna o período que será necessário para alcançar
 
 ## Todo List
 
@@ -53,7 +53,8 @@
 - [x] Tabela Cartão
 - [x] Tabela Cartão Usuário
 - [x] Tabela Dólar
-- [ ] Tabela Simulação
+- [x] Tabela Simulação
+- [x] Tabela Cartão Simulação
 
 ### Funcionalidades da Aplicação (Cadastros, Cálculos)
 
@@ -66,11 +67,11 @@
 #### Usuario
 
 - [x] Escolha de Cartão
-- [ ] Realização de Simulação
+- [x] Realização de Simulação
 
 ### Funcionalidades de Usuário (Histórico, Perfil)
 
-- [ ] Listagem de Simulações
+- [x] Listagem de Simulações
 - [ ] Habilitar recebimento de avisos via e-mail
 
 ### Feedback e Melhorias Visuais
