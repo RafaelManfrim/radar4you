@@ -1,5 +1,6 @@
 import { Stack } from '@chakra-ui/react'
 import { Checkbox } from './ui/checkbox'
+import { CheckedChangeDetails } from 'node_modules/@chakra-ui/react/dist/types/components/checkbox/namespace'
 
 export type FilterValue = {
   label: string
@@ -10,8 +11,8 @@ export type FilterValue = {
 interface FiltersProps {
   title: string
   values: FilterValue[]
-  onRootClick: (e) => void
-  onItemClick: (e, index: number) => void
+  onRootClick: (e: CheckedChangeDetails) => void
+  onItemClick: (e: CheckedChangeDetails, index: number) => void
 }
 
 export function Filters({

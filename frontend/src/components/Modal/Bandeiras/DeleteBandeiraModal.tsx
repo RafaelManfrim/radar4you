@@ -2,7 +2,7 @@ import { api } from '@/lib/axios'
 import { BaseModal, ModalFooterButton } from '../BaseModal'
 import { toaster } from '@/components/ui/toaster'
 import { Dialog, UseDisclosureReturn } from '@chakra-ui/react'
-import { Bandeira } from '@/pages/Bandeiras'
+import { Bandeira } from '@/pages/admin/Bandeiras'
 
 interface DeleteBandeiraModalProps
   extends Omit<Dialog.RootProps, 'isOpen' | 'onClose' | 'children'> {
@@ -55,7 +55,7 @@ export function DeleteBandeiraModal({
       open={disclosure.open}
       onClose={disclosure.onClose}
       footerButtons={footerButtons}
-      size="2xl"
+      size="xl"
     >
       Tem certeza que deseja excluir a bandeira: {selectedBandeira.name}?
     </BaseModal>

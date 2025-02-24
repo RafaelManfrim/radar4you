@@ -2,7 +2,7 @@ import { api } from '@/lib/axios'
 import { BaseModal, ModalFooterButton } from '../BaseModal'
 import { toaster } from '@/components/ui/toaster'
 import { Dialog, UseDisclosureReturn } from '@chakra-ui/react'
-import { Cartao } from '@/pages/Cartoes'
+import { Cartao } from '@/pages/admin/Cartoes'
 
 interface DeleteCartaoModalProps
   extends Omit<Dialog.RootProps, 'isOpen' | 'onClose' | 'children'> {
@@ -55,7 +55,7 @@ export function DeleteCartaoModal({
       open={disclosure.open}
       onClose={disclosure.onClose}
       footerButtons={footerButtons}
-      size="2xl"
+      size="xl"
     >
       Tem certeza que deseja excluir o cartão:{' '}
       {selectedCartao.financial_institution_name} {selectedCartao.title} (

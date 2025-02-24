@@ -17,9 +17,9 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Field } from '@/components/ui/field'
 import { Input } from '@/components/Form/Input'
-import { Cartao } from '@/pages/Cartoes'
-import { Bandeira } from '@/pages/Bandeiras'
-import { InstituicaoFinanceira } from '@/pages/InstituicoesFinanceiras'
+import { Cartao } from '@/pages/admin/Cartoes'
+import { Bandeira } from '@/pages/admin/Bandeiras'
+import { InstituicaoFinanceira } from '@/pages/admin/InstituicoesFinanceiras'
 import { getMoedaByCurrency } from '@/utils/getMoedaByCurrency'
 
 const schema = z.object({
@@ -121,7 +121,7 @@ export function CreateOrEditCartaoModal({
       open={disclosure.open}
       onClose={disclosure.onClose}
       footerButtons={footerButtons}
-      size="2xl"
+      size="xl"
     >
       <Flex
         as="form"

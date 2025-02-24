@@ -25,7 +25,9 @@ export interface ModalProps {
   footerButtons?: ModalFooterButton[]
 }
 
-interface BaseModalProps extends ModalProps, Dialog.RootProps {}
+interface BaseModalProps extends ModalProps, Dialog.RootProps {
+  onClose: () => void
+}
 
 export function BaseModal({
   headerText,
@@ -38,16 +40,14 @@ export function BaseModal({
   children,
   open,
   onClose,
-  size = '3xl',
+  size = 'xl',
   ...rest
 }: BaseModalProps) {
-  // Close on ESC
-
   return (
     <DialogRoot
       {...rest}
       open={open}
-      onClose={onClose}
+      // onClose={onClose}
       onEscapeKeyDown={onClose}
       onInteractOutside={onClose}
     >
@@ -68,7 +68,7 @@ export function BaseModal({
               <Button
                 variant="outline"
                 onClick={onClose}
-                isDisabled={isDisabledFooterCloseButton}
+                disabled={isDisabledFooterCloseButton}
               >
                 {closeButtonText}
               </Button>

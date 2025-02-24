@@ -1,14 +1,16 @@
 import { Dialog, Flex, UseDisclosureReturn } from '@chakra-ui/react'
-// import { useRef } from 'react'
-import { BaseModal, ModalFooterButton } from '../BaseModal'
-import { Bandeira } from '@/pages/Bandeiras'
-import { api } from '@/lib/axios'
-import { toaster } from '@/components/ui/toaster'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+
 import { Field } from '@/components/ui/field'
 import { Input } from '@/components/Form/Input'
+import { toaster } from '@/components/ui/toaster'
+
+import { api } from '@/lib/axios'
+import { Bandeira } from '@/pages/admin/Bandeiras'
+
+import { BaseModal, ModalFooterButton } from '../BaseModal'
 
 const schema = z.object({
   name: z.string().nonempty('O nome é obrigatório'),
@@ -89,7 +91,7 @@ export function CreateOrEditBandeiraModal({
       open={disclosure.open}
       onClose={disclosure.onClose}
       footerButtons={footerButtons}
-      size="2xl"
+      size="xl"
     >
       <Flex
         as="form"

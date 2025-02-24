@@ -1,15 +1,17 @@
-import { Input } from '@/components/Form/Input'
+import { z } from 'zod'
+import { Link } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { Box, Center, Flex } from '@chakra-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { GoogleLoginButton } from 'react-social-login-buttons'
+
 import { Logo } from '@/components/Logo'
+import { Input } from '@/components/Form/Input'
+
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+
 import { useAuth } from '@/contexts/AuthContext'
-import { Box, Center, Flex } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
-import { GoogleLoginButton } from 'react-social-login-buttons'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { useEffect } from 'react'
 
 export const registerSchema = z
   .object({

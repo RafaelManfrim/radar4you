@@ -1,11 +1,67 @@
+import { useEffect, useState } from 'react'
+import {
+  Box,
+  Flex,
+  VStack,
+  SelectRoot,
+  SelectLabel,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  createListCollection,
+  SelectValueText,
+} from '@chakra-ui/react'
+
 import { toaster } from '@/components/ui/toaster'
+
 import { api } from '@/lib/axios'
 import { getMoedaByCurrency } from '@/utils/getMoedaByCurrency'
-import { Box, Flex, VStack } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+
+type SimulationCard = {
+  id: string
+  card: {
+    title: string
+    points_conversion_rate: number
+    points_currency: string
+  }
+  earned_points?: number
+  required_spending?: number
+  required_months?: number
+}
+
+type Simulacao = {
+  id: string
+  simulation_type: string
+  created_at: string
+  amount?: number
+  desired_points?: number
+  months?: number
+  monthly_spending?: number
+  simulationCards: SimulationCard[]
+}
+
+const periodFilterOptions = createListCollection({
+  items: [
+    { value: '', label: 'Todas' },
+    { value: '7d', label: 'Últimos 7 dias' },
+    { value: '30d', label: 'Últimos 30 dias' },
+    { value: '90d', label: 'Últimos 90 dias' },
+  ]
+})
+
+const typeFilterOptions = createListCollection({
+  items: [
+    { value: '', label: 'Todos' },
+    { value: 'purchase', label: 'Pontos por Compra' },
+    { value: 'monthly_spending', label: 'Encontrar Gasto Mensal' },
+    { value: 'time', label: 'Descobrir Tempo Necessário' },
+  ]
+})
 
 export function History() {
-  const [simulacoes, setSimulacoes] = useState()
+  const [simulacoes, setSimulacoes] = useState<Simulacao[]>()
+  const [periodFilterValue, setPeriodFilterValue] = useState<string[]>([''])
+  const [typeFilterValue, setTypeFilterValue] = useState<string[]>([''])
 
   async function handleDeleteSimulation(id: string) {
     try {
@@ -15,7 +71,7 @@ export function History() {
           return []
         }
 
-        return prevSimulacoes.filter((simulacao: any) => simulacao.id !== id)
+        return prevSimulacoes.filter((simulacao) => simulacao.id !== id)
       })
     } catch (error) {
       console.log(error)
@@ -69,40 +125,51 @@ export function History() {
         </Box>
         <Flex w="full" justify="center" align="center" gap="4">
           {/* Filtro por tipo de simulação */}
-          <Box>
-            <Box as="label" htmlFor="simulation-type">
-              Tipo de Simulação
-            </Box>
-            <Box>
-              <select id="simulation-type">
-                <option value="">Todos</option>
-                <option value="purchase">Pontos por Compra</option>
-                <option value="monthly_spending">Encontrar Gasto Mensal</option>
-                <option value="time">Descobrir Tempo Necessário</option>
-              </select>
-            </Box>
-          </Box>
+          <SelectRoot
+            collection={typeFilterOptions}
+            width="320px"
+            value={typeFilterValue}
+            onValueChange={(e) => setTypeFilterValue(e.value)}
+          >
+            <SelectLabel>Selecione o tipo de simulação</SelectLabel>
+            <SelectTrigger>
+              <SelectValueText placeholder="Selecione o tipo de simulação" />
+            </SelectTrigger>
+            <SelectContent>
+              {typeFilterOptions.items.map((type) => (
+                <SelectItem item={type} key={type.value}>
+                  {type.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </SelectRoot>
+
           {/* Filtro por período */}
-          <Box>
-            <Box as="label" htmlFor="periodo">
-              Período
-            </Box>
-            <Box>
-              <select id="periodo">
-                <option value="">Todas</option>
-                <option value="7d">Últimos 7 dias</option>
-                <option value="30d">Últimos 30 dias</option>
-                <option value="90d">Últimos 90 dias</option>
-              </select>
-            </Box>
-          </Box>
+          <SelectRoot
+            collection={periodFilterOptions}
+            width="320px"
+            value={periodFilterValue}
+            onValueChange={(e) => setPeriodFilterValue(e.value)}
+          >
+            <SelectLabel>Selecione o período de visualização</SelectLabel>
+            <SelectTrigger>
+              <SelectValueText placeholder="Selecione o período de visualização" />
+            </SelectTrigger>
+            <SelectContent>
+              {periodFilterOptions.items.map((period) => (
+                <SelectItem item={period} key={period.value}>
+                  {period.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </SelectRoot>
         </Flex>
 
         <Box as="h2" fontSize="lg" fontWeight="semibold">
           Simulações
         </Box>
         <VStack gap="4" w="full">
-          {simulacoes?.map((simulacao: any) => {
+          {simulacoes?.map((simulacao) => {
             return (
               <VStack key={simulacao.id} bgColor="gray.50" p="4" w="full">
                 <Flex w="full" justify="space-between">
@@ -140,7 +207,7 @@ export function History() {
                       {Intl.NumberFormat('pt-BR', {
                         currency: 'BRL',
                         style: 'currency',
-                      }).format(simulacao.amount)}
+                      }).format(simulacao.amount || 0)}
                     </Box>
                   ) : simulacao.simulation_type === 'monthly_spending' ? (
                     <VStack align="start" justify="start">
@@ -158,7 +225,7 @@ export function History() {
                         {Intl.NumberFormat('pt-BR', {
                           currency: 'BRL',
                           style: 'currency',
-                        }).format(simulacao.monthly_spending)}
+                        }).format(simulacao.monthly_spending || 0)}
                       </Box>
                     </VStack>
                   )}
@@ -196,7 +263,7 @@ export function History() {
                               {Intl.NumberFormat('pt-BR', {
                                 currency: 'BRL',
                                 style: 'currency',
-                              }).format(simulationCard.required_spending)}
+                              }).format(simulationCard.required_spending || 0)}
                             </Box>
                           ) : (
                             <Box>

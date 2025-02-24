@@ -173,7 +173,7 @@ export function Cartoes() {
           </Table.Body>
         </Table.Root>
       </Card>
-      {createOrEditCartaoDisclosure.open && (
+      {createOrEditCartaoDisclosure.open && bandeiras && instituicoesFinanceiras && (
         <CreateOrEditCartaoModal
           disclosure={createOrEditCartaoDisclosure}
           onSave={onSaveCartao}

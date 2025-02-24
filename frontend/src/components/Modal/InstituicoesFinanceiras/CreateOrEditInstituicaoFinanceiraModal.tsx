@@ -7,7 +7,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Field } from '@/components/ui/field'
 import { Input } from '@/components/Form/Input'
-import { InstituicaoFinanceira } from '@/pages/InstituicoesFinanceiras'
+import { InstituicaoFinanceira } from '@/pages/admin/InstituicoesFinanceiras'
 
 const schema = z.object({
   name: z.string().nonempty('O nome é obrigatório'),
@@ -93,7 +93,7 @@ export function CreateOrEditInstituicaoFinanceiraModal({
       open={disclosure.open}
       onClose={disclosure.onClose}
       footerButtons={footerButtons}
-      size="2xl"
+      size="xl"
     >
       <Flex
         as="form"

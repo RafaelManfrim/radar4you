@@ -1,7 +1,9 @@
-import { Logo } from '@/components/Logo'
-import { Button } from '@/components/ui/button'
-import { Flex, HStack } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
+import { Flex, HStack } from '@chakra-ui/react'
+
+import { Logo } from '@/components/Logo'
+
+import { Button } from '@/components/ui/button'
 
 export function LandingPage() {
   return (

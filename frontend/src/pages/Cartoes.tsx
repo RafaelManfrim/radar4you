@@ -8,6 +8,7 @@ import { Cartao } from './admin/Cartoes'
 import { Bandeira } from './admin/Bandeiras'
 import { InstituicaoFinanceira } from './admin/InstituicoesFinanceiras'
 import { CartaoCard } from '@/components/CartaoCard'
+import { CheckedChangeDetails } from 'node_modules/@chakra-ui/react/dist/types/components/checkbox/namespace'
 
 export interface UserCard {
   id: string
@@ -32,13 +33,13 @@ export function Cartoes() {
   const isLoading =
     !cartoes || !cartoesUsuario || !bandeiras || !instituicoesFinanceiras
 
-  function handleRootBandeirasClick(e) {
+  function handleRootBandeirasClick(e: CheckedChangeDetails) {
     setBandeirasFilter((current) =>
       current.map((value) => ({ ...value, checked: !!e.checked })),
     )
   }
 
-  function handleItemBandeiraClick(e, index: number) {
+  function handleItemBandeiraClick(e: CheckedChangeDetails, index: number) {
     setInstituicoesFinanceirasFilter((current) => {
       const newValues = [...current]
       newValues[index] = { ...newValues[index], checked: !!e.checked }
@@ -46,13 +47,13 @@ export function Cartoes() {
     })
   }
 
-  function handleRootInstituicoesFinanceirasClick(e) {
+  function handleRootInstituicoesFinanceirasClick(e: CheckedChangeDetails) {
     setInstituicoesFinanceirasFilter((current) =>
       current.map((value) => ({ ...value, checked: !!e.checked })),
     )
   }
 
-  function handleItemInstituicaoFinanceiraClick(e, index: number) {
+  function handleItemInstituicaoFinanceiraClick(e: CheckedChangeDetails, index: number) {
     setInstituicoesFinanceirasFilter((current) => {
       const newValues = [...current]
       newValues[index] = { ...newValues[index], checked: !!e.checked }
