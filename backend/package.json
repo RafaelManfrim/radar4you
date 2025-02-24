@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "start": "node build/server.js",
     "knex": "node --import tsx ./node_modules/.bin/knex",
     "lint": "eslint src --ext .ts --fix",
     "test": "vitest",
-    "build": "tsup src -d build"
+    "build": "tsup src --out-dir build"
   },
   "keywords": [],
   "author": "",
