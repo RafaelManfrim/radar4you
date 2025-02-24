@@ -15,6 +15,15 @@ const envSchema = z.object({
   DATABASE_CLIENT: z.enum(['sqlite', 'pg']),
   JWT_SECRET: z.string(),
   DATABASE_SECURE_PASSWORD: z.string(),
+  DB_USERNAME: z.string().optional(),
+  DB_PASSWORD: z.string().optional(),
+  DB_DATABASE: z.string().optional(),
+}).refine((data) => {
+  if (data.DATABASE_CLIENT === 'sqlite') {
+    return data.DB_USERNAME === undefined && data.DB_PASSWORD === undefined && data.DB_DATABASE === undefined
+  }
+
+  return true
 })
 
 const { success, data, error } = envSchema.safeParse(process.env)
