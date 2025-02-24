@@ -5,6 +5,7 @@ import { compare } from 'bcryptjs'
 import { knex } from '@/database'
 import { generateTokensJWT } from '@/utils/generate-tokens-jwt'
 import { decodeJWT } from '@/utils/decode-jwt'
+import { randomUUID } from 'crypto'
 
 export async function authenticateUser(
   request: FastifyRequest,
@@ -102,6 +103,7 @@ export async function authenticateUser(
     .delete()
 
   await knex('user_refresh_tokens').insert({
+    id: randomUUID(),
     user_id: user.id,
     token: refresh,
     expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
