@@ -60,12 +60,12 @@ export function CreateOrEditCartaoModal({
     resolver: zodResolver(schema),
     defaultValues: {
       title: selectedCartao?.title ?? '',
-      points_currency: [selectedCartao?.points_currency] ?? [''],
+      points_currency: [selectedCartao?.points_currency],
       financial_institution_id:
-        [selectedCartao?.financial_institution_id] ?? '',
-      card_brand_id: [selectedCartao?.card_brand_id] ?? '',
+        [selectedCartao?.financial_institution_id],
+      card_brand_id: [selectedCartao?.card_brand_id],
       points_conversion_rate:
-        selectedCartao?.points_conversion_rate ?? Number(''),
+        selectedCartao?.points_conversion_rate,
     },
   })
 
