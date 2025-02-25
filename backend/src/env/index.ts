@@ -8,23 +8,31 @@ if (process.env.NODE_ENV === 'test') {
   config()
 }
 
-const envSchema = z.object({
-  NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
-  DATABASE_URL: z.string(),
-  PORT: z.coerce.number().default(3333),
-  DATABASE_CLIENT: z.enum(['sqlite', 'pg']),
-  JWT_SECRET: z.string(),
-  DATABASE_SECURE_PASSWORD: z.string(),
-  DB_USERNAME: z.string().optional(),
-  DB_PASSWORD: z.string().optional(),
-  DB_DATABASE: z.string().optional(),
-}).refine((data) => {
-  if (data.DATABASE_CLIENT === 'sqlite') {
-    return data.DB_USERNAME === undefined && data.DB_PASSWORD === undefined && data.DB_DATABASE === undefined
-  }
+const envSchema = z
+  .object({
+    NODE_ENV: z
+      .enum(['development', 'test', 'production'])
+      .default('production'),
+    DATABASE_URL: z.string(),
+    PORT: z.coerce.number().default(3333),
+    DATABASE_CLIENT: z.enum(['sqlite', 'pg']),
+    JWT_SECRET: z.string(),
+    DATABASE_SECURE_PASSWORD: z.string(),
+    DB_USERNAME: z.string().optional(),
+    DB_PASSWORD: z.string().optional(),
+    DB_DATABASE: z.string().optional(),
+  })
+  .refine((data) => {
+    if (data.DATABASE_CLIENT === 'sqlite') {
+      return (
+        data.DB_USERNAME === undefined &&
+        data.DB_PASSWORD === undefined &&
+        data.DB_DATABASE === undefined
+      )
+    }
 
-  return true
-})
+    return true
+  })
 
 const { success, data, error } = envSchema.safeParse(process.env)
 

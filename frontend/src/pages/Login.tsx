@@ -1,4 +1,4 @@
-import { Box, Center, Flex } from '@chakra-ui/react'
+import { Center, Flex, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import axios from 'axios'
@@ -103,35 +103,47 @@ export function Login() {
           register={form.register('password')}
         />
 
-        <p>
-          <a href="">Esqueci minha senha</a>
-        </p>
+        <Text
+          as="p"
+          color="purple.500"
+          fontSize="sm"
+          textAlign="right"
+          _hover={{
+            textDecoration: 'underline',
+            filter: 'brightness(0.9)',
+            transition: '0.2s ease',
+          }}
+        >
+          <Link to="/esqueci-minha-senha">Esqueci minha senha</Link>
+        </Text>
 
-        <Button type="submit">Entrar</Button>
+        <Button type="submit" fontWeight="bold">
+          Entrar
+        </Button>
 
         <hr />
 
-        <span>
+        <Text as="span" fontSize="sm">
           Não possui uma conta?{' '}
           <Link to="/registro">
-            <Box as="span" color="purple.500">
+            <Text as="span" color="purple.500">
               Registre-se
-            </Box>
+            </Text>
           </Link>
-        </span>
+        </Text>
 
         <Flex bgColor="purple.400" h="2px" justify="center" align="center">
-          <Box bgColor="white" px="2" color="purple.500">
+          <Text bgColor="white" px="2" color="purple.500" fontSize="sm">
             Ou
-          </Box>
+          </Text>
         </Flex>
 
         <GoogleLoginButton
           text="Entre com o Google"
           style={{
-            height: '42px',
-            fontSize: '18px',
-            lineHeight: '18px',
+            height: '38px',
+            fontSize: '14px',
+            lineHeight: '14px',
             width: '100%',
             margin: '0',
             boxShadow: 'rgba(0, 0, 0, 0.2) 0px 1px 2px',
