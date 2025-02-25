@@ -63,7 +63,7 @@ export function Cartoes() {
 
   async function handleSetUserCard(cardId: string) {
     try {
-      const response = await api.post('user/cards', {
+      const response = await api.post('users/cards', {
         card_id: cardId,
       })
 
@@ -83,7 +83,7 @@ export function Cartoes() {
 
   async function handleRemoveUserCard(userCardId: string) {
     try {
-      await api.delete(`user/cards/${userCardId}`)
+      await api.delete(`users/cards/${userCardId}`)
 
       setCartoesUsuario((current) => {
         if (!current) {
@@ -147,7 +147,7 @@ export function Cartoes() {
 
     async function fetchCartoesUsuario() {
       try {
-        const response = await api.get('user/cards')
+        const response = await api.get('users/cards')
         const userCards = response.data.userCards
         setCartoesUsuario(userCards)
       } catch (err) {

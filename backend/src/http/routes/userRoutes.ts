@@ -12,6 +12,8 @@ import { verifyJWT } from '../middlewares/verify-jwt'
 import { listUserCards } from '../controllers/user-card/list-user-cards'
 import { setUserCard } from '../controllers/user-card/set-user-card'
 import { removeUserCard } from '../controllers/user-card/remove-user-card'
+import { listUsers } from '../controllers/user/list-users'
+import { verifyUserRole } from '../middlewares/verify-user-role'
 
 export function userRoutes(app: FastifyInstance) {
   app.post('/register', createUser)
@@ -24,7 +26,8 @@ export function userRoutes(app: FastifyInstance) {
   app.post('/logout', { onRequest: [verifyJWT] }, logout)
   app.get('/me', { onRequest: [verifyJWT] }, userData)
 
-  app.get('/user/cards', { onRequest: [verifyJWT] }, listUserCards)
-  app.post('/user/cards', { onRequest: [verifyJWT] }, setUserCard)
-  app.delete('/user/cards/:id', { onRequest: [verifyJWT] }, removeUserCard)
+  app.get('/users', { onRequest: [verifyJWT, verifyUserRole('ADMIN')] }, listUsers)
+  app.get('/users/cards', { onRequest: [verifyJWT] }, listUserCards)
+  app.post('/users/cards', { onRequest: [verifyJWT] }, setUserCard)
+  app.delete('/users/cards/:id', { onRequest: [verifyJWT] }, removeUserCard)
 }

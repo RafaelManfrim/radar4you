@@ -171,7 +171,7 @@ export function App() {
 
     async function fetchCartoesUsuario() {
       try {
-        const response = await api.get('user/cards')
+        const response = await api.get('users/cards')
         const userCards = response.data.userCards
         setCartoesUsuario(userCards)
       } catch (err) {
