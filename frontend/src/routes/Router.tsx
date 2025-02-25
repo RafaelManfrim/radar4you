@@ -25,7 +25,7 @@ export function Router() {
       <Route path="/login" element={<Login />} />
       <Route path="/registro" element={<Register />} />
       <Route path="/esqueci-minha-senha" element={<ForgotMyPassword />} />
-      <Route path="/nova-senha" element={<NewPassword />} />
+      <Route path="/nova-senha/:token" element={<NewPassword />} />
       <Route path="/acesso-negado" element={<AcessoNegado />} />
       <Route path="/calculadora" element={<AppLayout />}>
         <Route path="/calculadora/" element={<App />} />

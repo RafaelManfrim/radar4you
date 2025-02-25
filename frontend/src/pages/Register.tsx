@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { Box, Center, Flex } from '@chakra-ui/react'
+import { Center, Flex, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { GoogleLoginButton } from 'react-social-login-buttons'
 
@@ -12,8 +12,10 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 
 import { useAuth } from '@/contexts/AuthContext'
+import axios from 'axios'
+import { toaster } from '@/components/ui/toaster'
 
-export const registerSchema = z
+const registerSchema = z
   .object({
     firstName: z.string().nonempty(),
     email: z.string().email().nonempty(),
@@ -33,13 +35,55 @@ export function Register() {
     resolver: zodResolver(registerSchema),
   })
 
-  function handleRegistration(data: RegisterFormData) {
-    register({
-      email: data.email,
-      first_name: data.firstName,
-      password: data.password,
-      login_provider: 'email',
-    })
+  async function handleRegistration(data: RegisterFormData) {
+    try {
+      await register({
+        email: data.email,
+        first_name: data.firstName,
+        password: data.password,
+        login_provider: 'email',
+      })
+    } catch (error) {
+      console.log(error)
+
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        return toaster.create({
+          title: 'Houve um erro',
+          description: error.response.data.message,
+          duration: 3000,
+        })
+      }
+
+      toaster.create({
+        title: 'Houve um erro',
+        description:
+          'Erro ao fazer login, por favor, tente novamente mais tarde',
+        duration: 3000,
+      })
+    }
+  }
+
+  async function handleSignInWithGoogle() {
+    try {
+      await signInwithGoogle()
+    } catch (error) {
+      console.log(error)
+
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        return toaster.create({
+          title: 'Houve um erro',
+          description: error.response.data.message,
+          duration: 3000,
+        })
+      }
+
+      toaster.create({
+        title: 'Houve um erro',
+        description:
+          'Erro ao fazer login, por favor, tente novamente mais tarde',
+        duration: 3000,
+      })
+    }
   }
 
   return (
@@ -84,32 +128,32 @@ export function Register() {
 
         <hr />
 
-        <span>
+        <Text as="span" fontSize="sm">
           Possui uma conta?{' '}
           <Link to="/login">
-            <Box as="span" color="purple.500">
+            <Text as="span" color="purple.500">
               Entrar
-            </Box>
+            </Text>
           </Link>
-        </span>
+        </Text>
 
         <Flex bgColor="purple.400" h="2px" justify="center" align="center">
-          <Box bgColor="white" px="2" color="purple.500">
+          <Text bgColor="white" px="2" color="purple.500" fontSize="sm">
             Ou
-          </Box>
+          </Text>
         </Flex>
 
         <GoogleLoginButton
           text="Entre com o Google"
           style={{
-            height: '42px',
-            fontSize: '18px',
-            lineHeight: '18px',
+            height: '38px',
+            fontSize: '14px',
+            lineHeight: '14px',
             width: '100%',
             margin: '0',
             boxShadow: 'rgba(0, 0, 0, 0.2) 0px 1px 2px',
           }}
-          onClick={signInwithGoogle}
+          onClick={handleSignInWithGoogle}
         />
       </Flex>
     </Center>

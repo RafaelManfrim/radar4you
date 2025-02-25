@@ -61,7 +61,7 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
     })
   } catch (error) {
     return reply.status(400).send({
-      message: 'User already exists',
+      message: 'O usuário informado já existe',
     })
   }
 

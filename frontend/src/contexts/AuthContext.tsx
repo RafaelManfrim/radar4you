@@ -182,8 +182,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       }
     } catch (error) {
       console.log(error)
-
-      throw new Error('Erro ao registrar usuário')
+      throw error
     }
   }
 
@@ -216,8 +215,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       navigate('/calculadora')
     } catch (error) {
       console.log(error)
-
-      throw new Error('Erro ao fazer login')
+      throw error
     }
   }
 

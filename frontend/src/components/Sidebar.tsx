@@ -8,11 +8,8 @@ import { FaComputer } from 'react-icons/fa6'
 import { FaSignOutAlt } from 'react-icons/fa'
 import { useAuth } from '@/contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
-interface SidebarProps {
-  isVisible: boolean
-}
 
-export function Sidebar({ isVisible }: SidebarProps) {
+export function Sidebar() {
   const navigate = useNavigate()
   const { signOut } = useAuth()
 
@@ -36,8 +33,6 @@ export function Sidebar({ isVisible }: SidebarProps) {
       bgColor="gray.50"
       borderRightWidth={1}
       borderStyle="solid"
-      // borderColor="base.border"
-      display={isVisible ? 'initial' : 'none'}
       ref={sidebarRef}
     >
       <Logo />

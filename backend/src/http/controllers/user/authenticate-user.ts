@@ -54,7 +54,7 @@ export async function authenticateUser(
 
     if (!user) {
       return reply.status(400).send({
-        message: 'Invalid Credentials',
+        message: 'As credenciais informadas estão inválidas',
       })
     }
 
@@ -65,7 +65,7 @@ export async function authenticateUser(
 
     if (!passwordMatches) {
       return reply.status(400).send({
-        message: 'Invalid Credentials',
+        message: 'As credenciais informadas estão inválidas',
       })
     }
   } else if (login_provider === 'google' && oauth_token) {
@@ -81,7 +81,7 @@ export async function authenticateUser(
 
     if (!user) {
       return reply.status(400).send({
-        message: 'Invalid Credentials',
+        message: 'As credenciais informadas estão inválidas',
       })
     }
   } else if (login_provider === 'facebook') {
@@ -90,7 +90,7 @@ export async function authenticateUser(
 
   if (!user) {
     return reply.status(400).send({
-      message: 'Invalid Credentials',
+      message: 'As credenciais informadas estão inválidas',
     })
   }
 
