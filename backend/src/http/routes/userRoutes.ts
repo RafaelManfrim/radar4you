@@ -21,7 +21,7 @@ export function userRoutes(app: FastifyInstance) {
   app.post('/forgot-my-password', forgotMyPassword)
   app.post('/new-password', newPassword)
   app.patch('/token/refresh', refreshAccessToken)
-  app.post('/turn-user-admin', turnUserAdmin)
+  app.post('/turn-user-admin', { onRequest: [verifyJWT, verifyUserRole('ADMIN')] }, turnUserAdmin)
 
   app.post('/logout', { onRequest: [verifyJWT] }, logout)
   app.get('/me', { onRequest: [verifyJWT] }, userData)
