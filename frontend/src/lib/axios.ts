@@ -91,6 +91,6 @@ api.interceptors.response.use(
     //   Cookies.remove('the-brocks.refresh')
     //   window.location.href = '/login'
     // }
-    return Promise.reject(new Error())
+    return Promise.reject(error)
   },
 )

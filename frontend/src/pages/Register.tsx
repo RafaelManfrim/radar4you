@@ -12,8 +12,10 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 
 import { useAuth } from '@/contexts/AuthContext'
+import axios from 'axios'
+import { toaster } from '@/components/ui/toaster'
 
-export const registerSchema = z
+const registerSchema = z
   .object({
     firstName: z.string().nonempty(),
     email: z.string().email().nonempty(),
@@ -33,13 +35,55 @@ export function Register() {
     resolver: zodResolver(registerSchema),
   })
 
-  function handleRegistration(data: RegisterFormData) {
-    register({
-      email: data.email,
-      first_name: data.firstName,
-      password: data.password,
-      login_provider: 'email',
-    })
+  async function handleRegistration(data: RegisterFormData) {
+    try {
+      await register({
+        email: data.email,
+        first_name: data.firstName,
+        password: data.password,
+        login_provider: 'email',
+      })
+    } catch (error) {
+      console.log(error)
+
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        return toaster.create({
+          title: 'Houve um erro',
+          description: error.response.data.message,
+          duration: 3000,
+        })
+      }
+
+      toaster.create({
+        title: 'Houve um erro',
+        description:
+          'Erro ao fazer login, por favor, tente novamente mais tarde',
+        duration: 3000,
+      })
+    }
+  }
+
+  async function handleSignInWithGoogle() {
+    try {
+      await signInwithGoogle()
+    } catch (error) {
+      console.log(error)
+
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        return toaster.create({
+          title: 'Houve um erro',
+          description: error.response.data.message,
+          duration: 3000,
+        })
+      }
+
+      toaster.create({
+        title: 'Houve um erro',
+        description:
+          'Erro ao fazer login, por favor, tente novamente mais tarde',
+        duration: 3000,
+      })
+    }
   }
 
   return (
@@ -109,7 +153,7 @@ export function Register() {
             margin: '0',
             boxShadow: 'rgba(0, 0, 0, 0.2) 0px 1px 2px',
           }}
-          onClick={signInwithGoogle}
+          onClick={handleSignInWithGoogle}
         />
       </Flex>
     </Center>

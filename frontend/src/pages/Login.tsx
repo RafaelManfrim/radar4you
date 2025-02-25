@@ -1,16 +1,18 @@
+import { Box, Center, Flex } from '@chakra-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { GoogleLoginButton } from 'react-social-login-buttons'
+
 import { Input } from '@/components/Form/Input'
 import { Logo } from '@/components/Logo'
 import { Button } from '@/components/ui/button'
+import { toaster } from '@/components/ui/toaster'
 import { useAuth } from '@/contexts/AuthContext'
-import { Box, Center, Flex } from '@chakra-ui/react'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
 
-import { GoogleLoginButton } from 'react-social-login-buttons'
-import { z } from 'zod'
-
-export const signInSchema = z.object({
+const signInSchema = z.object({
   email: z.string().email().nonempty(),
   password: z.string().min(6),
 })
@@ -24,14 +26,56 @@ export function Login() {
     resolver: zodResolver(signInSchema),
   })
 
-  function handleSignIn(data: SignInFormData) {
-    signIn({
-      login_provider: 'email',
-      credentials: {
-        email: data.email,
-        password: data.password,
-      },
-    })
+  async function handleSignIn(data: SignInFormData) {
+    try {
+      await signIn({
+        login_provider: 'email',
+        credentials: {
+          email: data.email,
+          password: data.password,
+        },
+      })
+    } catch (error) {
+      console.log(error)
+
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        return toaster.create({
+          title: 'Houve um erro',
+          description: error.response.data.message,
+          duration: 3000,
+        })
+      }
+
+      toaster.create({
+        title: 'Houve um erro',
+        description:
+          'Erro ao fazer login, por favor, tente novamente mais tarde',
+        duration: 3000,
+      })
+    }
+  }
+
+  async function handleSignInWithGoogle() {
+    try {
+      await signInwithGoogle()
+    } catch (error) {
+      console.log(error)
+
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        return toaster.create({
+          title: 'Houve um erro',
+          description: error.response.data.message,
+          duration: 3000,
+        })
+      }
+
+      toaster.create({
+        title: 'Houve um erro',
+        description:
+          'Erro ao fazer login, por favor, tente novamente mais tarde',
+        duration: 3000,
+      })
+    }
   }
 
   return (
@@ -92,7 +136,7 @@ export function Login() {
             margin: '0',
             boxShadow: 'rgba(0, 0, 0, 0.2) 0px 1px 2px',
           }}
-          onClick={signInwithGoogle}
+          onClick={handleSignInWithGoogle}
         />
       </Flex>
     </Center>

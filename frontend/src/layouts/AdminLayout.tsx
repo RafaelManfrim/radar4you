@@ -26,7 +26,7 @@ export function AdminLayout() {
     <Can>
       <Flex minH="100vh" direction="column">
         <Flex w="100%" flex={1} mx="auto">
-          <Sidebar isVisible={isExtendedVersion} />
+          <Sidebar />
           {!isExtendedVersion && (
             <Flex
               w="4"
