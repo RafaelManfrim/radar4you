@@ -8,7 +8,13 @@ import { Button } from '@/components/ui/button'
 export function LandingPage() {
   return (
     <Flex w="full" align="center" flexDir="column" gap="4">
-      <Flex w="full" bg="gray.200" justify="center" p="6">
+      <Flex
+        w="full"
+        justify="center"
+        p="6"
+        borderBottomWidth={1}
+        borderBottomColor="brand.text"
+      >
         <Flex
           gap="4"
           align="center"
@@ -16,13 +22,13 @@ export function LandingPage() {
           w="full"
           maxW={1280}
         >
-          <Logo />
+          <Logo maxW={['24', '32']} />
           <HStack>
-            <Link to="/registro">
-              <Button>Registre-se</Button>
-            </Link>
             <Link to="/login">
-              <Button>Entrar</Button>
+              <Button size={['xs', 'md']}>Entrar</Button>
+            </Link>
+            <Link to="/registro">
+              <Button size={['xs', 'md']}>Registre-se</Button>
             </Link>
           </HStack>
         </Flex>

@@ -1,4 +1,4 @@
-import { Center, Flex, HStack, Separator, Text } from '@chakra-ui/react'
+import { Center, Separator, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import axios from 'axios'
@@ -6,11 +6,13 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { GoogleLoginButton } from 'react-social-login-buttons'
 
-import { Input } from '@/components/Form/Input'
 import { Logo } from '@/components/Logo'
+import { Input } from '@/components/Form/Input'
 import { Button } from '@/components/ui/button'
 import { toaster } from '@/components/ui/toaster'
 import { useAuth } from '@/contexts/AuthContext'
+import { OrSeparator } from '@/components/OrSeparator'
+import { FormContainer } from '@/components/FormContainer'
 
 const signInSchema = z.object({
   email: z.string().email().nonempty(),
@@ -79,20 +81,8 @@ export function Login() {
   }
 
   return (
-    <Center h="100vh">
-      <Flex
-        as="form"
-        gap="4"
-        flexDir="column"
-        w="100%"
-        maxW="96"
-        // bg="black"
-        borderWidth={1}
-        borderColor="brand.text"
-        p="4"
-        borderRadius="6px"
-        onSubmit={form.handleSubmit(handleSignIn)}
-      >
+    <Center h="100vh" px="6">
+      <FormContainer onSubmit={form.handleSubmit(handleSignIn)}>
         <Center>
           <Logo my="6" />
         </Center>
@@ -109,9 +99,10 @@ export function Login() {
 
         <Text
           as="p"
-          color="brand.primary"
+          color="brand.secondary"
           fontSize="sm"
           textAlign="right"
+          fontWeight="bold"
           _hover={{
             textDecoration: 'underline',
             filter: 'brightness(0.9)',
@@ -132,7 +123,8 @@ export function Login() {
           <Link to="/registro">
             <Text
               as="span"
-              color="brand.primary"
+              color="brand.secondary"
+              fontWeight="bold"
               _hover={{
                 textDecoration: 'underline',
                 filter: 'brightness(0.9)',
@@ -144,13 +136,7 @@ export function Login() {
           </Link>
         </Text>
 
-        <HStack>
-          <Separator flex="1" borderColor="brand.primary" />
-          <Text flexShrink="0" px="2" color="brand.primary" fontSize="sm">
-            Ou
-          </Text>
-          <Separator flex="1" borderColor="brand.primary" />
-        </HStack>
+        <OrSeparator />
 
         <GoogleLoginButton
           text="Entre com o Google"
@@ -171,7 +157,7 @@ export function Login() {
           }}
           onClick={handleSignInWithGoogle}
         />
-      </Flex>
+      </FormContainer>
     </Center>
   )
 }

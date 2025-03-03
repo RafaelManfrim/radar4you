@@ -6,9 +6,24 @@ const customConfig = defineConfig({
       bg: 'brand.background',
       color: 'brand.text',
     },
+    '::selection': {
+      bg: 'brand.secondary',
+      color: 'brand.background',
+    },
   },
   theme: {
     tokens: {
+      fonts: {
+        body: { value: 'Inter, sans-serif' },
+        heading: { value: 'Plus Jakarta Sans, sans-serif' },
+        mono: { value: 'Menlo, monospace' },
+      },
+      sizes: {
+        '100': { value: '25rem' },
+        '104': { value: '26rem' },
+        '108': { value: '27rem' },
+        '112': { value: '28rem' },
+      },
       colors: {
         brand: {
           primary: { value: '#333fa8' },
@@ -16,6 +31,19 @@ const customConfig = defineConfig({
           background: { value: '#0d0d0e' },
           title: { value: '#ffffff' },
           text: { value: '#7e7d9a' },
+        },
+      },
+    },
+    semanticTokens: {
+      colors: {
+        brand: {
+          solid: { value: '{colors.brand.secondary}' },
+          contrast: { value: '{colors.brand.background}' },
+          fg: { value: '{colors.brand.secondary}' },
+          muted: { value: '{colors.brand.secondary}' },
+          subtle: { value: '{colors.brand.secondary}' },
+          emphasized: { value: '{colors.brand.secondary}' },
+          focusRing: { value: '{colors.brand.secondary}' },
         },
       },
     },

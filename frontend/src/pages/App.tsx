@@ -1,4 +1,4 @@
-import { Text, HStack, Center, Flex, VStack } from '@chakra-ui/react'
+import { Text, HStack, Center, VStack, Heading, For } from '@chakra-ui/react'
 
 import { useEffect, useState } from 'react'
 
@@ -16,16 +16,27 @@ import { toaster } from '@/components/ui/toaster'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-// import {
-//   RadioCardItem,
-//   RadioCardLabel,
-//   RadioCardRoot,
-// } from '@/components/ui/radio-card'
+import { CalculatorCard } from '@/components/CalculatorCard'
 
 const tipos = [
-  { value: 1, label: 'Pontos por Compra', icon: FaShoppingBag },
-  { value: 2, label: 'Encontrar Gasto Mensal', icon: FaNewspaper },
-  { value: 3, label: 'Descobrir Tempo Necessário', icon: FaHourglass },
+  {
+    value: 1,
+    label: 'Pontos por Compra',
+    shortLabel: 'Pontos',
+    icon: FaShoppingBag,
+  },
+  {
+    value: 2,
+    label: 'Gasto Mensal',
+    shortLabel: 'Gasto',
+    icon: FaNewspaper,
+  },
+  {
+    value: 3,
+    label: 'Tempo Necessário',
+    shortLabel: 'Tempo',
+    icon: FaHourglass,
+  },
 ]
 
 const tipo1Schema = z.object({
@@ -65,6 +76,10 @@ export function App() {
   const tipo3Form = useForm<Tipo3FormType>({
     resolver: zodResolver(tipo3Schema),
   })
+
+  const cardsWithoutUserCards = cartoes?.filter((card) =>
+    cartoesUsuario?.every((userCard) => userCard.card_id !== card.id),
+  )
 
   function handleSelectCard(card: Cartao) {
     const cardIsSelected = selectedCards.some((c) => c.id === card.id)
@@ -186,31 +201,12 @@ export function App() {
   return (
     <div>
       <LayoutContainer>
-        {/* <Text as="h1" textAlign="center">
-          Calculadora
-        </Text> */}
-
-        {/* <RadioCardRoot defaultValue="1" mb="6">
-          <RadioCardLabel>
-            <Text as="h2" fontSize="xl">
-              Selecione o Tipo de Calculadora
-            </Text>
-          </RadioCardLabel>
-          <HStack align="stretch">
-            {tipos.map((tipo) => (
-              <RadioCardItem
-                label={tipo.label}
-                key={tipo.value}
-                value={String(tipo.value)}
-                onClick={() => setTipo(tipo.value)}
-                cursor="pointer"
-              />
-            ))}
-          </HStack>
-        </RadioCardRoot> */}
-
         <Center flexDir="column">
+          <Heading as="h3" textAlign="center" color="brand.title" mb="4">
+            Escolha seu tipo de simulação
+          </Heading>
           <SegmentedControl
+            className="dark"
             size={['xs', 'xs', 'sm', 'md']}
             mb="6"
             defaultValue="1"
@@ -223,118 +219,117 @@ export function App() {
                 label: (
                   <HStack>
                     <Icon />
-                    {tipo.label}
+                    {
+                      <>
+                        <Text
+                          as="span"
+                          fontSize={['xs', 'xs', 'sm']}
+                          hideBelow="sm"
+                        >
+                          {tipo.label}
+                        </Text>
+                        <Text as="span" fontSize="sm" hideFrom="sm">
+                          {tipo.shortLabel}
+                        </Text>
+                      </>
+                    }
                   </HStack>
                 ),
               }
             })}
           />
 
-          <Text as="h2" textAlign="center" mb="2">
-            Meus Cartões
-            <Text fontSize="sm" color="purple.500">
+          <Heading
+            as="h4"
+            textAlign="center"
+            mb="2"
+            fontSize="md"
+            color="brand.title"
+          >
+            Meus Cartões (
+            <Text as="span" fontSize="sm" color="brand.secondary">
               <Link to="/calculadora/cartoes">Adicionar</Link>
             </Text>
-          </Text>
+            )
+          </Heading>
 
           <HStack>
-            {cartoesUsuario?.map((cartao) => (
-              <Flex
-                key={cartao.id}
-                w="full"
-                maxW={400}
-                bgColor="gray.100"
-                p="4"
-                rounded="md"
-                align="center"
-                justify="space-between"
-                mb="4"
-                fontSize="sm"
-                cursor="pointer"
-                _hover={{
-                  filter: 'brightness(0.97)',
-                  transition: 'filter 0.2s',
-                }}
-                onClick={() =>
-                  handleSelectCard(
-                    cartoes?.find(
-                      (card) => card.id === cartao.card_id,
-                    ) as Cartao,
-                  )
-                }
-                {...(cartao.card_id ===
-                  selectedCards.find((card) => card.id === cartao.card_id)
-                    ?.id && {
-                  bgColor: 'purple.100',
-                })}
-              >
-                <Text>
-                  {cartoes?.find((card) => card.id === cartao.card_id)?.title}
-                </Text>
-              </Flex>
-            ))}
+            <For each={cartoesUsuario}>
+              {(userCard) => {
+                const cartao = cartoes?.find(
+                  (card) => card.id === userCard.card_id,
+                )
+
+                if (!cartao) return null
+
+                const isSelected =
+                  cartao.id ===
+                  selectedCards.find((card) => card.id === cartao.id)?.id
+
+                return (
+                  <CalculatorCard
+                    key={userCard.card_id}
+                    isSelected={isSelected}
+                    cartao={cartao}
+                    onClick={() => handleSelectCard(cartao)}
+                  />
+                )
+              }}
+            </For>
           </HStack>
 
-          <Text as="h2" textAlign="center" mb="2">
-            Sujestão de Cartões
-            <Text fontSize="sm" color="purple.500">
+          <Heading
+            as="h4"
+            textAlign="center"
+            mb="2"
+            fontSize="md"
+            color="brand.title"
+          >
+            Sujestão de Cartões (
+            <Text as="span" fontSize="sm" color="brand.secondary">
               <Link to="/calculadora/cartoes">Ver todos</Link>
             </Text>
-          </Text>
+            )
+          </Heading>
 
           <HStack>
-            {cartoes
-              ?.filter((card) =>
-                cartoesUsuario?.every(
-                  (userCard) => userCard.card_id !== card.id,
-                ),
-              )
-              .map((cartao) => (
-                <Flex
-                  key={cartao.id}
-                  w="full"
-                  maxW={400}
-                  bgColor="gray.100"
-                  p="4"
-                  rounded="md"
-                  align="center"
-                  justify="space-between"
-                  mb="4"
-                  fontSize="sm"
-                  cursor="pointer"
-                  _hover={{
-                    filter: 'brightness(0.97)',
-                    transition: 'filter 0.2s',
-                  }}
-                  onClick={() =>
-                    handleSelectCard(
-                      cartoes?.find((card) => card.id === cartao.id) as Cartao,
-                    )
-                  }
-                  {...(selectedCards.some((card) => card.id === cartao.id) && {
-                    bgColor: 'purple.100',
-                  })}
-                >
-                  <Text>{cartao.title}</Text>
-                </Flex>
-              ))}
+            <For each={cardsWithoutUserCards}>
+              {(card) => {
+                const isSelected =
+                  card.id ===
+                  selectedCards.find(
+                    (selectedCard) => selectedCard.id === card.id,
+                  )?.id
+
+                return (
+                  <CalculatorCard
+                    key={card.id}
+                    isSelected={isSelected}
+                    cartao={card}
+                    onClick={() => handleSelectCard(card)}
+                  />
+                )
+              }}
+            </For>
           </HStack>
 
-          <Text as="h2" textAlign="center" mb="2">
-            Simulação
-          </Text>
+          <Heading as="h3" color="brand.title" textAlign="center" mb="4">
+            Preencha os valores para simular
+          </Heading>
 
           {tipo === 1 && (
             <VStack
               w="full"
               maxW={400}
-              bgColor="gray.100"
+              borderWidth={1}
+              borderColor="brand.text"
               p="4"
               rounded="md"
               align="end"
             >
               <Field
                 label="Valor Gasto"
+                color="brand.title"
                 invalid={!!tipo1Form.formState.errors.valorGasto}
                 errorText={tipo1Form.formState.errors.valorGasto?.message}
                 required
@@ -347,7 +342,7 @@ export function App() {
                 />
               </Field>
               <Button onClick={tipo1Form.handleSubmit(handleSimulate)}>
-                Calcular
+                Simular
               </Button>
             </VStack>
           )}
@@ -356,7 +351,8 @@ export function App() {
             <VStack
               w="full"
               maxW={400}
-              bgColor="gray.100"
+              borderWidth={1}
+              borderColor="brand.text"
               p="4"
               rounded="md"
               align="end"
@@ -388,7 +384,7 @@ export function App() {
                 />
               </Field>
               <Button onClick={tipo2Form.handleSubmit(handleSimulate)}>
-                Calcular
+                Simular
               </Button>
             </VStack>
           )}
@@ -397,7 +393,8 @@ export function App() {
             <VStack
               w="full"
               maxW={400}
-              bgColor="gray.100"
+              borderWidth={1}
+              borderColor="brand.text"
               p="4"
               rounded="md"
               align="end"
@@ -430,7 +427,7 @@ export function App() {
               </Field>
 
               <Button onClick={tipo3Form.handleSubmit(handleSimulate)}>
-                Calcular
+                Simular
               </Button>
             </VStack>
           )}

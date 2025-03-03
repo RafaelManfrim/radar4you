@@ -1,19 +1,20 @@
 import { z } from 'zod'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { Center, Flex, Text } from '@chakra-ui/react'
+import { Center, Text, Link as ChakraLink, Separator } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { GoogleLoginButton } from 'react-social-login-buttons'
+import axios from 'axios'
 
 import { Logo } from '@/components/Logo'
 import { Input } from '@/components/Form/Input'
-
 import { Button } from '@/components/ui/button'
+import { toaster } from '@/components/ui/toaster'
 import { Checkbox } from '@/components/ui/checkbox'
+import { OrSeparator } from '@/components/OrSeparator'
+import { FormContainer } from '@/components/FormContainer'
 
 import { useAuth } from '@/contexts/AuthContext'
-import axios from 'axios'
-import { toaster } from '@/components/ui/toaster'
 
 const registerSchema = z
   .object({
@@ -87,20 +88,12 @@ export function Register() {
   }
 
   return (
-    <Center h="100vh">
-      <Flex
-        as="form"
-        gap="4"
-        flexDir="column"
-        w="100%"
-        maxW="96"
-        bg="gray.50"
-        p="4"
-        borderRadius="6px"
-        onSubmit={form.handleSubmit(handleRegistration)}
-      >
-        <Logo />
-        <h2>Registro</h2>
+    <Center h="100vh" px="6">
+      <FormContainer onSubmit={form.handleSubmit(handleRegistration)}>
+        <Center>
+          <Logo my="6" />
+        </Center>
+
         <Input
           placeholder="Digite seu primeiro nome"
           register={form.register('firstName')}
@@ -119,29 +112,41 @@ export function Register() {
           type="password"
           register={form.register('confirmPassword')}
         />
-        <Checkbox inputProps={{ required: true }}>
-          Eu aceito os <a href="">termos de uso</a> e a{' '}
-          <a href="">política de privacidade</a>
+
+        <Checkbox colorPalette="brand" inputProps={{ required: true }}>
+          Eu aceito os{' '}
+          <ChakraLink colorPalette="brand" href="https://google.com">
+            termos de uso
+          </ChakraLink>{' '}
+          e a{' '}
+          <ChakraLink colorPalette="brand" href="https://google.com">
+            política de privacidade
+          </ChakraLink>
         </Checkbox>
 
         <Button type="submit">Registrar-se</Button>
 
-        <hr />
+        <Separator borderColor="brand.text" />
 
         <Text as="span" fontSize="sm">
           Possui uma conta?{' '}
           <Link to="/login">
-            <Text as="span" color="purple.500">
+            <Text
+              as="span"
+              color="brand.secondary"
+              fontWeight="bold"
+              _hover={{
+                textDecoration: 'underline',
+                filter: 'brightness(0.9)',
+                transition: '0.2s ease',
+              }}
+            >
               Entrar
             </Text>
           </Link>
         </Text>
 
-        <Flex bgColor="purple.400" h="2px" justify="center" align="center">
-          <Text bgColor="white" px="2" color="purple.500" fontSize="sm">
-            Ou
-          </Text>
-        </Flex>
+        <OrSeparator />
 
         <GoogleLoginButton
           text="Entre com o Google"
@@ -152,10 +157,17 @@ export function Register() {
             width: '100%',
             margin: '0',
             boxShadow: 'rgba(0, 0, 0, 0.2) 0px 1px 2px',
+            color: 'white',
+            backgroundColor: '#7e7d9a',
+            fontWeight: 'bold',
+          }}
+          activeStyle={{
+            filter: 'brightness(0.9)',
+            transition: '0.2s ease',
           }}
           onClick={handleSignInWithGoogle}
         />
-      </Flex>
+      </FormContainer>
     </Center>
   )
 }

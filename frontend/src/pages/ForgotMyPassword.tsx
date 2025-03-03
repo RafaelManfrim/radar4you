@@ -1,9 +1,10 @@
 import { Input } from '@/components/Form/Input'
+import { FormContainer } from '@/components/FormContainer'
 import { Logo } from '@/components/Logo'
 import { Button } from '@/components/ui/button'
 import { toaster } from '@/components/ui/toaster'
 import { api } from '@/lib/axios'
-import { Center, Flex, Text } from '@chakra-ui/react'
+import { Center, Separator, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
@@ -38,22 +39,14 @@ export function ForgotMyPassword() {
   }
 
   return (
-    <Center h="100vh">
-      <Flex
-        as="form"
-        gap="4"
-        flexDir="column"
-        w="100%"
-        maxW="96"
-        bg="gray.50"
-        p="4"
-        borderRadius="6px"
-        onSubmit={form.handleSubmit(handleSubmit)}
-      >
-        <Logo />
-        <h2>
+    <Center h="100vh" px="6">
+      <FormContainer onSubmit={form.handleSubmit(handleSubmit)}>
+        <Center>
+          <Logo my="6" />
+        </Center>
+        <Text textAlign="center">
           Preencha seu e-mail abaixo para solicitar a recuperação de senha
-        </h2>
+        </Text>
         <Input
           placeholder="Digite seu e-mail"
           register={form.register('email')}
@@ -63,17 +56,26 @@ export function ForgotMyPassword() {
           Enviar
         </Button>
 
-        <hr />
+        <Separator borderColor="brand.text" />
 
         <Text as="span" fontSize="sm">
           Lembrou sua senha?{' '}
           <Link to="/login">
-            <Text as="span" color="purple.500">
+            <Text
+              as="span"
+              color="brand.secondary"
+              fontWeight="bold"
+              _hover={{
+                textDecoration: 'underline',
+                filter: 'brightness(0.9)',
+                transition: '0.2s ease',
+              }}
+            >
               Voltar para o Login
             </Text>
           </Link>
         </Text>
-      </Flex>
+      </FormContainer>
     </Center>
   )
 }
