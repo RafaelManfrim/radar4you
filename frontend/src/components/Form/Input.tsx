@@ -9,5 +9,15 @@ interface InputProps extends ChakraInputProps {
 }
 
 export function Input(props: InputProps) {
-  return <ChakraInput bgColor="white" {...props.register} {...props} />
+  return (
+    <ChakraInput
+      bgColor="brand.background"
+      color="brand.title"
+      _placeholder={{ color: 'brand.text' }}
+      borderColor="brand.text"
+      _focus={{ borderColor: 'brand.primary' }}
+      {...props.register}
+      {...props}
+    />
+  )
 }

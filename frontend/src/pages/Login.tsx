@@ -1,4 +1,4 @@
-import { Center, Flex, Text } from '@chakra-ui/react'
+import { Center, Flex, HStack, Separator, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import axios from 'axios'
@@ -86,13 +86,17 @@ export function Login() {
         flexDir="column"
         w="100%"
         maxW="96"
-        bg="gray.50"
+        // bg="black"
+        borderWidth={1}
+        borderColor="brand.text"
         p="4"
         borderRadius="6px"
         onSubmit={form.handleSubmit(handleSignIn)}
       >
-        <Logo />
-        <h2>Bem vindo!</h2>
+        <Center>
+          <Logo my="6" />
+        </Center>
+
         <Input
           placeholder="Digite seu e-mail"
           register={form.register('email')}
@@ -105,7 +109,7 @@ export function Login() {
 
         <Text
           as="p"
-          color="purple.500"
+          color="brand.primary"
           fontSize="sm"
           textAlign="right"
           _hover={{
@@ -121,22 +125,32 @@ export function Login() {
           Entrar
         </Button>
 
-        <hr />
+        <Separator borderColor="brand.text" />
 
         <Text as="span" fontSize="sm">
           Não possui uma conta?{' '}
           <Link to="/registro">
-            <Text as="span" color="purple.500">
+            <Text
+              as="span"
+              color="brand.primary"
+              _hover={{
+                textDecoration: 'underline',
+                filter: 'brightness(0.9)',
+                transition: '0.2s ease',
+              }}
+            >
               Registre-se
             </Text>
           </Link>
         </Text>
 
-        <Flex bgColor="purple.400" h="2px" justify="center" align="center">
-          <Text bgColor="white" px="2" color="purple.500" fontSize="sm">
+        <HStack>
+          <Separator flex="1" borderColor="brand.primary" />
+          <Text flexShrink="0" px="2" color="brand.primary" fontSize="sm">
             Ou
           </Text>
-        </Flex>
+          <Separator flex="1" borderColor="brand.primary" />
+        </HStack>
 
         <GoogleLoginButton
           text="Entre com o Google"
@@ -147,6 +161,13 @@ export function Login() {
             width: '100%',
             margin: '0',
             boxShadow: 'rgba(0, 0, 0, 0.2) 0px 1px 2px',
+            color: 'white',
+            backgroundColor: '#7e7d9a',
+            fontWeight: 'bold',
+          }}
+          activeStyle={{
+            filter: 'brightness(0.9)',
+            transition: '0.2s ease',
           }}
           onClick={handleSignInWithGoogle}
         />

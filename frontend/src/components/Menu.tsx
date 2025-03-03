@@ -1,0 +1,106 @@
+import { NavLinkComponent } from './NavLink'
+import { useAuth } from '@/contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import { Can } from './Can'
+
+import {
+  MenuContent,
+  MenuItem,
+  MenuItemGroup,
+  MenuRoot,
+  MenuSeparator,
+  MenuTrigger,
+} from '@/components/ui/menu'
+import { Avatar, AvatarGroup } from './ui/avatar'
+import { HStack, Text } from '@chakra-ui/react'
+
+const navegacao = [
+  { title: 'Calculadora', to: '/calculadora' },
+  { title: 'Cartões', to: '/calculadora/cartoes' },
+  { title: 'Histórico', to: '/calculadora/historico' },
+  { title: 'Perfil', to: '/calculadora/perfil' },
+]
+
+export function Menu() {
+  const { signOut, authData } = useAuth()
+  const navigate = useNavigate()
+
+  return (
+    <MenuRoot>
+      <MenuTrigger asChild>
+        <HStack
+          cursor="pointer"
+          // bgColor="brand.text"
+          borderWidth={1}
+          borderColor="brand.text"
+          p={['1', '2']}
+          px={['2', '4']}
+          borderRadius="md"
+          _hover={{
+            filter: 'brightness(0.9)',
+            transition: '0.2s ease-out',
+          }}
+        >
+          <Text as="span" fontSize={[12, 14]} color="brand.title">
+            Olá, {authData?.user?.first_name}
+          </Text>
+          <AvatarGroup>
+            <Avatar
+              size="xs"
+              variant="subtle"
+              name={authData?.user?.first_name}
+              bgColor="brand.secondary"
+              borderColor="brand.title"
+              color="brand.title"
+              _hover={{
+                filter: 'brightness(0.9)',
+                transition: '0.2s ease-out',
+              }}
+            />
+          </AvatarGroup>
+        </HStack>
+      </MenuTrigger>
+      <MenuContent
+        bgColor="brand.background"
+        borderWidth={1}
+        borderColor="brand.text"
+      >
+        <MenuItemGroup color="brand.title" title="Navegação">
+          {navegacao.map((item, index) => (
+            <MenuItem
+              key={index}
+              value={item.to}
+              onClick={() => navigate(item.to)}
+              cursor="pointer"
+            >
+              <NavLinkComponent title={item.title} to={item.to} />
+            </MenuItem>
+          ))}
+        </MenuItemGroup>
+        <MenuSeparator borderColor="brand.text" />
+        <MenuItemGroup color="brand.title" title="Ações">
+          <Can>
+            <MenuItem
+              value="admin"
+              cursor="pointer"
+              onClick={() => navigate('/admin')}
+            >
+              <Text fontWeight="medium" color="brand.text">
+                Admin
+              </Text>
+            </MenuItem>
+          </Can>
+          <MenuItem
+            value="sair"
+            color="fg.error"
+            cursor="pointer"
+            _hover={{ bg: 'bg.error', color: 'fg.error' }}
+            onClick={signOut}
+          >
+            Sair
+          </MenuItem>
+        </MenuItemGroup>
+      </MenuContent>
+    </MenuRoot>
+  )
+}

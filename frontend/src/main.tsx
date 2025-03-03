@@ -1,16 +1,18 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import { ChakraProvider } from '@chakra-ui/react'
 
 import { AuthContextProvider } from '@contexts/AuthContext'
-import { Provider } from '@components/ui/provider'
 import { Router } from './routes/Router'
 import { SidebarProvider } from './contexts/SidebarContext'
 import { Toaster } from './components/ui/toaster'
 
+import { system } from './styles/theme'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider>
+    <ChakraProvider value={system}>
       <SidebarProvider>
         <BrowserRouter>
           <AuthContextProvider>
@@ -19,6 +21,6 @@ createRoot(document.getElementById('root')!).render(
         </BrowserRouter>
       </SidebarProvider>
       <Toaster />
-    </Provider>
+    </ChakraProvider>
   </StrictMode>,
 )

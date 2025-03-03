@@ -15,7 +15,7 @@ export function NavLinkComponent({ to, title }: NavLinkComponentProps) {
   return (
     <Flex
       cursor="pointer"
-      color={isActive ? 'purple.500' : 'gray.500'}
+      color={isActive ? 'brand.primary' : 'brand.text'}
       userSelect="none"
       transition="all 0.2s"
     >

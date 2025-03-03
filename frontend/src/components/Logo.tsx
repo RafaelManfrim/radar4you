@@ -1,9 +1,8 @@
-import { Text } from '@chakra-ui/react'
+import { Image, ImageProps } from '@chakra-ui/react'
+import LogoImg from '@assets/isologo-branco.png'
 
-export function Logo() {
-  return (
-    <Text as="strong" color="purple.600" fontWeight="bold" fontSize={26}>
-      Logo
-    </Text>
-  )
+interface LogoProps extends ImageProps {}
+
+export function Logo(props: LogoProps) {
+  return <Image src={LogoImg} alt="Logo do Radar4you" maxW="48" {...props} />
 }

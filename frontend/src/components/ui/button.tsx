@@ -19,9 +19,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const { loading, disabled, loadingText, children, ...rest } = props
     return (
       <ChakraButton
-        bgColor="purple.500"
+        bgColor="brand.primary"
         _hover={{
-          bgColor: 'purple.600',
+          filter: 'brightness(0.9)',
+          transition: '0.2s ease',
         }}
         disabled={loading || disabled}
         ref={ref}
