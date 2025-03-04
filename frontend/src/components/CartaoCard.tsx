@@ -1,4 +1,4 @@
-import { Flex, IconButton } from '@chakra-ui/react'
+import { Flex, IconButton, Text } from '@chakra-ui/react'
 
 import { Cartao } from '@/pages/admin/Cartoes'
 import { FaPlus, FaTrash } from 'react-icons/fa'
@@ -20,14 +20,29 @@ export function CartaoCard({
   const userCard = userCards.find((userCard) => userCard.card_id === card.id)
 
   return (
-    <Flex>
-      <Flex>{card.title}</Flex>
+    <Flex
+      bgColor="brand.text-transparent"
+      align="center"
+      justify="space-between"
+      borderRadius="sm"
+      p="2"
+      w="full"
+    >
+      <Text color="brand.title">{card.title}</Text>
       {userCard ? (
         <IconButton
           aria-label="Remover dos meus cartões"
           size="xs"
-          variant="subtle"
-          colorPalette="red"
+          className="dark"
+          variant="surface"
+          bgColor="brand.danger"
+          color="brand.title"
+          borderWidth={0}
+          ring="none"
+          _hover={{
+            filter: 'brightness(0.9)',
+            transition: 'filter 0.2s ease',
+          }}
           onClick={() => onRemoveFromMyCards(userCard.id)}
         >
           <FaTrash />
@@ -36,8 +51,16 @@ export function CartaoCard({
         <IconButton
           aria-label="Adicionar aos meus cartões"
           size="xs"
-          variant="subtle"
-          colorPalette="purple"
+          className="dark"
+          variant="surface"
+          bgColor="brand.primary"
+          color="brand.title"
+          borderWidth={0}
+          ring="none"
+          _hover={{
+            filter: 'brightness(0.9)',
+            transition: 'filter 0.2s ease',
+          }}
           onClick={() => onAddToMyCards(card.id)}
         >
           <FaPlus />

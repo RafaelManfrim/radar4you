@@ -32,7 +32,7 @@ const customConfig = defineConfig({
           title: { value: '#ffffff' },
           text: { value: '#7e7d9a' },
           'text-transparent': { value: '#7e7d9a33' },
-          danger: { value: '#F40B1C' },
+          danger: { value: '#ad1d27' },
           success: { value: '#00C851' },
           warning: { value: '#FFBB33' },
           info: { value: '#33B5E5' },
@@ -44,7 +44,7 @@ const customConfig = defineConfig({
         brand: {
           solid: { value: '{colors.brand.secondary}' },
           contrast: { value: '{colors.brand.background}' },
-          fg: { value: '{colors.brand.secondary}' },
+          fg: { value: '{colors.brand.background}' },
           muted: { value: '{colors.brand.secondary}' },
           subtle: { value: '{colors.brand.secondary}' },
           emphasized: { value: '{colors.brand.secondary}' },

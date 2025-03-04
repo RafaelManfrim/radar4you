@@ -1,4 +1,4 @@
-import { Flex, HStack, VStack } from '@chakra-ui/react'
+import { Flex, Heading, Show, VStack } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 
 import { api } from '@/lib/axios'
@@ -9,6 +9,7 @@ import { Bandeira } from './admin/Bandeiras'
 import { InstituicaoFinanceira } from './admin/InstituicoesFinanceiras'
 import { CartaoCard } from '@/components/CartaoCard'
 import { CheckedChangeDetails } from 'node_modules/@chakra-ui/react/dist/types/components/checkbox/namespace'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export interface UserCard {
   id: string
@@ -53,7 +54,10 @@ export function Cartoes() {
     )
   }
 
-  function handleItemInstituicaoFinanceiraClick(e: CheckedChangeDetails, index: number) {
+  function handleItemInstituicaoFinanceiraClick(
+    e: CheckedChangeDetails,
+    index: number,
+  ) {
     setInstituicoesFinanceirasFilter((current) => {
       const newValues = [...current]
       newValues[index] = { ...newValues[index], checked: !!e.checked }
@@ -162,61 +166,110 @@ export function Cartoes() {
   }, [])
 
   return (
-    <Flex gap="4" align="center" justify="center" mt="4">
-      <VStack align="start" gap="8" bgColor="purple.50" p="4" borderRadius="md">
-        <Filters
-          title="Bandeiras"
-          values={bandeirasFilter}
-          onRootClick={handleRootBandeirasClick}
-          onItemClick={handleItemBandeiraClick}
-        />
-        <Filters
-          title="Instituições Financeiras"
-          values={instituicoesFinanceirasFilter}
-          onRootClick={handleRootInstituicoesFinanceirasClick}
-          onItemClick={handleItemInstituicaoFinanceiraClick}
-        />
-      </VStack>
-      <VStack align="start" gap="4">
-        {isLoading ? (
-          <Flex>Carregando...</Flex>
-        ) : (
-          <HStack align="start" justify="start">
-            <VStack>
-              <Flex>Cartões</Flex>
-              {cartoes
+    <Flex w="full" justify="center" p="6">
+      <Flex justify="start" align="start" gap="4" w="full" maxW={1280}>
+        <VStack
+          align="start"
+          p="4"
+          borderWidth={1}
+          borderColor="brand.text"
+          borderRadius="md"
+          gap="4"
+        >
+          <Heading color="brand.title">Filtros</Heading>
+          <Filters
+            title="Bandeiras"
+            values={bandeirasFilter}
+            onRootClick={handleRootBandeirasClick}
+            onItemClick={handleItemBandeiraClick}
+          />
+          <Filters
+            title="Instituições Financeiras"
+            values={instituicoesFinanceirasFilter}
+            onRootClick={handleRootInstituicoesFinanceirasClick}
+            onItemClick={handleItemInstituicaoFinanceiraClick}
+          />
+        </VStack>
+
+        <VStack align="start" justify="start" w="full">
+          <VStack
+            w="full"
+            p="4"
+            borderWidth={1}
+            borderColor="brand.text"
+            borderRadius="md"
+            gap="2"
+          >
+            <Heading color="brand.title">Meus Cartões</Heading>
+            <Show
+              when={!isLoading}
+              children={cartoesUsuario?.map((cartao) => (
+                <CartaoCard
+                  key={cartao.id}
+                  userCards={cartoesUsuario}
+                  card={
+                    cartoes?.find(
+                      (card) => card.id === cartao.card_id,
+                    ) as Cartao
+                  }
+                  onAddToMyCards={handleSetUserCard}
+                  onRemoveFromMyCards={handleRemoveUserCard}
+                />
+              ))}
+              fallback={Array.from({ length: 3 }, (_, i) => i).map(
+                (_, index) => (
+                  <Skeleton
+                    key={index}
+                    className="dark"
+                    variant="shine"
+                    height="16"
+                    w="full"
+                  />
+                ),
+              )}
+            />
+          </VStack>
+          <VStack
+            w="full"
+            p="4"
+            borderWidth={1}
+            borderColor="brand.text"
+            borderRadius="md"
+            gap="2"
+          >
+            <Heading color="brand.title">Cartões</Heading>
+            <Show
+              when={!isLoading}
+              children={cartoes
                 ?.filter((card) =>
-                  cartoesUsuario.every(
+                  cartoesUsuario?.every(
                     (userCard) => userCard.card_id !== card.id,
                   ),
                 )
                 .map((cartao) => (
                   <CartaoCard
                     key={cartao.id}
-                    userCards={cartoesUsuario}
+                    userCards={cartoesUsuario ?? []}
                     card={cartao}
                     onAddToMyCards={handleSetUserCard}
                     onRemoveFromMyCards={handleRemoveUserCard}
                   />
                 ))}
-            </VStack>
-            <VStack>
-              <Flex>Meus Cartões</Flex>
-              {cartoesUsuario?.map((cartao) => (
-                <CartaoCard
-                  key={cartao.id}
-                  userCards={cartoesUsuario}
-                  card={
-                    cartoes.find((card) => card.id === cartao.card_id) as Cartao
-                  }
-                  onAddToMyCards={handleSetUserCard}
-                  onRemoveFromMyCards={handleRemoveUserCard}
-                />
-              ))}
-            </VStack>
-          </HStack>
-        )}
-      </VStack>
+              fallback={Array.from({ length: 10 }, (_, i) => i).map(
+                (_, index) => (
+                  <Skeleton
+                    key={index}
+                    className="dark"
+                    variant="shine"
+                    height="16"
+                    w="full"
+                  />
+                ),
+              )}
+            />
+          </VStack>
+        </VStack>
+      </Flex>
     </Flex>
   )
 }

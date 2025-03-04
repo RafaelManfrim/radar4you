@@ -29,14 +29,14 @@ export function Filters({
       <Checkbox
         cursor="pointer"
         checked={indeterminate ? 'indeterminate' : allChecked}
-        colorPalette="purple"
+        colorPalette="brand"
         onCheckedChange={(e) => onRootClick(e)}
       >
         {title}
       </Checkbox>
       {values.map((item, index) => (
         <Checkbox
-          colorPalette="purple"
+          colorPalette="brand"
           cursor="pointer"
           ms="6"
           key={item.value}
