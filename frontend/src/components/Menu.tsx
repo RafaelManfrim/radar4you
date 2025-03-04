@@ -70,8 +70,13 @@ export function Menu() {
             <MenuItem
               key={index}
               value={item.to}
-              onClick={() => navigate(item.to)}
               cursor="pointer"
+              color="brand.text"
+              _hover={{
+                bg: 'brand.text-transparent',
+                color: 'brand.title',
+              }}
+              onClick={() => navigate(item.to)}
             >
               <NavLinkComponent title={item.title} to={item.to} />
             </MenuItem>
@@ -83,18 +88,21 @@ export function Menu() {
             <MenuItem
               value="admin"
               cursor="pointer"
+              color="brand.text"
+              _hover={{
+                bg: 'brand.text-transparent',
+                color: 'brand.title',
+              }}
               onClick={() => navigate('/admin')}
             >
-              <Text fontWeight="medium" color="brand.text">
-                Admin
-              </Text>
+              <Text fontWeight="medium">Admin</Text>
             </MenuItem>
           </Can>
           <MenuItem
             value="sair"
-            color="fg.error"
             cursor="pointer"
-            _hover={{ bg: 'bg.error', color: 'fg.error' }}
+            color="brand.danger"
+            _hover={{ bg: 'brand.text-transparent', color: 'brand.danger' }}
             onClick={signOut}
           >
             Sair

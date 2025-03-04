@@ -359,6 +359,7 @@ export function App() {
             >
               <Field
                 label="Quantos pontos você quer acumular?"
+                color="brand.title"
                 invalid={!!tipo2Form.formState.errors.pontos}
                 errorText={tipo2Form.formState.errors.pontos?.message}
                 required
@@ -372,6 +373,7 @@ export function App() {
               </Field>
               <Field
                 label="Em quantos meses?"
+                color="brand.title"
                 invalid={!!tipo2Form.formState.errors.meses}
                 errorText={tipo2Form.formState.errors.meses?.message}
                 required
@@ -401,6 +403,7 @@ export function App() {
             >
               <Field
                 label="Quantos pontos você quer acumular?"
+                color="brand.title"
                 invalid={!!tipo3Form.formState.errors.pontos}
                 errorText={tipo3Form.formState.errors.pontos?.message}
                 required
@@ -414,6 +417,7 @@ export function App() {
               </Field>
               <Field
                 label="Qual seu gasto mensal?"
+                color="brand.title"
                 invalid={!!tipo3Form.formState.errors.gastoMensal}
                 errorText={tipo3Form.formState.errors.gastoMensal?.message}
                 required
