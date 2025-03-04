@@ -10,6 +10,7 @@ export async function listSimulations(
     .where({
       user_id: request.user.sub,
     })
+    .orderBy('created_at', 'desc')
     .returning('*')
 
   return reply.send({
