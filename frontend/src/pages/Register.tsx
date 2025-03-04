@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { Center, Text, Link as ChakraLink, Separator } from '@chakra-ui/react'
+import { Center, Text, Separator } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { GoogleLoginButton } from 'react-social-login-buttons'
 import axios from 'axios'
@@ -115,13 +115,35 @@ export function Register() {
 
         <Checkbox colorPalette="brand" inputProps={{ required: true }}>
           Eu aceito os{' '}
-          <ChakraLink colorPalette="brand" href="https://google.com">
-            termos de uso
-          </ChakraLink>{' '}
+          <Link to="https://google.com" target="_blank">
+            <Text
+              as="span"
+              color="brand.secondary"
+              fontWeight="bold"
+              _hover={{
+                textDecoration: 'underline',
+                filter: 'brightness(0.9)',
+                transition: '0.2s ease',
+              }}
+            >
+              termos de uso
+            </Text>
+          </Link>{' '}
           e a{' '}
-          <ChakraLink colorPalette="brand" href="https://google.com">
-            política de privacidade
-          </ChakraLink>
+          <Link to="https://google.com" target="_blank">
+            <Text
+              as="span"
+              color="brand.secondary"
+              fontWeight="bold"
+              _hover={{
+                textDecoration: 'underline',
+                filter: 'brightness(0.9)',
+                transition: '0.2s ease',
+              }}
+            >
+              política de privacidade
+            </Text>
+          </Link>
         </Checkbox>
 
         <Button type="submit">Registrar-se</Button>
