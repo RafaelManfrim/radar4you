@@ -21,7 +21,10 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.7",
     "fastify": "^5.2.0",
+    "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
+    "nodemailer": "^6.10.0",
+    "nodemailer-express-handlebars": "^7.0.0",
     "pg": "^8.13.3",
     "sqlite3": "^5.1.7",
     "zod": "^3.24.1"
@@ -29,7 +32,10 @@
   "devDependencies": {
     "@rocketseat/eslint-config": "^1.2.0",
     "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.10.5",
+    "@types/nodemailer": "^6.4.17",
+    "@types/nodemailer-express-handlebars": "^4.0.5",
     "eslint": "^8.33.0",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",

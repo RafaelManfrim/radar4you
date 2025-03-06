@@ -42,7 +42,9 @@ export function ForgotMyPassword() {
     <Center h="100vh" px="6">
       <FormContainer onSubmit={form.handleSubmit(handleSubmit)}>
         <Center>
-          <Logo my="6" />
+          <Link to="/">
+            <Logo my="6" />
+          </Link>
         </Center>
         <Text textAlign="center">
           Preencha seu e-mail abaixo para solicitar a recuperação de senha

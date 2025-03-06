@@ -1,12 +1,13 @@
 import { Input } from '@/components/Form/Input'
+import { FormContainer } from '@/components/FormContainer'
 import { Logo } from '@/components/Logo'
 import { Button } from '@/components/ui/button'
 import { toaster } from '@/components/ui/toaster'
 import { api } from '@/lib/axios'
-import { Center, Flex } from '@chakra-ui/react'
+import { Center, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { z } from 'zod'
 
 const newPasswordSchema = z
@@ -26,6 +27,7 @@ export function NewPassword() {
   })
 
   const params = useParams()
+  const navigate = useNavigate()
 
   async function handleSubmit(data: NewPasswordFormData) {
     try {
@@ -33,6 +35,14 @@ export function NewPassword() {
         token: params.token,
         password: data.password,
       })
+
+      toaster.create({
+        title: 'Senha alterada com sucesso',
+        description: 'Sua senha foi alterada com sucesso, faça login',
+        duration: 3000,
+      })
+
+      navigate('/login')
     } catch (error) {
       console.log(error)
 
@@ -50,20 +60,16 @@ export function NewPassword() {
   }
 
   return (
-    <Center h="100vh">
-      <Flex
-        as="form"
-        gap="4"
-        flexDir="column"
-        w="100%"
-        maxW="96"
-        bg="gray.50"
-        p="4"
-        borderRadius="6px"
-        onSubmit={form.handleSubmit(handleSubmit)}
-      >
-        <Logo />
-        <h2>Preencha os campos abaixo para alterar sua senha</h2>
+    <Center h="100vh" px="6">
+      <FormContainer onSubmit={form.handleSubmit(handleSubmit)}>
+        <Center>
+          <Link to="/">
+            <Logo my="6" />
+          </Link>
+        </Center>
+        <Text textAlign="center">
+          Preencha os campos abaixo para alterar sua senha
+        </Text>
         <Input
           placeholder="Digite sua nova senha"
           type="password"
@@ -78,7 +84,7 @@ export function NewPassword() {
         <Button type="submit" fontWeight="bold">
           Alterar
         </Button>
-      </Flex>
+      </FormContainer>
     </Center>
   )
 }

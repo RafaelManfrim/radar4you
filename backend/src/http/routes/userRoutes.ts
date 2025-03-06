@@ -2,8 +2,8 @@ import { FastifyInstance } from 'fastify'
 
 import { createUser } from '../controllers/user/create-user'
 import { authenticateUser } from '../controllers/user/authenticate-user'
-import { forgotMyPassword } from '../controllers/user/forgot-my-password'
-import { newPassword } from '../controllers/user/new-password'
+import { forgotPassword } from '../controllers/user/forgot-password'
+import { resetPassword } from '../controllers/user/reset-password'
 import { logout } from '../controllers/user/logout'
 import { userData } from '../controllers/user/user-data'
 import { refreshAccessToken } from '../controllers/user/refresh-access-token'
@@ -18,15 +18,23 @@ import { verifyUserRole } from '../middlewares/verify-user-role'
 export function userRoutes(app: FastifyInstance) {
   app.post('/register', createUser)
   app.post('/login', authenticateUser)
-  app.post('/forgot-my-password', forgotMyPassword)
-  app.post('/new-password', newPassword)
+  app.post('/forgot-password', forgotPassword)
+  app.post('/reset-password', resetPassword)
   app.patch('/token/refresh', refreshAccessToken)
-  app.post('/turn-user-admin', { onRequest: [verifyJWT, verifyUserRole('ADMIN')] }, turnUserAdmin)
+  app.post(
+    '/turn-user-admin',
+    { onRequest: [verifyJWT, verifyUserRole('ADMIN')] },
+    turnUserAdmin,
+  )
 
   app.post('/logout', { onRequest: [verifyJWT] }, logout)
   app.get('/me', { onRequest: [verifyJWT] }, userData)
 
-  app.get('/users', { onRequest: [verifyJWT, verifyUserRole('ADMIN')] }, listUsers)
+  app.get(
+    '/users',
+    { onRequest: [verifyJWT, verifyUserRole('ADMIN')] },
+    listUsers,
+  )
   app.get('/users/cards', { onRequest: [verifyJWT] }, listUserCards)
   app.post('/users/cards', { onRequest: [verifyJWT] }, setUserCard)
   app.delete('/users/cards/:id', { onRequest: [verifyJWT] }, removeUserCard)
