@@ -88,37 +88,54 @@ export function Bandeiras() {
           </Flex>
         }
       >
-        <Table.Root variant="outline" showColumnBorder size="sm">
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeader textAlign="center">ID</Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="center">Nome</Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="center">
-                Logo URL
-              </Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="center">Admin</Table.ColumnHeader>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {bandeiras?.map((bandeira) => (
-              <Table.Row key={bandeira.id}>
-                <Table.Cell textAlign="center">{bandeira.id}</Table.Cell>
-                <Table.Cell textAlign="center">{bandeira.name}</Table.Cell>
-                <Table.Cell textAlign="center">{bandeira.logo_url}</Table.Cell>
-                <Table.Cell textAlign="center">
-                  <HStack justify="center" align="center">
-                    <Button onClick={() => handleUpdateBandeira(bandeira)}>
-                      Editar
-                    </Button>
-                    <Button onClick={() => handleDeleteBandeira(bandeira)}>
-                      Excluir
-                    </Button>
-                  </HStack>
-                </Table.Cell>
+        <Table.ScrollArea borderWidth={1} borderColor="brand.text">
+          <Table.Root
+            variant="outline"
+            showColumnBorder
+            size="sm"
+            color="brand.title"
+          >
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeader textAlign="center">ID</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">Nome</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
+                  Logo URL
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
+                  Admin
+                </Table.ColumnHeader>
               </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Root>
+            </Table.Header>
+            <Table.Body>
+              {bandeiras?.map((bandeira) => (
+                <Table.Row key={bandeira.id}>
+                  <Table.Cell textAlign="center">{bandeira.id}</Table.Cell>
+                  <Table.Cell textAlign="center">{bandeira.name}</Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {bandeira.logo_url}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    <HStack justify="center" align="center">
+                      <Button
+                        onClick={() => handleUpdateBandeira(bandeira)}
+                        size="sm"
+                      >
+                        Editar
+                      </Button>
+                      <Button
+                        onClick={() => handleDeleteBandeira(bandeira)}
+                        size="sm"
+                      >
+                        Excluir
+                      </Button>
+                    </HStack>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.Root>
+        </Table.ScrollArea>
       </Card>
       {createOrEditBandeiraDisclosure.open && (
         <CreateOrEditBandeiraModal

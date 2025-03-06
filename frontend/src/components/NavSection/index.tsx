@@ -26,7 +26,7 @@ export function NavSection({
   const IconProp = icon
 
   return (
-    <Box w="100%">
+    <Box>
       <ActiveSection
         to={to}
         isNavigateLink={isNavigateLink}
@@ -40,11 +40,11 @@ export function NavSection({
           }
           cursor={isDisabled ? 'not-allowed' : 'pointer'}
           userSelect="none"
-          _hover={isDisabled ? undefined : { color: 'purple.500' }}
+          _hover={isDisabled ? undefined : { color: 'brand.secondary' }}
           transition="all 0.2s"
           color={isDisabled ? 'base.label' : undefined}
         >
-          <Flex gap="2" px="2" align="center" w="full">
+          <Flex gap="2" px="2" align="center">
             <IconProp size={20} />
             {!iconOnly && (
               <Box

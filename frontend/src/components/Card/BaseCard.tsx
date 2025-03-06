@@ -10,14 +10,16 @@ export const BaseCard = forwardRef<HTMLDivElement, BaseCardProps>(
   ({ children, variant, ...rest }: BaseCardProps, ref) => {
     return (
       <Box
-        bg={variant === 'primary' ? 'gray.50' : 'gray.100'}
+        bg={
+          variant === 'primary' ? 'brand.background' : 'brand.text-transparent'
+        }
         {...(variant === 'secondary' && {
           borderRadius: 4,
         })}
         overflow="hidden"
         border={1}
         borderStyle="solid"
-        borderColor="gray.200"
+        borderColor="brand.text"
         display="flex"
         flexDirection="column"
         ref={ref}

@@ -1,4 +1,4 @@
-import { Box, Flex, useBreakpointValue } from '@chakra-ui/react'
+import { Center, Flex, Text, useBreakpointValue } from '@chakra-ui/react'
 
 import { useRef } from 'react'
 import { SidebarNav } from './SidebarNav'
@@ -8,6 +8,7 @@ import { FaComputer } from 'react-icons/fa6'
 import { FaSignOutAlt } from 'react-icons/fa'
 import { useAuth } from '@/contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import { Isotipo } from './Isotipo'
 
 export function Sidebar() {
   const navigate = useNavigate()
@@ -25,28 +26,42 @@ export function Sidebar() {
   }
 
   return (
-    <Box
+    <Flex
+      flexDir="column"
+      gap="6"
       as="aside"
       minW={isSidebarIconsOnly ? '22' : '52'}
       py="4"
       px="3"
-      bgColor="gray.50"
+      bgColor="brand.text-transparent"
+      borderRightColor="brand.text"
       borderRightWidth={1}
       borderStyle="solid"
       ref={sidebarRef}
     >
-      <Logo />
-      <Box my="6">
-        <Box as="strong" fontSize="sm" fontWeight="bold" color="purple.500">
-          Menu
-        </Box>
-      </Box>
+      <Center my="4">
+        <Logo maxW="32" hideBelow="md" />
+        <Isotipo maxW="8" hideFrom="md" />
+      </Center>
+      <Text
+        as="strong"
+        fontSize="sm"
+        fontWeight="bold"
+        color="brand.secondary"
+        textAlign={['center', 'center', 'left']}
+      >
+        Menu
+      </Text>
       <SidebarNav iconsOnly={!!isSidebarIconsOnly} />
-      <Box my="6">
-        <Box as="strong" fontSize="sm" fontWeight="bold" color="purple.500">
-          Opções
-        </Box>
-      </Box>
+      <Text
+        as="strong"
+        fontSize="sm"
+        fontWeight="bold"
+        color="brand.secondary"
+        textAlign={['center', 'center', 'left']}
+      >
+        Opções
+      </Text>
       <Flex flexDir="column" gap="4">
         <Button onClick={handleGoBackToApp}>
           {isSidebarIconsOnly ? <FaComputer /> : 'Voltar à Aplicação'}
@@ -55,6 +70,6 @@ export function Sidebar() {
           {isSidebarIconsOnly ? <FaSignOutAlt /> : 'Sair'}
         </Button>
       </Flex>
-    </Box>
+    </Flex>
   )
 }

@@ -41,10 +41,10 @@ export function DeleteCartaoModal({
   const footerButtons: ModalFooterButton[] = [
     {
       text: 'Excluir',
-      // colorScheme: 'primary',
       onClick: handleDeleteClick,
       // isLoading: form.formState.isSubmitting,
       loadingText: 'Excluindo',
+      bgColor: 'brand.danger',
     },
   ]
 

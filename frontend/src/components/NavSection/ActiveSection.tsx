@@ -27,18 +27,18 @@ export function ActiveSection({
   return isNavigateLink ? (
     <NavLink {...rest}>
       {cloneElement(children, {
-        color: isActive ? 'purple.500' : 'base.text',
+        color: isActive ? 'brand.secondary' : 'base.text',
         borderStartWidth: 4,
         borderStyle: 'solid',
-        borderColor: isActive ? 'purple.500' : 'transparent',
+        borderColor: isActive ? 'brand.secondary' : 'transparent',
       })}
     </NavLink>
   ) : (
     cloneElement(children, {
-      color: isActive ? 'purple.500' : 'base.text',
+      color: isActive ? 'brand.secondary' : 'base.text',
       borderStartWidth: 4,
       borderStyle: 'solid',
-      borderColor: isActive ? 'purple.500' : 'transparent',
+      borderColor: isActive ? 'brand.secondary' : 'transparent',
     })
   )
 }

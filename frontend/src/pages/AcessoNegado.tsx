@@ -1,4 +1,4 @@
-import { Box, Center, Icon } from '@chakra-ui/react'
+import { Center, Heading, Icon, Text } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MdBlock } from 'react-icons/md'
@@ -18,12 +18,12 @@ export function AcessoNegado() {
       <Icon fontSize="8xl" color="red.700">
         <MdBlock />
       </Icon>
-      <Box as="strong" color="purple.500" fontSize="5xl">
+      <Heading as="strong" color="brand.primary" fontSize="5xl">
         Acesso Negado!
-      </Box>
-      <Box as="p" fontSize="2xl" color="purple.500">
+      </Heading>
+      <Text as="p" fontSize="2xl" color="brand.primary">
         Redirecionando para a página inicial
-      </Box>
+      </Text>
     </Center>
   )
 }

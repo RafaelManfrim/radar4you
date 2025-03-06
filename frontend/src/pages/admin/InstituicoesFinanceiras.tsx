@@ -104,51 +104,66 @@ export function InstituicoesFinanceiras() {
           </Flex>
         }
       >
-        <Table.Root variant="outline" showColumnBorder size="sm">
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeader textAlign="center">ID</Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="center">Nome</Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="center">
-                Logo URL
-              </Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="center">Admin</Table.ColumnHeader>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {instituicoesFinanceiras?.map((instituicaoFinanceira) => (
-              <Table.Row key={instituicaoFinanceira.id}>
-                <Table.Cell textAlign="center">
-                  {instituicaoFinanceira.id}
-                </Table.Cell>
-                <Table.Cell textAlign="center">
-                  {instituicaoFinanceira.name}
-                </Table.Cell>
-                <Table.Cell textAlign="center">
-                  {instituicaoFinanceira.logo_url}
-                </Table.Cell>
-                <Table.Cell textAlign="center">
-                  <HStack justify="center" align="center">
-                    <Button
-                      onClick={() =>
-                        handleUpdateInstituicaoFinanceira(instituicaoFinanceira)
-                      }
-                    >
-                      Editar
-                    </Button>
-                    <Button
-                      onClick={() =>
-                        handleDeleteInstituicaoFinanceira(instituicaoFinanceira)
-                      }
-                    >
-                      Excluir
-                    </Button>
-                  </HStack>
-                </Table.Cell>
+        <Table.ScrollArea borderWidth={1} borderColor="brand.text">
+          <Table.Root
+            variant="outline"
+            showColumnBorder
+            size="sm"
+            color="brand.title"
+          >
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeader textAlign="center">ID</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">Nome</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
+                  Logo URL
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
+                  Admin
+                </Table.ColumnHeader>
               </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Root>
+            </Table.Header>
+            <Table.Body>
+              {instituicoesFinanceiras?.map((instituicaoFinanceira) => (
+                <Table.Row key={instituicaoFinanceira.id}>
+                  <Table.Cell textAlign="center">
+                    {instituicaoFinanceira.id}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {instituicaoFinanceira.name}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {instituicaoFinanceira.logo_url}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    <HStack justify="center" align="center">
+                      <Button
+                        size="sm"
+                        onClick={() =>
+                          handleUpdateInstituicaoFinanceira(
+                            instituicaoFinanceira,
+                          )
+                        }
+                      >
+                        Editar
+                      </Button>
+                      <Button
+                        size="sm"
+                        onClick={() =>
+                          handleDeleteInstituicaoFinanceira(
+                            instituicaoFinanceira,
+                          )
+                        }
+                      >
+                        Excluir
+                      </Button>
+                    </HStack>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.Root>
+        </Table.ScrollArea>
       </Card>
       {createOrEditInstituicaoFinanceiraDisclosure.open && (
         <CreateOrEditInstituicaoFinanceiraModal

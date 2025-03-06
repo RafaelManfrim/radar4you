@@ -123,66 +123,83 @@ export function Cartoes() {
           </Flex>
         }
       >
-        <Table.Root variant="outline" showColumnBorder size="sm">
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeader textAlign="center">ID</Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="center">Nome</Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="center">
-                Instituição Financeira
-              </Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="center">
-                Bandeira
-              </Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="center">
-                Taxa de Conversão
-              </Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="center">Admin</Table.ColumnHeader>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {cartoes?.map((cartao) => (
-              <Table.Row key={cartao.id}>
-                <Table.Cell textAlign="center">{cartao.id}</Table.Cell>
-                <Table.Cell textAlign="center">{cartao.title}</Table.Cell>
-                <Table.Cell textAlign="center">
-                  {cartao.financial_institution_name}
-                </Table.Cell>
-                <Table.Cell textAlign="center">
-                  {cartao.card_brand_name}
-                </Table.Cell>
-                <Table.Cell textAlign="center">
-                  {cartao.points_conversion_rate} ponto
-                  {cartao.points_conversion_rate !== 1 && 's'} /{' '}
-                  {getMoedaByCurrency(
-                    cartao.points_currency,
-                  ).toLocaleLowerCase()}
-                </Table.Cell>
-                <Table.Cell textAlign="center">
-                  <HStack justify="center" align="center">
-                    <Button onClick={() => handleUpdateCartao(cartao)}>
-                      Editar
-                    </Button>
-                    <Button onClick={() => handleDeleteCartao(cartao)}>
-                      Excluir
-                    </Button>
-                  </HStack>
-                </Table.Cell>
+        <Table.ScrollArea borderWidth={1} borderColor="brand.text">
+          <Table.Root
+            variant="outline"
+            showColumnBorder
+            size="sm"
+            color="brand.title"
+          >
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeader textAlign="center">ID</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">Nome</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
+                  Instituição Financeira
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
+                  Bandeira
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
+                  Taxa de Conversão
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
+                  Admin
+                </Table.ColumnHeader>
               </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Root>
+            </Table.Header>
+            <Table.Body>
+              {cartoes?.map((cartao) => (
+                <Table.Row key={cartao.id}>
+                  <Table.Cell textAlign="center">{cartao.id}</Table.Cell>
+                  <Table.Cell textAlign="center">{cartao.title}</Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {cartao.financial_institution_name}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {cartao.card_brand_name}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {cartao.points_conversion_rate} ponto
+                    {cartao.points_conversion_rate !== 1 && 's'} /{' '}
+                    {getMoedaByCurrency(
+                      cartao.points_currency,
+                    ).toLocaleLowerCase()}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    <HStack justify="center" align="center">
+                      <Button
+                        onClick={() => handleUpdateCartao(cartao)}
+                        size="sm"
+                      >
+                        Editar
+                      </Button>
+                      <Button
+                        onClick={() => handleDeleteCartao(cartao)}
+                        size="sm"
+                      >
+                        Excluir
+                      </Button>
+                    </HStack>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.Root>
+        </Table.ScrollArea>
       </Card>
-      {createOrEditCartaoDisclosure.open && bandeiras && instituicoesFinanceiras && (
-        <CreateOrEditCartaoModal
-          disclosure={createOrEditCartaoDisclosure}
-          onSave={onSaveCartao}
-          selectedCartao={selectedCartao || undefined}
-          bandeiras={bandeiras}
-          instituicoesFinanceiras={instituicoesFinanceiras}
-          moedas={moedas}
-        />
-      )}
+      {createOrEditCartaoDisclosure.open &&
+        bandeiras &&
+        instituicoesFinanceiras && (
+          <CreateOrEditCartaoModal
+            disclosure={createOrEditCartaoDisclosure}
+            onSave={onSaveCartao}
+            selectedCartao={selectedCartao || undefined}
+            bandeiras={bandeiras}
+            instituicoesFinanceiras={instituicoesFinanceiras}
+            moedas={moedas}
+          />
+        )}
 
       {deleteCartaoDisclosure.open && selectedCartao && (
         <DeleteCartaoModal

@@ -285,7 +285,7 @@ export function App() {
             fontSize="md"
             color="brand.title"
           >
-            Sujestão de Cartões (
+            Sugestão de Cartões (
             <Text as="span" fontSize="sm" color="brand.secondary">
               <Link to="/calculadora/cartoes">Ver todos</Link>
             </Text>

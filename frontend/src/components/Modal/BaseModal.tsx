@@ -47,15 +47,17 @@ export function BaseModal({
     <DialogRoot
       {...rest}
       open={open}
-      // onClose={onClose}
       onEscapeKeyDown={onClose}
       onInteractOutside={onClose}
+      size={size}
     >
-      <DialogContent>
+      <DialogContent className="dark" color="brand.title">
         {hasHeaderCloseButton && (
           <DialogCloseTrigger
             onClick={onClose}
             disabled={isDisabledHeaderCloseButton}
+            color="brand.text"
+            _hover={{ bgColor: 'brand.text-transparent' }}
           />
         )}
         <DialogHeader>
@@ -66,9 +68,10 @@ export function BaseModal({
           {hasFooterCloseButton && (
             <DialogActionTrigger asChild>
               <Button
-                variant="outline"
                 onClick={onClose}
                 disabled={isDisabledFooterCloseButton}
+                bgColor="brand.text-transparent"
+                color="brand.title"
               >
                 {closeButtonText}
               </Button>

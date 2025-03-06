@@ -45,9 +45,6 @@ export function AdminLayout() {
             pl={isExtendedVersion ? '4' : 0}
             gap="4"
             overflowX="auto"
-            borderTopWidth={1}
-            borderStyle="solid"
-            // borderColor="base.border"
             onMouseEnter={() => {
               if (!isDrawerSidebar && isExtendedVersion) {
                 toggleExtendedVersion({})

@@ -13,7 +13,7 @@ export function SidebarNav({ iconsOnly }: SidebarNavProps) {
   const { isAuthenticated } = useAuth()
 
   return (
-    <Stack gap="6" align="flex-start">
+    <Stack gap="6" align={['center', 'center', 'flex-start']}>
       {isAuthenticated ? (
         <>
           <NavSection

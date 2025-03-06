@@ -1,4 +1,4 @@
-import { Box, BoxProps, Flex } from '@chakra-ui/react'
+import { Box, BoxProps, Flex, Heading } from '@chakra-ui/react'
 import { ReactNode, useRef } from 'react'
 import { BaseCard } from './BaseCard'
 
@@ -32,14 +32,19 @@ export function Card({
           flexWrap="wrap"
           alignItems="center"
           minH={12}
-          bg="gray.100"
+          bg="brand.text-transparent"
           borderBottom={1}
-          borderBottomColor="gray.300"
+          borderBottomColor="brand.text"
           borderStyle="solid"
         >
-          <Box as="h2" fontSize={headerTitleSize} fontWeight="bold">
+          <Heading
+            as="h2"
+            fontSize={headerTitleSize}
+            fontWeight="bold"
+            color="brand.title"
+          >
             {headerTitle}
-          </Box>
+          </Heading>
           {/* <Skeleton isLoaded={!isLoading} flex={1}>
           </Skeleton> */}
 

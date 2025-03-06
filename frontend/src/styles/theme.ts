@@ -1,4 +1,134 @@
-import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react'
+import { tableAnatomy } from '@chakra-ui/react/anatomy'
+import {
+  createSystem,
+  defaultConfig,
+  defineConfig,
+  defineSlotRecipe,
+} from '@chakra-ui/react'
+
+const tableSlotRecipe = defineSlotRecipe({
+  slots: tableAnatomy.keys(),
+  base: {
+    root: {
+      fontVariantNumeric: 'lining-nums tabular-nums',
+      borderCollapse: 'collapse',
+      width: 'full',
+      textAlign: 'start',
+      verticalAlign: 'top',
+    },
+    row: {
+      _selected: {
+        bg: 'colorPalette.subtle',
+      },
+    },
+    cell: {
+      textAlign: 'start',
+      alignItems: 'center',
+      color: 'brand.title',
+    },
+    columnHeader: {
+      fontWeight: 'bold',
+      textAlign: 'start',
+      color: 'brand.title',
+    },
+    caption: {
+      fontWeight: 'medium',
+      textStyle: 'xs',
+    },
+    footer: {
+      fontWeight: 'medium',
+    },
+  },
+  variants: {
+    interactive: {
+      true: {
+        body: {
+          '& tr': {
+            _hover: {
+              bg: 'colorPalette.subtle',
+            },
+          },
+        },
+      },
+    },
+
+    stickyHeader: {
+      true: {
+        header: {
+          '& :where(tr)': {
+            top: 'var(--table-sticky-offset, 0)',
+            position: 'sticky',
+            zIndex: 1,
+          },
+        },
+      },
+    },
+
+    striped: {
+      true: {
+        row: {
+          '&:nth-of-type(odd) td': {
+            bg: 'bg.muted',
+          },
+        },
+      },
+    },
+    showColumnBorder: {
+      true: {
+        columnHeader: {
+          '&:not(:last-of-type)': {
+            borderInlineEndWidth: '1px',
+            borderColor: 'brand.text',
+          },
+        },
+        cell: {
+          '&:not(:last-of-type)': {
+            borderInlineEndWidth: '1px',
+            borderColor: 'brand.text',
+          },
+        },
+      },
+    },
+    variant: {
+      line: {
+        columnHeader: {
+          borderBottomWidth: '1px',
+          borderColor: 'brand.text',
+        },
+        cell: {
+          borderBottomWidth: '1px',
+          borderColor: 'brand.text',
+        },
+        row: {
+          bg: 'bg',
+        },
+      },
+
+      outline: {
+        root: {
+          boxShadow: '0 0 0 1px {colors.border}',
+          overflow: 'hidden',
+        },
+        columnHeader: {
+          borderBottomWidth: '1px',
+          borderColor: 'brand.text',
+        },
+        header: {
+          bg: 'brand.text-transparent',
+        },
+        row: {
+          '&:not(:last-of-type)': {
+            borderBottomWidth: '1px',
+            borderColor: 'brand.text',
+          },
+        },
+        footer: {
+          borderTopWidth: '1px',
+        },
+      },
+    },
+  },
+})
 
 const customConfig = defineConfig({
   globalCss: {
@@ -12,6 +142,9 @@ const customConfig = defineConfig({
     },
   },
   theme: {
+    slotRecipes: {
+      table: tableSlotRecipe,
+    },
     tokens: {
       fonts: {
         body: { value: 'Inter, sans-serif' },

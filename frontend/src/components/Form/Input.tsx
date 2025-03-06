@@ -14,7 +14,7 @@ export function Input(props: InputProps) {
       bgColor="brand.background"
       color="brand.title"
       _placeholder={{ color: 'brand.text' }}
-      borderColor="brand.text"
+      borderColor="brand.text-transparent"
       _focus={{ borderColor: 'brand.primary' }}
       {...props.register}
       {...props}
