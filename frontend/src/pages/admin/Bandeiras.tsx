@@ -3,8 +3,16 @@ import { CreateOrEditBandeiraModal } from '@/components/Modal/Bandeiras/CreateOr
 import { DeleteBandeiraModal } from '@/components/Modal/Bandeiras/DeleteBandeiraModal'
 import { Button } from '@/components/ui/button'
 import { api } from '@/lib/axios'
-import { Flex, HStack, Table, useDisclosure } from '@chakra-ui/react'
+import {
+  Flex,
+  HStack,
+  IconButton,
+  Table,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import { FaTrash } from 'react-icons/fa'
+import { FaPencil } from 'react-icons/fa6'
 
 export interface Bandeira {
   id: string
@@ -117,18 +125,40 @@ export function Bandeiras() {
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     <HStack justify="center" align="center">
-                      <Button
+                      <IconButton
+                        aria-label="Editar bandeira"
+                        size="xs"
+                        className="dark"
+                        variant="surface"
+                        bgColor="brand.primary"
+                        color="brand.title"
+                        borderWidth={0}
+                        ring="none"
+                        _hover={{
+                          filter: 'brightness(0.9)',
+                          transition: 'filter 0.2s ease',
+                        }}
                         onClick={() => handleUpdateBandeira(bandeira)}
-                        size="sm"
                       >
-                        Editar
-                      </Button>
-                      <Button
+                        <FaPencil />
+                      </IconButton>
+                      <IconButton
+                        aria-label="Excluir bandeira"
+                        size="xs"
+                        className="dark"
+                        variant="surface"
+                        bgColor="brand.danger"
+                        color="brand.title"
+                        borderWidth={0}
+                        ring="none"
+                        _hover={{
+                          filter: 'brightness(0.9)',
+                          transition: 'filter 0.2s ease',
+                        }}
                         onClick={() => handleDeleteBandeira(bandeira)}
-                        size="sm"
                       >
-                        Excluir
-                      </Button>
+                        <FaTrash />
+                      </IconButton>
                     </HStack>
                   </Table.Cell>
                 </Table.Row>

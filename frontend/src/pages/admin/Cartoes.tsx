@@ -2,12 +2,20 @@ import { Card } from '@/components/Card'
 import { DeleteCartaoModal } from '@/components/Modal/Cartoes/DeleteCartaoModal'
 import { Button } from '@/components/ui/button'
 import { api } from '@/lib/axios'
-import { Flex, HStack, Table, useDisclosure } from '@chakra-ui/react'
+import {
+  Flex,
+  HStack,
+  IconButton,
+  Table,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { Bandeira } from './Bandeiras'
 import { InstituicaoFinanceira } from './InstituicoesFinanceiras'
 import { CreateOrEditCartaoModal } from '@/components/Modal/Cartoes/CreateOrEditCartaoModal'
 import { getMoedaByCurrency } from '@/utils/getMoedaByCurrency'
+import { FaPencil } from 'react-icons/fa6'
+import { FaTrash } from 'react-icons/fa'
 
 export interface Cartao {
   id: string
@@ -168,18 +176,40 @@ export function Cartoes() {
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     <HStack justify="center" align="center">
-                      <Button
+                      <IconButton
+                        aria-label="Editar cartão"
+                        size="xs"
+                        className="dark"
+                        variant="surface"
+                        bgColor="brand.primary"
+                        color="brand.title"
+                        borderWidth={0}
+                        ring="none"
+                        _hover={{
+                          filter: 'brightness(0.9)',
+                          transition: 'filter 0.2s ease',
+                        }}
                         onClick={() => handleUpdateCartao(cartao)}
-                        size="sm"
                       >
-                        Editar
-                      </Button>
-                      <Button
+                        <FaPencil />
+                      </IconButton>
+                      <IconButton
+                        aria-label="Excluir cartão"
+                        size="xs"
+                        className="dark"
+                        variant="surface"
+                        bgColor="brand.danger"
+                        color="brand.title"
+                        borderWidth={0}
+                        ring="none"
+                        _hover={{
+                          filter: 'brightness(0.9)',
+                          transition: 'filter 0.2s ease',
+                        }}
                         onClick={() => handleDeleteCartao(cartao)}
-                        size="sm"
                       >
-                        Excluir
-                      </Button>
+                        <FaTrash />
+                      </IconButton>
                     </HStack>
                   </Table.Cell>
                 </Table.Row>

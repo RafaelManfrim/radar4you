@@ -3,8 +3,16 @@ import { CreateOrEditInstituicaoFinanceiraModal } from '@/components/Modal/Insti
 import { DeleteInstituicaoFinanceiraModal } from '@/components/Modal/InstituicoesFinanceiras/DeleteInstituicaoFinanceiraModal'
 import { Button } from '@/components/ui/button'
 import { api } from '@/lib/axios'
-import { Flex, HStack, Table, useDisclosure } from '@chakra-ui/react'
+import {
+  Flex,
+  HStack,
+  IconButton,
+  Table,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import { FaTrash } from 'react-icons/fa'
+import { FaPencil } from 'react-icons/fa6'
 
 export interface InstituicaoFinanceira {
   id: string
@@ -137,26 +145,48 @@ export function InstituicoesFinanceiras() {
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     <HStack justify="center" align="center">
-                      <Button
-                        size="sm"
+                      <IconButton
+                        aria-label="Editar instituição financeira"
+                        size="xs"
+                        className="dark"
+                        variant="surface"
+                        bgColor="brand.primary"
+                        color="brand.title"
+                        borderWidth={0}
+                        ring="none"
+                        _hover={{
+                          filter: 'brightness(0.9)',
+                          transition: 'filter 0.2s ease',
+                        }}
                         onClick={() =>
                           handleUpdateInstituicaoFinanceira(
                             instituicaoFinanceira,
                           )
                         }
                       >
-                        Editar
-                      </Button>
-                      <Button
-                        size="sm"
+                        <FaPencil />
+                      </IconButton>
+                      <IconButton
+                        aria-label="Excluir instituição financeira"
+                        size="xs"
+                        className="dark"
+                        variant="surface"
+                        bgColor="brand.danger"
+                        color="brand.title"
+                        borderWidth={0}
+                        ring="none"
+                        _hover={{
+                          filter: 'brightness(0.9)',
+                          transition: 'filter 0.2s ease',
+                        }}
                         onClick={() =>
                           handleDeleteInstituicaoFinanceira(
                             instituicaoFinanceira,
                           )
                         }
                       >
-                        Excluir
-                      </Button>
+                        <FaTrash />
+                      </IconButton>
                     </HStack>
                   </Table.Cell>
                 </Table.Row>
