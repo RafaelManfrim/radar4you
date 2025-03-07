@@ -195,7 +195,14 @@ export function Cartoes() {
 
   return (
     <Flex w="full" justify="center" p="6">
-      <Flex justify="start" align="start" gap="4" w="full" maxW={1280}>
+      <Flex
+        justify="start"
+        align="start"
+        gap="4"
+        w="full"
+        maxW={1280}
+        flexDir={['column', 'column', 'row']}
+      >
         <VStack
           align="start"
           p="4"
@@ -203,8 +210,12 @@ export function Cartoes() {
           borderColor="brand.text"
           borderRadius="md"
           gap="4"
+          w="full"
+          maxW={['none', 'none', '250px']}
         >
-          <Heading color="brand.title">Filtros</Heading>
+          <Heading color="brand.title" alignSelf="center" mb="1">
+            Filtros
+          </Heading>
           <Filters
             title="Bandeiras"
             values={bandeirasFilter}
@@ -228,7 +239,9 @@ export function Cartoes() {
             borderRadius="md"
             gap="2"
           >
-            <Heading color="brand.title">Meus Cartões</Heading>
+            <Heading color="brand.title" mb="1">
+              Meus Cartões
+            </Heading>
             <Show
               when={!isLoading}
               children={cartoesUsuario?.map((cartao) => (
@@ -265,7 +278,9 @@ export function Cartoes() {
             borderRadius="md"
             gap="2"
           >
-            <Heading color="brand.title">Cartões</Heading>
+            <Heading color="brand.title" mb="1">
+              Mais Cartões
+            </Heading>
             <Show
               when={!isLoading}
               children={filteredCards.map((cartao) => (

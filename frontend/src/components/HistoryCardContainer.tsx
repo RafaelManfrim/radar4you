@@ -1,6 +1,7 @@
-import { Box, Flex, Heading, Text, VStack } from '@chakra-ui/react'
+import { Box, Flex, Heading, IconButton, Text, VStack } from '@chakra-ui/react'
 import { Simulacao } from '@/pages/History'
 import { HistoryCard } from './HistoryCard'
+import { FaTrash } from 'react-icons/fa'
 
 interface HistoryCardContainerProps {
   simulacao: Simulacao
@@ -15,8 +16,9 @@ export function HistoryCardContainer({
     <VStack
       key={simulacao.id}
       bgColor="brand.text-transparent"
-      p="2"
       borderRadius="sm"
+      py="3"
+      px="4"
       w="full"
     >
       <Flex
@@ -25,32 +27,38 @@ export function HistoryCardContainer({
         borderBottomWidth={1}
         borderColor="brand.background"
         pb="2"
+        align="center"
       >
-        <Heading fontSize="md" color="brand.title">
-          <Heading as="strong" fontSize="md">
-            Tipo:{' '}
+        <Flex align="start" flexDir="column">
+          <Heading as="strong" fontSize="md" color="brand.secondary">
             {simulacao.simulation_type === 'purchase'
               ? 'Pontos por Compra'
               : simulacao.simulation_type === 'monthly_spending'
                 ? 'Encontrar Gasto Mensal'
-                : 'Descobrir Tempo Necessário'}{' '}
+                : 'Descobrir Tempo Necessário'}
           </Heading>
-          ({new Date(simulacao.created_at).toLocaleString()})
-        </Heading>
+          <Text fontSize="sm" color="brand.text">
+            {new Date(simulacao.created_at).toLocaleString()}
+          </Text>
+        </Flex>
 
-        <Text
-          cursor="pointer"
-          textAlign="right"
-          color="brand.danger"
+        <IconButton
+          aria-label="Remover dos meus cartões"
+          size="xs"
+          className="dark"
+          variant="surface"
+          bgColor="brand.danger"
+          color="brand.title"
+          borderWidth={0}
+          ring="none"
           _hover={{
             filter: 'brightness(0.9)',
-            transition: '0.2s ease',
-            textDecoration: 'underline',
+            transition: 'filter 0.2s ease',
           }}
           onClick={() => onDeleteSimulacao(simulacao.id)}
         >
-          Excluir
-        </Text>
+          <FaTrash />
+        </IconButton>
       </Flex>
 
       <Flex align="start" justify="start" w="full" color="brand.title">
