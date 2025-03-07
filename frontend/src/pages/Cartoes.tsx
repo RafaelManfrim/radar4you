@@ -10,6 +10,7 @@ import { InstituicaoFinanceira } from './admin/InstituicoesFinanceiras'
 import { CartaoCard } from '@/components/CartaoCard'
 import { CheckedChangeDetails } from 'node_modules/@chakra-ui/react/dist/types/components/checkbox/namespace'
 import { Skeleton } from '@/components/ui/skeleton'
+import { NoItemsMessageCard } from './NoItemsMessageCard'
 
 export interface UserCard {
   id: string
@@ -31,6 +32,33 @@ export function Cartoes() {
   const [instituicoesFinanceirasFilter, setInstituicoesFinanceirasFilter] =
     useState<FilterValue[]>([])
 
+  const filteredCards =
+    cartoes
+      ?.filter((card) =>
+        cartoesUsuario?.every((userCard) => userCard.card_id !== card.id),
+      )
+      .filter((card) => {
+        if (bandeirasFilter.some((value) => value.checked)) {
+          const bandeiraFilter = bandeirasFilter.find(
+            (filter) => filter.value === card.card_brand_id,
+          )
+          if (!bandeiraFilter?.checked) {
+            return false
+          }
+        }
+
+        if (instituicoesFinanceirasFilter.some((value) => value.checked)) {
+          const instituicaoFilter = instituicoesFinanceirasFilter.find(
+            (filter) => filter.value === card.financial_institution_id,
+          )
+          if (!instituicaoFilter?.checked) {
+            return false
+          }
+        }
+
+        return true
+      }) ?? []
+
   const isLoading =
     !cartoes || !cartoesUsuario || !bandeiras || !instituicoesFinanceiras
 
@@ -41,7 +69,7 @@ export function Cartoes() {
   }
 
   function handleItemBandeiraClick(e: CheckedChangeDetails, index: number) {
-    setInstituicoesFinanceirasFilter((current) => {
+    setBandeirasFilter((current) => {
       const newValues = [...current]
       newValues[index] = { ...newValues[index], checked: !!e.checked }
       return newValues
@@ -240,21 +268,15 @@ export function Cartoes() {
             <Heading color="brand.title">Cartões</Heading>
             <Show
               when={!isLoading}
-              children={cartoes
-                ?.filter((card) =>
-                  cartoesUsuario?.every(
-                    (userCard) => userCard.card_id !== card.id,
-                  ),
-                )
-                .map((cartao) => (
-                  <CartaoCard
-                    key={cartao.id}
-                    userCards={cartoesUsuario ?? []}
-                    card={cartao}
-                    onAddToMyCards={handleSetUserCard}
-                    onRemoveFromMyCards={handleRemoveUserCard}
-                  />
-                ))}
+              children={filteredCards.map((cartao) => (
+                <CartaoCard
+                  key={cartao.id}
+                  userCards={cartoesUsuario ?? []}
+                  card={cartao}
+                  onAddToMyCards={handleSetUserCard}
+                  onRemoveFromMyCards={handleRemoveUserCard}
+                />
+              ))}
               fallback={Array.from({ length: 10 }, (_, i) => i).map(
                 (_, index) => (
                   <Skeleton
@@ -267,6 +289,9 @@ export function Cartoes() {
                 ),
               )}
             />
+            {filteredCards.length === 0 && (
+              <NoItemsMessageCard message="Nenhum cartão encontrado com os filtros selecionados" />
+            )}
           </VStack>
         </VStack>
       </Flex>
