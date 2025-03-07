@@ -33,7 +33,6 @@ export function ForgotMyPassword() {
         title: 'Houve um erro',
         description:
           'Erro ao solicitar a recuperação de senha, por favor, tente novamente mais tarde',
-        duration: 3000,
       })
     }
   }

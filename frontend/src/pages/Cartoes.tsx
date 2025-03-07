@@ -11,6 +11,8 @@ import { CartaoCard } from '@/components/CartaoCard'
 import { CheckedChangeDetails } from 'node_modules/@chakra-ui/react/dist/types/components/checkbox/namespace'
 import { Skeleton } from '@/components/ui/skeleton'
 import { NoItemsMessageCard } from './NoItemsMessageCard'
+import axios from 'axios'
+import { toaster } from '@/components/ui/toaster'
 
 export interface UserCard {
   id: string
@@ -108,8 +110,15 @@ export function Cartoes() {
 
         return [...current, card]
       })
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
+
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        return toaster.create({
+          title: 'Houve um erro',
+          description: error.response.data.message,
+        })
+      }
     }
   }
 

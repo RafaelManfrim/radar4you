@@ -44,7 +44,6 @@ export function Login() {
         return toaster.create({
           title: 'Houve um erro',
           description: error.response.data.message,
-          duration: 3000,
         })
       }
 
@@ -52,7 +51,6 @@ export function Login() {
         title: 'Houve um erro',
         description:
           'Erro ao fazer login, por favor, tente novamente mais tarde',
-        duration: 3000,
       })
     }
   }
@@ -67,7 +65,6 @@ export function Login() {
         return toaster.create({
           title: 'Houve um erro',
           description: error.response.data.message,
-          duration: 3000,
         })
       }
 
@@ -75,7 +72,6 @@ export function Login() {
         title: 'Houve um erro',
         description:
           'Erro ao fazer login, por favor, tente novamente mais tarde',
-        duration: 3000,
       })
     }
   }

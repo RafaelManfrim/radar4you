@@ -39,7 +39,6 @@ export function NewPassword() {
       toaster.create({
         title: 'Senha alterada com sucesso',
         description: 'Sua senha foi alterada com sucesso, faça login',
-        duration: 3000,
       })
 
       navigate('/login')
@@ -50,7 +49,6 @@ export function NewPassword() {
         title: 'Houve um erro',
         description:
           'Erro ao trocar a senha, por favor, tente novamente mais tarde',
-        duration: 3000,
       })
     }
   }

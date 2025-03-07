@@ -87,7 +87,6 @@ export function History() {
         description:
           'Ocorreu um erro ao deletar a simulação, tente novamente mais tarde.',
         type: 'error',
-        duration: 3000,
       })
     }
   }
@@ -105,7 +104,6 @@ export function History() {
           description:
             'Ocorreu um erro ao buscar as simulações, tente novamente mais tarde.',
           type: 'error',
-          duration: 3000,
         })
       }
     }

@@ -90,7 +90,6 @@ export function App() {
         description:
           'Você já selecionou o limite de 3 cartões para uma simulação.',
         type: 'info',
-        duration: 2000,
       })
     }
 
@@ -130,7 +129,6 @@ export function App() {
         title: 'Ops!',
         description: 'Selecione pelo menos 1 cartão para simular.',
         type: 'info',
-        duration: 2000,
       })
     }
 
@@ -170,7 +168,6 @@ export function App() {
       title: 'Sucesso!',
       description: 'Sua simulação foi realizada com sucesso.',
       type: 'success',
-      duration: 2000,
     })
   }
 
