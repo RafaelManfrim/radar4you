@@ -17,7 +17,7 @@ export async function deleteCardBrand(
 
   if (!cardBrand) {
     return reply.status(404).send({
-      message: 'Card brand not found',
+      message: 'Bandeira de cartão não encontrada',
     })
   }
 

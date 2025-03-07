@@ -19,7 +19,7 @@ export async function deleteFinancialInstitution(
 
   if (!financialInstitution) {
     return reply.status(404).send({
-      message: 'Card brand not found',
+      message: 'Instituição financeira não encontrada',
     })
   }
 

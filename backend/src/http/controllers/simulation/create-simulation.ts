@@ -61,27 +61,39 @@ export async function createSimulation(
 
   // Se não tiver a cotação do dolar, busca a última cotação disponível na API externa e salvar no banco de dados
   if (!dollar_quotes || dollarQuotesIsOutdated) {
-    console.log('Fetching dollar quotes')
-    dollar_quotes = (
-      await fetch('https://economia.awesomeapi.com.br/last/USD-BRL')
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Failed to fetch dollar quotes')
-          }
+    try {
+      const response = await fetch(
+        'https://economia.awesomeapi.com.br/last/USD-BRL',
+      )
 
-          return response.json()
+      if (!response.ok) {
+        throw new Error('Failed to fetch dollar quotes')
+      }
+
+      const data = await response.json()
+
+      const exchange_rate = data.USDBRL.bid
+
+      dollar_quotes = (
+        await knex('dollar_quotes')
+          .insert({
+            id: randomUUID(),
+            exchange_rate,
+            retrieved_at: new Date(),
+          })
+          .returning('*')
+      )[0]
+    } catch (error) {
+      console.log(error)
+
+      if (!dollar_quotes) {
+        return reply.status(500).send({
+          message: 'Cotação do dólar indisponível',
         })
-        .then((data) => {
-          const exchange_rate = data.USDBRL.bid
-          return knex('dollar_quotes')
-            .insert({
-              id: randomUUID(),
-              exchange_rate,
-              retrieved_at: new Date(),
-            })
-            .returning('*')
-        })
-    )[0]
+      }
+
+      // Usar cotação do dolar mais antiga
+    }
   }
 
   const simulationsCardsReturn = await knex('simulation_cards')

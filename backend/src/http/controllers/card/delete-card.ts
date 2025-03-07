@@ -17,7 +17,9 @@ export async function deleteCard(request: FastifyRequest, reply: FastifyReply) {
     .first()
 
   if (!card) {
-    return reply.status(404).send()
+    return reply.status(404).send({
+      message: 'Cartão não encontrado',
+    })
   }
 
   await knex('cards').where('id', id).delete()

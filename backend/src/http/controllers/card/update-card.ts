@@ -33,7 +33,9 @@ export async function updateCard(request: FastifyRequest, reply: FastifyReply) {
     .first()
 
   if (!card) {
-    return reply.status(404).send()
+    return reply.status(404).send({
+      message: 'Cartão não encontrado',
+    })
   }
 
   const updateCardReturn = await knex('cards')

@@ -7,7 +7,7 @@ export async function userData(request: FastifyRequest, reply: FastifyReply) {
 
   if (!user) {
     return reply.status(400).send({
-      message: 'User not found',
+      message: 'Usuário não encontrado',
     })
   }
 

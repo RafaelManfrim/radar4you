@@ -14,7 +14,7 @@ export async function getCard(request: FastifyRequest, reply: FastifyReply) {
 
   if (!card) {
     return reply.status(404).send({
-      message: 'Card not found',
+      message: 'Cartão não encontrado',
     })
   }
 

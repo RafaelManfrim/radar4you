@@ -22,7 +22,7 @@ export async function setUserCard(
 
   if (userCards.length >= 3) {
     return reply.status(400).send({
-      error: 'Você já atingiu o limite de 3 cartões',
+      message: 'Você já atingiu o limite de 3 cartões',
     })
   }
 
