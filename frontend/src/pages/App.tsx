@@ -11,7 +11,7 @@ import { Input } from '@/components/Form/Input'
 import { api } from '@/lib/axios'
 import { Cartao } from './admin/Cartoes'
 import { UserCard } from './Cartoes'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toaster } from '@/components/ui/toaster'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -40,17 +40,27 @@ const tipos = [
 ]
 
 const tipo1Schema = z.object({
-  valorGasto: z.number(),
+  valorGasto: z.union([
+    z.coerce.number().min(0.01, 'Informe o valor'),
+    z.literal(''),
+  ]),
 })
 
 const tipo2Schema = z.object({
-  pontos: z.number(),
-  meses: z.number(),
+  // pontos: z.coerce.number().min(1, 'Informe o valor'),
+  // meses: z.coerce.number().min(1, 'Informe o valor'),
+  pontos: z.union([z.coerce.number().min(1, 'Informe o valor'), z.literal('')]),
+  meses: z.union([z.coerce.number().min(1, 'Informe o valor'), z.literal('')]),
 })
 
 const tipo3Schema = z.object({
-  pontos: z.number(),
-  gastoMensal: z.number(),
+  // pontos: z.coerce.number().min(1, 'Informe o valor'),
+  // gastoMensal: z.coerce.number().min(0.01, 'Informe o valor'),
+  pontos: z.union([z.coerce.number().min(1, 'Informe o valor'), z.literal('')]),
+  gastoMensal: z.union([
+    z.coerce.number().min(0.01, 'Informe o valor'),
+    z.literal(''),
+  ]),
 })
 
 type Tipo1FormType = z.infer<typeof tipo1Schema>
@@ -67,15 +77,28 @@ export function App() {
 
   const tipo1Form = useForm<Tipo1FormType>({
     resolver: zodResolver(tipo1Schema),
+    defaultValues: {
+      valorGasto: '',
+    },
   })
 
   const tipo2Form = useForm<Tipo2FormType>({
     resolver: zodResolver(tipo2Schema),
+    defaultValues: {
+      pontos: '',
+      meses: '',
+    },
   })
 
   const tipo3Form = useForm<Tipo3FormType>({
     resolver: zodResolver(tipo3Schema),
+    defaultValues: {
+      pontos: '',
+      gastoMensal: '',
+    },
   })
+
+  const navigate = useNavigate()
 
   const cardsWithoutUserCards = cartoes?.filter((card) =>
     cartoesUsuario?.every((userCard) => userCard.card_id !== card.id),
@@ -132,43 +155,58 @@ export function App() {
       })
     }
 
-    if (tipo === 1 && isTipo1Form(data)) {
-      await api.post('simulations', {
-        cards_ids: selectedCards.map((card) => card.id),
-        simulation_type: 'purchase',
-        amount: data.valorGasto,
+    try {
+      if (tipo === 1 && isTipo1Form(data)) {
+        await api.post('simulations', {
+          cards_ids: selectedCards.map((card) => card.id),
+          simulation_type: 'purchase',
+          amount: data.valorGasto,
+        })
+
+        tipo1Form.reset()
+      }
+
+      if (tipo === 2 && isTipo2Form(data)) {
+        await api.post('simulations', {
+          cards_ids: selectedCards.map((card) => card.id),
+          simulation_type: 'monthly_spending',
+          desired_points: data.pontos,
+          months: data.meses,
+        })
+
+        tipo2Form.reset()
+      }
+
+      if (tipo === 3 && isTipo3Form(data)) {
+        api.post('simulations', {
+          cards_ids: selectedCards.map((card) => card.id),
+          simulation_type: 'period',
+          desired_points: data.pontos,
+          monthly_spending: data.gastoMensal,
+        })
+
+        tipo3Form.reset()
+      }
+
+      setSelectedCards([])
+
+      toaster.create({
+        title: 'Sucesso!',
+        description: 'Sua simulação foi realizada com sucesso.',
+        type: 'success',
+        action: {
+          label: 'Visualizar',
+          onClick: () => navigate('/calculadora/historico'),
+        },
       })
-
-      tipo1Form.reset()
-    }
-
-    if (tipo === 2 && isTipo2Form(data)) {
-      await api.post('simulations', {
-        cards_ids: selectedCards.map((card) => card.id),
-        simulation_type: 'monthly_spending',
-        desired_points: data.pontos,
-        months: data.meses,
+    } catch (err) {
+      console.log(err)
+      toaster.create({
+        title: 'Ops!',
+        description: 'Ocorreu um erro ao realizar a simulação.',
+        type: 'error',
       })
-
-      tipo2Form.reset()
     }
-
-    if (tipo === 3 && isTipo3Form(data)) {
-      api.post('simulations', {
-        cards_ids: selectedCards.map((card) => card.id),
-        simulation_type: 'period',
-        desired_points: data.pontos,
-        monthly_spending: data.gastoMensal,
-      })
-
-      tipo3Form.reset()
-    }
-
-    toaster.create({
-      title: 'Sucesso!',
-      description: 'Sua simulação foi realizada com sucesso.',
-      type: 'success',
-    })
   }
 
   useEffect(() => {
@@ -194,6 +232,12 @@ export function App() {
     fetchCartoes()
     fetchCartoesUsuario()
   }, [])
+
+  useEffect(() => {
+    tipo1Form.reset()
+    tipo2Form.reset()
+    tipo3Form.reset()
+  }, [tipo])
 
   return (
     <div>
@@ -334,7 +378,6 @@ export function App() {
                 <Input
                   register={tipo1Form.register('valorGasto', {
                     required: 'Informe o valor gasto',
-                    valueAsNumber: true,
                   })}
                 />
               </Field>
@@ -364,7 +407,6 @@ export function App() {
                 <Input
                   register={tipo2Form.register('pontos', {
                     required: 'Informe a quantidade de pontos',
-                    valueAsNumber: true,
                   })}
                 />
               </Field>
@@ -378,7 +420,6 @@ export function App() {
                 <Input
                   register={tipo2Form.register('meses', {
                     required: 'Informe a quantidade de meses',
-                    valueAsNumber: true,
                   })}
                 />
               </Field>
@@ -408,7 +449,6 @@ export function App() {
                 <Input
                   register={tipo3Form.register('pontos', {
                     required: 'Informe a quantidade de pontos',
-                    valueAsNumber: true,
                   })}
                 />
               </Field>
@@ -422,7 +462,6 @@ export function App() {
                 <Input
                   register={tipo3Form.register('gastoMensal', {
                     required: 'Informe o gasto mensal',
-                    valueAsNumber: true,
                   })}
                 />
               </Field>

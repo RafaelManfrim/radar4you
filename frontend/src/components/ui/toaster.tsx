@@ -37,7 +37,9 @@ export const Toaster = () => {
               )}
             </Stack>
             {toast.action && (
-              <Toast.ActionTrigger>{toast.action.label}</Toast.ActionTrigger>
+              <Toast.ActionTrigger cursor="pointer">
+                {toast.action.label}
+              </Toast.ActionTrigger>
             )}
             {toast.meta?.closable && <Toast.CloseTrigger />}
           </Toast.Root>
