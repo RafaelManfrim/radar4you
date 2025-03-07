@@ -1,8 +1,11 @@
-import { Flex, IconButton, Text } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
+import { useState } from 'react'
 
 import { Cartao } from '@/pages/admin/Cartoes'
-import { FaPlus, FaTrash } from 'react-icons/fa'
 import { UserCard } from '@/pages/Cartoes'
+
+import { RemoveWithConfirmationPopoverButton } from './RemoveWithConfirmationPopoverButton'
+import { AddWithConfirmationPopoverButton } from './AddWithConfirmationPopoverButton'
 
 interface CartaoCardProps {
   card: Cartao
@@ -17,6 +20,9 @@ export function CartaoCard({
   onAddToMyCards,
   onRemoveFromMyCards,
 }: CartaoCardProps) {
+  const [removeConfirmationOpen, setRemoveConfirmationOpen] = useState(false)
+  const [addConfirmationOpen, setAddConfirmationOpen] = useState(false)
+
   const userCard = userCards.find((userCard) => userCard.card_id === card.id)
 
   return (
@@ -30,41 +36,37 @@ export function CartaoCard({
     >
       <Text color="brand.title">{card.title}</Text>
       {userCard ? (
-        <IconButton
-          aria-label="Remover dos meus cartões"
-          size="xs"
-          className="dark"
-          variant="surface"
-          bgColor="brand.danger"
-          color="brand.title"
-          borderWidth={0}
-          ring="none"
-          _hover={{
-            filter: 'brightness(0.9)',
-            transition: 'filter 0.2s ease',
-          }}
-          onClick={() => onRemoveFromMyCards(userCard.id)}
-        >
-          <FaTrash />
-        </IconButton>
+        <RemoveWithConfirmationPopoverButton
+          open={removeConfirmationOpen}
+          onOpenChange={(e) => setRemoveConfirmationOpen(e.open)}
+          buttonAriaLabel="Remover dos meus cartões"
+          onRemove={() => onRemoveFromMyCards(userCard.id)}
+          popoverContent={
+            <Text color="brand.title" fontSize="sm" textAlign="center">
+              Tem certeza que deseja remover o cartão{' '}
+              <Text as="span" color="brand.secondary">
+                {card.title}
+              </Text>{' '}
+              dos seus cartões?
+            </Text>
+          }
+        />
       ) : (
-        <IconButton
-          aria-label="Adicionar aos meus cartões"
-          size="xs"
-          className="dark"
-          variant="surface"
-          bgColor="brand.primary"
-          color="brand.title"
-          borderWidth={0}
-          ring="none"
-          _hover={{
-            filter: 'brightness(0.9)',
-            transition: 'filter 0.2s ease',
-          }}
-          onClick={() => onAddToMyCards(card.id)}
-        >
-          <FaPlus />
-        </IconButton>
+        <AddWithConfirmationPopoverButton
+          open={addConfirmationOpen}
+          onOpenChange={(e) => setAddConfirmationOpen(e.open)}
+          buttonAriaLabel="Adicionar aos meus cartões"
+          onAdd={() => onAddToMyCards(card.id)}
+          popoverContent={
+            <Text color="brand.title" fontSize="sm" textAlign="center">
+              Tem certeza que deseja adicionar o cartão{' '}
+              <Text as="span" color="brand.secondary">
+                {card.title}
+              </Text>{' '}
+              aos seus cartões?
+            </Text>
+          }
+        />
       )}
     </Flex>
   )

@@ -15,7 +15,7 @@ export const PopoverContent = React.forwardRef<
   return (
     <Portal disabled={!portalled} container={portalRef}>
       <ChakraPopover.Positioner>
-        <ChakraPopover.Content ref={ref} {...rest} />
+        <ChakraPopover.Content className="dark" ref={ref} {...rest} />
       </ChakraPopover.Positioner>
     </Portal>
   )

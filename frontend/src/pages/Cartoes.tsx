@@ -278,6 +278,9 @@ export function Cartoes() {
                 ),
               )}
             />
+            {cartoesUsuario?.length === 0 && (
+              <NoItemsMessageCard message="Você ainda não possui cartões selecionados" />
+            )}
           </VStack>
           <VStack
             w="full"
