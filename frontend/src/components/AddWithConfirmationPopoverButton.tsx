@@ -63,6 +63,7 @@ export function AddWithConfirmationPopoverButton({
                 filter: 'brightness(0.9)',
                 transition: 'filter 0.2s ease',
               }}
+              onClick={() => onOpenChange({ open: false })}
             >
               Cancelar
             </Button>

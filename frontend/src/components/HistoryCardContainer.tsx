@@ -1,7 +1,8 @@
-import { Box, Flex, Heading, IconButton, Text, VStack } from '@chakra-ui/react'
+import { Box, Flex, Heading, Text, VStack } from '@chakra-ui/react'
 import { Simulacao } from '@/pages/History'
 import { HistoryCard } from './HistoryCard'
-import { FaTrash } from 'react-icons/fa'
+import { RemoveWithConfirmationPopoverButton } from './RemoveWithConfirmationPopoverButton'
+import { useState } from 'react'
 
 interface HistoryCardContainerProps {
   simulacao: Simulacao
@@ -12,6 +13,8 @@ export function HistoryCardContainer({
   simulacao,
   onDeleteSimulacao,
 }: HistoryCardContainerProps) {
+  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
+
   return (
     <VStack
       key={simulacao.id}
@@ -42,23 +45,17 @@ export function HistoryCardContainer({
           </Text>
         </Flex>
 
-        <IconButton
-          aria-label="Remover dos meus cartões"
-          size="xs"
-          className="dark"
-          variant="surface"
-          bgColor="brand.danger"
-          color="brand.title"
-          borderWidth={0}
-          ring="none"
-          _hover={{
-            filter: 'brightness(0.9)',
-            transition: 'filter 0.2s ease',
-          }}
-          onClick={() => onDeleteSimulacao(simulacao.id)}
-        >
-          <FaTrash />
-        </IconButton>
+        <RemoveWithConfirmationPopoverButton
+          buttonAriaLabel="Excluir simulação"
+          popoverContent={
+            <Text color="brand.title" fontSize="sm" textAlign="center">
+              Tem certeza que deseja excluir a simulação?
+            </Text>
+          }
+          onRemove={() => onDeleteSimulacao(simulacao.id)}
+          onOpenChange={(e) => setDeleteConfirmationOpen(e.open)}
+          open={deleteConfirmationOpen}
+        />
       </Flex>
 
       <Flex align="start" justify="start" w="full" color="brand.title">
