@@ -26,9 +26,16 @@ export interface SignInData {
 
 export interface User {
   id: string
+  firebase_uid: string | null
   email: string
   first_name: string
+  login_provider: 'google' | 'facebook' | 'email'
+  accepted_terms_at: number
+  is_email_notifications_enabled: boolean
+  profile_picture_url: string | null
   role: 'USER' | 'ADMIN'
+  created_at: number
+  updated_at: number
 }
 
 type Tokens = {

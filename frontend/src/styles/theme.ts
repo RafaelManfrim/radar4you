@@ -164,6 +164,7 @@ const customConfig = defineConfig({
           background: { value: '#0d0d0e' },
           title: { value: '#ffffff' },
           text: { value: '#7e7d9a' },
+          'text-light': { value: '#9291ae' },
           'text-transparent': { value: '#7e7d9a33' },
           danger: { value: '#ad1d27' },
           success: { value: '#00C851' },

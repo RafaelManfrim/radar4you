@@ -10,8 +10,8 @@ import { AddWithConfirmationPopoverButton } from './AddWithConfirmationPopoverBu
 interface CartaoCardProps {
   card: Cartao
   userCards: UserCard[]
-  onAddToMyCards: (cardId: string) => void
-  onRemoveFromMyCards: (userCardId: string) => void
+  onAddToMyCards?: (cardId: string) => void
+  onRemoveFromMyCards?: (userCardId: string) => void
 }
 
 export function CartaoCard({
@@ -35,7 +35,7 @@ export function CartaoCard({
       w="full"
     >
       <Text color="brand.title">{card.title}</Text>
-      {userCard ? (
+      {userCard && onRemoveFromMyCards ? (
         <RemoveWithConfirmationPopoverButton
           open={removeConfirmationOpen}
           onOpenChange={(e) => setRemoveConfirmationOpen(e.open)}
@@ -52,21 +52,23 @@ export function CartaoCard({
           }
         />
       ) : (
-        <AddWithConfirmationPopoverButton
-          open={addConfirmationOpen}
-          onOpenChange={(e) => setAddConfirmationOpen(e.open)}
-          buttonAriaLabel="Adicionar aos meus cartões"
-          onAdd={() => onAddToMyCards(card.id)}
-          popoverContent={
-            <Text color="brand.title" fontSize="sm" textAlign="center">
-              Tem certeza que deseja adicionar o cartão{' '}
-              <Text as="span" color="brand.secondary">
-                {card.title}
-              </Text>{' '}
-              aos seus cartões?
-            </Text>
-          }
-        />
+        onAddToMyCards && (
+          <AddWithConfirmationPopoverButton
+            open={addConfirmationOpen}
+            onOpenChange={(e) => setAddConfirmationOpen(e.open)}
+            buttonAriaLabel="Adicionar aos meus cartões"
+            onAdd={() => onAddToMyCards(card.id)}
+            popoverContent={
+              <Text color="brand.title" fontSize="sm" textAlign="center">
+                Tem certeza que deseja adicionar o cartão{' '}
+                <Text as="span" color="brand.secondary">
+                  {card.title}
+                </Text>{' '}
+                aos seus cartões?
+              </Text>
+            }
+          />
+        )
       )}
     </Flex>
   )
