@@ -14,6 +14,7 @@ import { setUserCard } from '../controllers/user-card/set-user-card'
 import { removeUserCard } from '../controllers/user-card/remove-user-card'
 import { listUsers } from '../controllers/user/list-users'
 import { verifyUserRole } from '../middlewares/verify-user-role'
+import { changePassword } from '../controllers/user/change-password'
 
 export function userRoutes(app: FastifyInstance) {
   app.post('/register', createUser)
@@ -21,14 +22,15 @@ export function userRoutes(app: FastifyInstance) {
   app.post('/forgot-password', forgotPassword)
   app.post('/reset-password', resetPassword)
   app.patch('/token/refresh', refreshAccessToken)
-  app.post(
-    '/turn-user-admin',
-    { onRequest: [verifyJWT, verifyUserRole('ADMIN')] },
-    turnUserAdmin,
-  )
 
   app.post('/logout', { onRequest: [verifyJWT] }, logout)
   app.get('/me', { onRequest: [verifyJWT] }, userData)
+
+  app.patch(
+    '/users/change-password',
+    { onRequest: [verifyJWT] },
+    changePassword,
+  )
 
   app.get(
     '/users',
@@ -38,4 +40,10 @@ export function userRoutes(app: FastifyInstance) {
   app.get('/users/cards', { onRequest: [verifyJWT] }, listUserCards)
   app.post('/users/cards', { onRequest: [verifyJWT] }, setUserCard)
   app.delete('/users/cards/:id', { onRequest: [verifyJWT] }, removeUserCard)
+
+  app.post(
+    '/turn-user-admin',
+    { onRequest: [verifyJWT, verifyUserRole('ADMIN')] },
+    turnUserAdmin,
+  )
 }

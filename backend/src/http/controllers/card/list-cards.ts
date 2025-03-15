@@ -21,6 +21,7 @@ export async function listCards(_: FastifyRequest, reply: FastifyReply) {
         card_brand_logo_url: 'card_brands.logo_url',
       },
     )
+    .orderBy('financial_institutions.name', 'asc')
 
   return reply.send({
     cards,

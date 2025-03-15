@@ -74,15 +74,7 @@
 - [x] Listagem de Simulações
 - [ ] Habilitar recebimento de avisos via e-mail
 
-### Feedback e Melhorias Visuais
-
-### Testes
-
-### Deploy
-
-### Teste Em Produção
-
-### Desenvolvimento Restante
+### Melhorias
 
 Tela Inicial:
 
@@ -99,12 +91,12 @@ Tela Cartões:
 Tela Histórico:
 
 - [ ] Será implementado um filtro de período
-- [ ] Jogar a data para cima
+- [x] Jogar a data para cima
 - [ ] Mostrar cotação do dólar utilizada na simulação
 
 Tela Perfil:
 
-- [ ] Funcionalidade de alterar senha será ativada (ainda não está efetivamente alterando)
+- [x] Funcionalidade de alterar senha
 - [ ] A visualização dos cartões receberá mais detalhes
 - [ ] Implementar notificações de e-mail por tipo
 - [ ] Implementar e-mail para recebimento de notificações
@@ -114,7 +106,7 @@ Tela Admin:
 - [ ] Será adicionado novos campos na entidade do cartão
 - [ ] Fazer admin poder colocar um cartão em destaque (aparecerá como sugestão na tela principal)
 - [ ] Adicionar Ágio na Instituição Financeira (refazer os cálculos de simulação)
-- [ ] Ordernar Cartões por Instituição Financeira
+- [x] Ordernar Cartões por Instituição Financeira
 
 Funcionalidade de Esqueci Minha Senha:
 

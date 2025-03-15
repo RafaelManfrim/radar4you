@@ -73,7 +73,17 @@ export function Cartoes() {
           return [...prevCartoes]
         }
 
-        return [...prevCartoes, cartao]
+        return [...prevCartoes, cartao].sort((a, b) => {
+          if (a.financial_institution_name > b.financial_institution_name) {
+            return 1
+          }
+
+          if (a.financial_institution_name < b.financial_institution_name) {
+            return -1
+          }
+
+          return 0
+        })
       }
 
       return [cartao]

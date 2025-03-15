@@ -26,6 +26,8 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormContainer } from '@/components/FormContainer'
 import { Input } from '@/components/Form/Input'
+import { toaster } from '@/components/ui/toaster'
+import axios from 'axios'
 
 const changePasswordSchema = z
   .object({
@@ -88,10 +90,33 @@ export function Profile() {
 
   async function handleChangePassword(data: ChangePasswordFormData) {
     try {
-      // await api.post('users/change-password', data)
-      console.log(data)
+      await api.patch('/users/change-password', {
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+      })
+
+      changePasswordForm.reset()
+
+      toaster.create({
+        title: 'Senha alterada com sucesso',
+        type: 'success',
+      })
     } catch (err) {
       console.log(err)
+
+      if (axios.isAxiosError(err) && err.response?.status === 400) {
+        toaster.create({
+          title: 'Erro ao alterar a senha',
+          type: 'error',
+          description: err.response.data.message,
+        })
+      }
+
+      toaster.create({
+        title: 'Erro ao alterar a senha',
+        type: 'error',
+        description: 'Ocorreu um erro ao tentar alterar a senha',
+      })
     }
   }
 

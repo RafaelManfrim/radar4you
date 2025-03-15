@@ -32,15 +32,19 @@ export function HistoryCardContainer({
         pb="2"
         align="center"
       >
-        <Flex align="start" flexDir="column">
-          <Heading as="strong" fontSize="md" color="brand.secondary">
+        <Flex
+          align={['start', 'center']}
+          flexDir={['column', 'row']}
+          gap={[0, '2']}
+        >
+          <Heading as="strong" fontSize={['sm', 'md']} color="brand.secondary">
             {simulacao.simulation_type === 'purchase'
               ? 'Pontos por Compra'
               : simulacao.simulation_type === 'monthly_spending'
                 ? 'Encontrar Gasto Mensal'
                 : 'Descobrir Tempo Necessário'}
           </Heading>
-          <Text fontSize="sm" color="brand.text">
+          <Text as="span" fontSize="xs" color="brand.text" mt={[0, '1']}>
             {new Date(simulacao.created_at).toLocaleString()}
           </Text>
         </Flex>
@@ -58,7 +62,13 @@ export function HistoryCardContainer({
         />
       </Flex>
 
-      <Flex align="start" justify="start" w="full" color="brand.title">
+      <Flex
+        align="start"
+        justify="start"
+        w="full"
+        color="brand.title"
+        fontSize={['sm', 'md']}
+      >
         {simulacao.simulation_type === 'purchase' ? (
           <Box>
             <Text as="span">Gasto</Text>{' '}

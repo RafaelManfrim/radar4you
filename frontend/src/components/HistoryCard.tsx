@@ -16,8 +16,10 @@ export function HistoryCard({ simulationCard, simulacao }: HistoryCardProps) {
       bgColor="brand.background"
       w="full"
       justify="space-between"
+      fontSize={['sm', 'md']}
+      flexDir={['column', 'row']}
     >
-      <Box>
+      <Flex flexDir={['column', 'row']}>
         <Text as="strong" color="brand.title">
           {simulationCard.card.title}{' '}
         </Text>
@@ -29,7 +31,7 @@ export function HistoryCard({ simulationCard, simulacao }: HistoryCardProps) {
           ).toLocaleLowerCase()}
           )
         </Text>
-      </Box>
+      </Flex>
       <Box color="brand.title">
         {simulacao.simulation_type === 'purchase' ? (
           <Box>
