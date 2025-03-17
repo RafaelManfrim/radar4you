@@ -30,6 +30,10 @@ export interface Cartao {
   financial_institution_logo_url: string | null
   card_brand_name: string
   card_brand_logo_url: string | null
+  is_recommended: boolean
+  annual_fee?: number
+  benefits?: string
+  vip_lounges?: string
 }
 
 export function Cartoes() {
@@ -162,6 +166,18 @@ export function Cartoes() {
                   Taxa de Conversão
                 </Table.ColumnHeader>
                 <Table.ColumnHeader textAlign="center">
+                  Recomendado
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
+                  Anuidade
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
+                  Benefícios
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
+                  Salas VIP
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
                   Admin
                 </Table.ColumnHeader>
               </Table.Row>
@@ -183,6 +199,26 @@ export function Cartoes() {
                     {getMoedaByCurrency(
                       cartao.points_currency,
                     ).toLocaleLowerCase()}
+                  </Table.Cell>
+                  <Table.Cell
+                    textAlign="center"
+                    {...(cartao.is_recommended && {
+                      // bgColor: 'brand.primary',
+                      color: 'brand.secondary',
+                    })}
+                  >
+                    {cartao.is_recommended ? 'Sim' : 'Não'}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {cartao.annual_fee
+                      ? `R$ ${cartao.annual_fee.toFixed(2)}`
+                      : 'Grátis'}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {cartao.benefits || '-'}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {cartao.vip_lounges || '-'}
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     <HStack justify="center" align="center">

@@ -15,10 +15,11 @@ export async function updateFinancialInstitution(
 
   const updateFinancialInstitutionBodySchema = z.object({
     name: z.string().nonempty(),
+    markup: z.number().nonnegative().optional(),
     logo_url: z.string().optional(),
   })
 
-  const { name, logo_url } = updateFinancialInstitutionBodySchema.parse(
+  const { name, markup, logo_url } = updateFinancialInstitutionBodySchema.parse(
     request.body,
   )
 
@@ -36,6 +37,7 @@ export async function updateFinancialInstitution(
     .where({ id })
     .update({
       name,
+      markup,
       logo_url,
       updated_at: new Date(),
     })

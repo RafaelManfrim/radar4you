@@ -29,9 +29,14 @@ export async function listSimulations(
                 .where('id', simulationCard.card_id)
                 .first()
 
+              const financialInstitution = await knex('financial_institutions')
+                .where('id', card?.financial_institution_id)
+                .first()
+
               return {
                 ...simulationCard,
                 card,
+                financialInstitution,
               }
             }),
           ),

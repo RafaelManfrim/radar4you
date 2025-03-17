@@ -11,6 +11,7 @@ import { InstituicaoFinanceira } from '@/pages/admin/InstituicoesFinanceiras'
 
 const schema = z.object({
   name: z.string().nonempty('O nome é obrigatório'),
+  markup: z.union([z.coerce.number().nonnegative(), z.literal('')]).optional(),
   logo_url: z.string().optional(),
 })
 
@@ -37,6 +38,7 @@ export function CreateOrEditInstituicaoFinanceiraModal({
     resolver: zodResolver(schema),
     defaultValues: {
       name: selectedInstituicaoFinanceira?.name ?? '',
+      markup: selectedInstituicaoFinanceira?.markup ?? '',
       logo_url: selectedInstituicaoFinanceira?.logo_url ?? '',
     },
   })
@@ -112,6 +114,14 @@ export function CreateOrEditInstituicaoFinanceiraModal({
               required: 'O nome é obrigatório',
             })}
           />
+        </Field>
+
+        <Field
+          label="Ágio"
+          invalid={!!form.formState.errors.markup}
+          errorText={form.formState.errors.markup?.message}
+        >
+          <Input register={form.register('markup')} />
         </Field>
 
         <Field

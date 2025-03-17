@@ -10,10 +10,11 @@ export async function createFinancialInstitution(
 ) {
   const createFinancialInstitutionBodySchema = z.object({
     name: z.string().nonempty(),
+    markup: z.number().nonnegative().optional(),
     logo_url: z.string().optional(),
   })
 
-  const { name, logo_url } = createFinancialInstitutionBodySchema.parse(
+  const { name, markup, logo_url } = createFinancialInstitutionBodySchema.parse(
     request.body,
   )
 
@@ -22,6 +23,7 @@ export async function createFinancialInstitution(
       id: randomUUID(),
       name,
       logo_url,
+      markup,
       created_at: new Date(),
       updated_at: new Date(),
     })

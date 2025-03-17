@@ -38,6 +38,7 @@ declare module 'knex/types/tables' {
     id: string
     name: string
     logo_url?: string
+    markup: number
     created_at: Date
     updated_at: Date
   }
@@ -50,6 +51,10 @@ declare module 'knex/types/tables' {
     financial_institution_id: string
     points_currency: 'USD' | 'BRL'
     points_conversion_rate: number
+    is_recommended: boolean
+    annual_fee?: number
+    benefits?: string
+    vip_lounges?: string
     created_at: Date
     updated_at: Date
   }
@@ -58,6 +63,7 @@ declare module 'knex/types/tables' {
     id: string
     user_id: string
     card_id: string
+    is_favorite: boolean
     created_at: Date
     updated_at: Date
   }
@@ -73,9 +79,11 @@ declare module 'knex/types/tables' {
     user_id: string
     simulation_type: 'purchase' | 'monthly_spending' | 'period'
     amount: number
+    product: string
     desired_points: number
     monthly_spending: number
     months: number
+    exchange_rate?: number
     created_at: Date
     updated_at: Date
   }

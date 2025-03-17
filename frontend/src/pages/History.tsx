@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Flex, VStack, Heading, Show } from '@chakra-ui/react'
+import { Flex, VStack, Heading, Show, RadioGroup, Text } from '@chakra-ui/react'
 
 import { toaster } from '@/components/ui/toaster'
 
@@ -9,17 +9,16 @@ import { HistoryCardContainer } from '@/components/HistoryCardContainer'
 import { Filters, FilterValue } from '@/components/Filters'
 import { CheckedChangeDetails } from 'node_modules/@chakra-ui/react/dist/types/components/checkbox/namespace'
 import { NoItemsMessageCard } from './NoItemsMessageCard'
+import { Cartao } from './admin/Cartoes'
+import { InstituicaoFinanceira } from './admin/InstituicoesFinanceiras'
 
 export type SimulationCard = {
   id: string
-  card: {
-    title: string
-    points_conversion_rate: number
-    points_currency: string
-  }
   earned_points?: number
   required_spending?: number
   required_months?: number
+  card: Cartao
+  financialInstitution: InstituicaoFinanceira
 }
 
 export type Simulacao = {
@@ -27,24 +26,26 @@ export type Simulacao = {
   simulation_type: string
   created_at: string
   amount?: number
+  product?: string
   desired_points?: number
   months?: number
   monthly_spending?: number
+  exchange_rate?: number
   simulationCards: SimulationCard[]
 }
 
-// const periodFilterOptions = createListCollection({
-//   items: [
-//     { value: '', label: 'Todas' },
-//     { value: '7d', label: 'Últimos 7 dias' },
-//     { value: '30d', label: 'Últimos 30 dias' },
-//     { value: '90d', label: 'Últimos 90 dias' },
-//   ],
-// })
+const periodFilterOptions = [
+  { value: '', label: 'Todas' },
+  { value: '7', label: 'Últimos 7 dias' },
+  { value: '15', label: 'Últimos 15 dias' },
+  { value: '30', label: 'Últimos 30 dias' },
+  { value: '60', label: 'Últimos 60 dias' },
+  { value: '90', label: 'Últimos 90 dias' },
+]
 
 export function History() {
   const [simulacoes, setSimulacoes] = useState<Simulacao[]>()
-  // const [periodFilterValue, setPeriodFilterValue] = useState<string[]>([''])
+  const [periodFilterValue, setPeriodFilterValue] = useState<string>('')
   const [typesFilter, setTypesFilter] = useState<FilterValue[]>([
     { value: 'purchase', label: 'Pontos por Compra', checked: false },
     {
@@ -121,6 +122,24 @@ export function History() {
       }
     }
 
+    if (periodFilterValue) {
+      const periodFilter = periodFilterOptions.find(
+        (option) => option.value === periodFilterValue,
+      )
+      if (!periodFilter) {
+        return false
+      }
+
+      const periodDate = new Date()
+      periodDate.setDate(periodDate.getDate() - parseInt(periodFilter.value))
+
+      const simulationDate = new Date(simulacao.created_at)
+
+      if (simulationDate < periodDate) {
+        return false
+      }
+    }
+
     return true
   })
 
@@ -142,7 +161,7 @@ export function History() {
           borderRadius="md"
           gap="4"
           w="full"
-          maxW={['none', 'none', '250px']}
+          maxW={['none', 'none', '300px']}
         >
           <Heading color="brand.title" alignSelf="center" mb="1">
             Filtros
@@ -153,6 +172,32 @@ export function History() {
             onRootClick={handleRootTypesClick}
             onItemClick={handleItemTypeClick}
           />
+          <Flex flexDir="column" gap="2">
+            <Text as="span" color="brand.title">
+              Período
+            </Text>
+            <RadioGroup.Root
+              colorPalette="brand"
+              defaultValue=""
+              value={periodFilterValue}
+              onValueChange={(e) => setPeriodFilterValue(e.value)}
+            >
+              <VStack gap="2" align="start">
+                {periodFilterOptions.map((item) => (
+                  <RadioGroup.Item
+                    key={item.value}
+                    value={item.value}
+                    ms="6"
+                    cursor="pointer"
+                  >
+                    <RadioGroup.ItemHiddenInput />
+                    <RadioGroup.ItemIndicator />
+                    <RadioGroup.ItemText>{item.label}</RadioGroup.ItemText>
+                  </RadioGroup.Item>
+                ))}
+              </VStack>
+            </RadioGroup.Root>
+          </Flex>
         </VStack>
         <VStack
           w="full"

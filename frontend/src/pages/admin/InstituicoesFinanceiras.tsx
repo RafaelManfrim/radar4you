@@ -17,6 +17,7 @@ import { FaPencil } from 'react-icons/fa6'
 export interface InstituicaoFinanceira {
   id: string
   name: string
+  markup?: number
   logo_url: string
   created_at: string
   updated_at: string
@@ -123,6 +124,7 @@ export function InstituicoesFinanceiras() {
               <Table.Row>
                 <Table.ColumnHeader textAlign="center">ID</Table.ColumnHeader>
                 <Table.ColumnHeader textAlign="center">Nome</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">Ágio</Table.ColumnHeader>
                 <Table.ColumnHeader textAlign="center">
                   Logo URL
                 </Table.ColumnHeader>
@@ -139,6 +141,12 @@ export function InstituicoesFinanceiras() {
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     {instituicaoFinanceira.name}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {Intl.NumberFormat('pt-BR', {
+                      style: 'percent',
+                      minimumFractionDigits: 2,
+                    }).format((instituicaoFinanceira.markup ?? 0) / 100)}
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     {instituicaoFinanceira.logo_url}

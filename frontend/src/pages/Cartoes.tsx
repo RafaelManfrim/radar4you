@@ -18,6 +18,7 @@ export interface UserCard {
   id: string
   user_id: string
   card_id: string
+  is_favorite: boolean
   created_at: number
   updated_at: number
 }
@@ -109,6 +110,35 @@ export function Cartoes() {
         }
 
         return [...current, card]
+      })
+    } catch (error) {
+      console.log(error)
+
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        return toaster.create({
+          title: 'Houve um erro',
+          description: error.response.data.message,
+        })
+      }
+    }
+  }
+
+  async function handleFavoriteCard(userCardId: string) {
+    try {
+      await api.patch(`users/cards/${userCardId}`)
+
+      setCartoesUsuario((current) => {
+        if (!current) {
+          return []
+        }
+
+        return current.map((userCard) => {
+          if (userCard.id === userCardId) {
+            return { ...userCard, is_favorite: !userCard.is_favorite }
+          }
+
+          return userCard
+        })
       })
     } catch (error) {
       console.log(error)
@@ -264,6 +294,7 @@ export function Cartoes() {
                   }
                   onAddToMyCards={handleSetUserCard}
                   onRemoveFromMyCards={handleRemoveUserCard}
+                  onToggleFavorite={handleFavoriteCard}
                 />
               ))}
               fallback={Array.from({ length: 3 }, (_, i) => i).map(

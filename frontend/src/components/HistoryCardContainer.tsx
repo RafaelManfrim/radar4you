@@ -62,48 +62,81 @@ export function HistoryCardContainer({
         />
       </Flex>
 
-      <Flex
-        align="start"
-        justify="start"
-        w="full"
-        color="brand.title"
-        fontSize={['sm', 'md']}
-      >
-        {simulacao.simulation_type === 'purchase' ? (
-          <Box>
-            <Text as="span">Gasto</Text>{' '}
+      <Flex w="full" justify="space-between" align="start">
+        <Flex
+          align="start"
+          justify="start"
+          w="full"
+          color="brand.title"
+          fontSize={['sm', 'md']}
+        >
+          {simulacao.simulation_type === 'purchase' ? (
+            <Box>
+              <Text as="span">Gasto</Text>{' '}
+              <Text as="span" fontWeight="semibold" color="brand.secondary">
+                {Intl.NumberFormat('pt-BR', {
+                  currency: 'BRL',
+                  style: 'currency',
+                }).format(simulacao.amount || 0)}
+              </Text>
+              {simulacao.product && (
+                <Text
+                  as="span"
+                  color="brand.text"
+                  display={['block', 'inline']}
+                >
+                  {' '}
+                  ({simulacao.product})
+                </Text>
+              )}
+            </Box>
+          ) : simulacao.simulation_type === 'monthly_spending' ? (
+            <Box>
+              <Text as="span">Desejados </Text>
+              <Text as="span" fontWeight="semibold" color="brand.secondary">
+                {simulacao.desired_points}
+              </Text>{' '}
+              <Text as="span">Pontos em </Text>
+              <Text as="span" fontWeight="semibold" color="brand.secondary">
+                {simulacao.months} {simulacao.months === 1 ? 'mês' : 'meses'}
+              </Text>
+            </Box>
+          ) : (
+            <Box>
+              <Text as="span">Desejados </Text>
+              <Text as="span" fontWeight="semibold" color="brand.secondary">
+                {simulacao.desired_points}
+              </Text>{' '}
+              <Text as="span">Pontos com Gasto Mensal de </Text>
+              <Text as="span" fontWeight="semibold" color="brand.secondary">
+                {Intl.NumberFormat('pt-BR', {
+                  currency: 'BRL',
+                  style: 'currency',
+                }).format(simulacao.monthly_spending || 0)}
+              </Text>
+            </Box>
+          )}
+        </Flex>
+        {simulacao.simulationCards.some(
+          (simulationCard) => simulationCard.card.points_currency === 'USD',
+        ) && (
+          <Flex
+            flexDir={['column', 'row']}
+            align={['end', 'center']}
+            justify="end"
+            w="full"
+            color="brand.title"
+            fontSize={['sm', 'md']}
+            gap={[0, '1']}
+          >
+            <Text as="span">Dólar: </Text>
             <Text as="span" fontWeight="semibold" color="brand.secondary">
               {Intl.NumberFormat('pt-BR', {
-                currency: 'BRL',
                 style: 'currency',
-              }).format(simulacao.amount || 0)}
-            </Text>
-          </Box>
-        ) : simulacao.simulation_type === 'monthly_spending' ? (
-          <Box>
-            <Text as="span">Desejados </Text>
-            <Text as="span" fontWeight="semibold" color="brand.secondary">
-              {simulacao.desired_points}
-            </Text>{' '}
-            <Text as="span">Pontos em </Text>
-            <Text as="span" fontWeight="semibold" color="brand.secondary">
-              {simulacao.months} {simulacao.months === 1 ? 'mês' : 'meses'}
-            </Text>
-          </Box>
-        ) : (
-          <Box>
-            <Text as="span">Desejados </Text>
-            <Text as="span" fontWeight="semibold" color="brand.secondary">
-              {simulacao.desired_points}
-            </Text>{' '}
-            <Text as="span">Pontos com Gasto Mensal de </Text>
-            <Text as="span" fontWeight="semibold" color="brand.secondary">
-              {Intl.NumberFormat('pt-BR', {
                 currency: 'BRL',
-                style: 'currency',
-              }).format(simulacao.monthly_spending || 0)}
+              }).format(simulacao.exchange_rate ?? 0)}
             </Text>
-          </Box>
+          </Flex>
         )}
       </Flex>
       <VStack gap="2" w="full">

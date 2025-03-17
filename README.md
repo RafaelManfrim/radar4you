@@ -79,33 +79,33 @@
 Tela Inicial:
 
 - [ ] Aprimorar Design
-- [ ] Implementar rota de sugestão de cartões
-- [ ] Fazer cartões favoritos serem selecionados automaticamente
+- [x] Implementar rota de sugestão de cartões
+- [x] Fazer cartão favorito ser selecionado automaticamente
 - [ ] Mostrar cotação do dólar utilizada na simulação
 
 Tela Cartões:
 
 - [ ] Serão mostradas mais informações relativas aos cartões
-- [ ] Botão para favoritar um cartão
+- [x] Botão para favoritar um cartão
 
 Tela Histórico:
 
-- [ ] Será implementado um filtro de período
-- [x] Jogar a data para cima
-- [ ] Mostrar cotação do dólar utilizada na simulação
+- [x] Filtro de Período
+- [x] Reposicionar data
+- [x] Mostrar cotação do dólar utilizada na simulação
 
 Tela Perfil:
 
 - [x] Funcionalidade de alterar senha
 - [ ] A visualização dos cartões receberá mais detalhes
 - [ ] Implementar notificações de e-mail por tipo
-- [ ] Implementar e-mail para recebimento de notificações
+- [ ] Implementar e-mail customizado para recebimento de notificações
 
 Tela Admin:
 
-- [ ] Será adicionado novos campos na entidade do cartão
-- [ ] Fazer admin poder colocar um cartão em destaque (aparecerá como sugestão na tela principal)
-- [ ] Adicionar Ágio na Instituição Financeira (refazer os cálculos de simulação)
+- [x] Será adicionado novos campos na entidade do cartão
+- [x] Fazer admin poder colocar um cartão em destaque (aparecerá como sugestão na tela principal)
+- [x] Adicionar Ágio na Instituição Financeira (refazer os cálculos de simulação)
 - [x] Ordernar Cartões por Instituição Financeira
 
 Funcionalidade de Esqueci Minha Senha:

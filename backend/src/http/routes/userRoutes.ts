@@ -15,6 +15,7 @@ import { removeUserCard } from '../controllers/user-card/remove-user-card'
 import { listUsers } from '../controllers/user/list-users'
 import { verifyUserRole } from '../middlewares/verify-user-role'
 import { changePassword } from '../controllers/user/change-password'
+import { toggleFavoriteUserCard } from '../controllers/user-card/favorite-user-card'
 
 export function userRoutes(app: FastifyInstance) {
   app.post('/register', createUser)
@@ -39,6 +40,11 @@ export function userRoutes(app: FastifyInstance) {
   )
   app.get('/users/cards', { onRequest: [verifyJWT] }, listUserCards)
   app.post('/users/cards', { onRequest: [verifyJWT] }, setUserCard)
+  app.patch(
+    '/users/cards/:id',
+    { onRequest: [verifyJWT] },
+    toggleFavoriteUserCard,
+  )
   app.delete('/users/cards/:id', { onRequest: [verifyJWT] }, removeUserCard)
 
   app.post(

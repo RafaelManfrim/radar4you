@@ -11,6 +11,10 @@ export async function createCard(request: FastifyRequest, reply: FastifyReply) {
     brand_id: z.string().uuid().nonempty(),
     points_conversion_rate: z.number().positive(),
     points_currency: z.enum(['USD', 'BRL']),
+    is_recommended: z.boolean().optional(),
+    annual_fee: z.number().nonnegative().optional(),
+    benefits: z.string().optional(),
+    vip_lounges: z.string().optional(),
   })
 
   const {
@@ -19,6 +23,10 @@ export async function createCard(request: FastifyRequest, reply: FastifyReply) {
     brand_id,
     points_conversion_rate,
     points_currency,
+    is_recommended,
+    annual_fee,
+    benefits,
+    vip_lounges,
   } = createCardBodySchema.parse(request.body)
 
   const createCardReturn = await knex('cards')
@@ -29,6 +37,10 @@ export async function createCard(request: FastifyRequest, reply: FastifyReply) {
       financial_institution_id,
       points_currency,
       points_conversion_rate,
+      is_recommended,
+      annual_fee,
+      benefits,
+      vip_lounges,
       created_at: new Date(),
       updated_at: new Date(),
     })

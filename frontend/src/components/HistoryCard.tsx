@@ -19,11 +19,11 @@ export function HistoryCard({ simulationCard, simulacao }: HistoryCardProps) {
       fontSize={['sm', 'md']}
       flexDir={['column', 'row']}
     >
-      <Flex flexDir={['column', 'row']}>
+      <Flex flexDir={['column', 'row']} gap={[0, '1']}>
         <Text as="strong" color="brand.title">
-          {simulationCard.card.title}{' '}
+          {simulationCard.card.title}
         </Text>
-        <Text as="span" color="brand.text">
+        <Text as="span" color="brand.secondary">
           ({simulationCard.card.points_conversion_rate} ponto
           {simulationCard.card.points_conversion_rate !== 1 && 's'} /{' '}
           {getMoedaByCurrency(
@@ -31,6 +31,14 @@ export function HistoryCard({ simulationCard, simulacao }: HistoryCardProps) {
           ).toLocaleLowerCase()}
           )
         </Text>
+        {simulationCard.card.points_currency === 'USD' && (
+          <Text as="span" color="brand.text">
+            Ágio:{' '}
+            {Intl.NumberFormat('pt-BR', {
+              style: 'percent',
+            }).format((simulationCard.financialInstitution.markup ?? 0) / 100)}
+          </Text>
+        )}
       </Flex>
       <Box color="brand.title">
         {simulacao.simulation_type === 'purchase' ? (

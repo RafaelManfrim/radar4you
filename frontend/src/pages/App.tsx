@@ -17,6 +17,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CalculatorCard } from '@/components/CalculatorCard'
+import { Simulacao } from './History'
 
 const tipos = [
   {
@@ -44,6 +45,7 @@ const tipo1Schema = z.object({
     z.coerce.number().min(0.01, 'Informe o valor'),
     z.literal(''),
   ]),
+  produto: z.string().optional(),
 })
 
 const tipo2Schema = z.object({
@@ -71,9 +73,12 @@ export function App() {
   const [tipo, setTipo] = useState(1)
 
   const [cartoes, setCartoes] = useState<Cartao[]>()
+  const [cartoesSugeridos, setCartoesSugeridos] = useState<Cartao[]>()
   const [cartoesUsuario, setCartoesUsuario] = useState<UserCard[]>()
 
   const [selectedCards, setSelectedCards] = useState<Cartao[]>([])
+
+  const [simulationResponse, setSimulationResponse] = useState<Simulacao>()
 
   const tipo1Form = useForm<Tipo1FormType>({
     resolver: zodResolver(tipo1Schema),
@@ -100,7 +105,7 @@ export function App() {
 
   const navigate = useNavigate()
 
-  const cardsWithoutUserCards = cartoes?.filter((card) =>
+  const suggestedCardsWithoutUserCards = cartoesSugeridos?.filter((card) =>
     cartoesUsuario?.every((userCard) => userCard.card_id !== card.id),
   )
 
@@ -156,18 +161,21 @@ export function App() {
     }
 
     try {
+      let response
+
       if (tipo === 1 && isTipo1Form(data)) {
-        await api.post('simulations', {
+        response = await api.post('simulations', {
           cards_ids: selectedCards.map((card) => card.id),
           simulation_type: 'purchase',
           amount: data.valorGasto,
+          product: data.produto,
         })
 
         tipo1Form.reset()
       }
 
       if (tipo === 2 && isTipo2Form(data)) {
-        await api.post('simulations', {
+        response = await api.post('simulations', {
           cards_ids: selectedCards.map((card) => card.id),
           simulation_type: 'monthly_spending',
           desired_points: data.pontos,
@@ -178,7 +186,7 @@ export function App() {
       }
 
       if (tipo === 3 && isTipo3Form(data)) {
-        api.post('simulations', {
+        response = await api.post('simulations', {
           cards_ids: selectedCards.map((card) => card.id),
           simulation_type: 'period',
           desired_points: data.pontos,
@@ -186,6 +194,11 @@ export function App() {
         })
 
         tipo3Form.reset()
+      }
+
+      if (response) {
+        console.log(simulationResponse)
+        setSimulationResponse(response.data)
       }
 
       setSelectedCards([])
@@ -212,8 +225,17 @@ export function App() {
   useEffect(() => {
     async function fetchCartoes() {
       try {
-        const response = await api.get('cards')
+        const response = await api.get('/cards')
         setCartoes(response.data.cards)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    async function fetchCartoesSugeridos() {
+      try {
+        const response = await api.get('/cards/suggestions')
+        setCartoesSugeridos(response.data.cards)
       } catch (err) {
         console.log(err)
       }
@@ -230,6 +252,7 @@ export function App() {
     }
 
     fetchCartoes()
+    fetchCartoesSugeridos()
     fetchCartoesUsuario()
   }, [])
 
@@ -238,6 +261,20 @@ export function App() {
     tipo2Form.reset()
     tipo3Form.reset()
   }, [tipo])
+
+  useEffect(() => {
+    if (cartoesUsuario) {
+      const cartaoUsuarioFavoritado = cartoesUsuario.find(
+        (userCard) => userCard.is_favorite,
+      )
+
+      const cartaoFavoritado = cartoes?.find(
+        (card) => card.id === cartaoUsuarioFavoritado?.card_id,
+      )
+
+      setSelectedCards(cartaoFavoritado ? [cartaoFavoritado] : [])
+    }
+  }, [cartoesUsuario])
 
   return (
     <div>
@@ -334,7 +371,7 @@ export function App() {
           </Heading>
 
           <HStack>
-            <For each={cardsWithoutUserCards}>
+            <For each={suggestedCardsWithoutUserCards}>
               {(card) => {
                 const isSelected =
                   card.id ===
@@ -380,6 +417,14 @@ export function App() {
                     required: 'Informe o valor gasto',
                   })}
                 />
+              </Field>
+              <Field
+                label="Produto"
+                color="brand.title"
+                invalid={!!tipo1Form.formState.errors.produto}
+                errorText={tipo1Form.formState.errors.produto?.message}
+              >
+                <Input register={tipo1Form.register('produto')} />
               </Field>
               <Button onClick={tipo1Form.handleSubmit(handleSimulate)}>
                 Simular

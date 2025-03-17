@@ -21,6 +21,7 @@ import { Cartao } from '@/pages/admin/Cartoes'
 import { Bandeira } from '@/pages/admin/Bandeiras'
 import { InstituicaoFinanceira } from '@/pages/admin/InstituicoesFinanceiras'
 import { getMoedaByCurrency } from '@/utils/getMoedaByCurrency'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const schema = z.object({
   title: z.string().nonempty('O nome é obrigatório'),
@@ -31,6 +32,10 @@ const schema = z.object({
   card_brand_id: z.string().nonempty('A bandeira é obrigatória').array(),
   points_currency: z.string().nonempty('A moeda é obrigatória').array(),
   points_conversion_rate: z.number(),
+  is_recommended: z.coerce.boolean().optional(),
+  annual_fee: z.coerce.number().nonnegative().optional(),
+  benefits: z.string().optional(),
+  vip_lounges: z.string().optional(),
 })
 
 type CreateOrEditCartaoFormSchema = z.infer<typeof schema>
@@ -61,11 +66,13 @@ export function CreateOrEditCartaoModal({
     defaultValues: {
       title: selectedCartao?.title ?? '',
       points_currency: [selectedCartao?.points_currency],
-      financial_institution_id:
-        [selectedCartao?.financial_institution_id],
+      financial_institution_id: [selectedCartao?.financial_institution_id],
       card_brand_id: [selectedCartao?.card_brand_id],
-      points_conversion_rate:
-        selectedCartao?.points_conversion_rate,
+      points_conversion_rate: selectedCartao?.points_conversion_rate,
+      annual_fee: selectedCartao?.annual_fee,
+      benefits: selectedCartao?.benefits ?? '',
+      vip_lounges: selectedCartao?.vip_lounges ?? '',
+      is_recommended: selectedCartao?.is_recommended ?? false,
     },
   })
 
@@ -76,6 +83,10 @@ export function CreateOrEditCartaoModal({
       brand_id: data.card_brand_id[0],
       points_currency: data.points_currency[0],
       points_conversion_rate: data.points_conversion_rate,
+      is_recommended: data.is_recommended,
+      annual_fee: data.annual_fee,
+      benefits: data.benefits,
+      vip_lounges: data.vip_lounges,
     }
 
     try {
@@ -265,6 +276,49 @@ export function CreateOrEditCartaoModal({
             })}
           />
         </Field>
+
+        <Field
+          label="Anuidade"
+          invalid={!!form.formState.errors.annual_fee}
+          errorText={form.formState.errors.annual_fee?.message}
+        >
+          <Input
+            register={form.register('annual_fee', {
+              valueAsNumber: true,
+            })}
+          />
+        </Field>
+
+        <Field label="Benefícios">
+          <Input
+            register={form.register('benefits')}
+            placeholder="Digite os benefícios do cartão"
+          />
+        </Field>
+
+        <Field label="Salas VIP">
+          <Input
+            register={form.register('vip_lounges')}
+            placeholder="Digite as salas VIP do cartão"
+          />
+        </Field>
+
+        <Controller
+          control={form.control}
+          name="is_recommended"
+          render={({ field }) => (
+            <Field>
+              <Checkbox
+                cursor="pointer"
+                colorPalette="brand"
+                checked={field.value}
+                onCheckedChange={(e) => field.onChange(e.checked)}
+              >
+                Recomendar aos usuários
+              </Checkbox>
+            </Field>
+          )}
+        />
       </Flex>
     </BaseModal>
   )
