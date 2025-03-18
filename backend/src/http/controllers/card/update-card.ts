@@ -20,6 +20,7 @@ export async function updateCard(request: FastifyRequest, reply: FastifyReply) {
     annual_fee: z.number().nonnegative().optional(),
     benefits: z.string().optional(),
     vip_lounges: z.string().optional(),
+    image_url: z.string().optional(),
   })
 
   const {
@@ -32,6 +33,7 @@ export async function updateCard(request: FastifyRequest, reply: FastifyReply) {
     annual_fee,
     benefits,
     vip_lounges,
+    image_url,
   } = updateCardBodySchema.parse(request.body)
 
   const card = await knex('cards')
@@ -50,6 +52,7 @@ export async function updateCard(request: FastifyRequest, reply: FastifyReply) {
     .where('id', id)
     .update({
       title,
+      image_url,
       financial_institution_id,
       card_brand_id: brand_id,
       points_currency,

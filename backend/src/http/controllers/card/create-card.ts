@@ -15,6 +15,7 @@ export async function createCard(request: FastifyRequest, reply: FastifyReply) {
     annual_fee: z.number().nonnegative().optional(),
     benefits: z.string().optional(),
     vip_lounges: z.string().optional(),
+    image_url: z.string().optional(),
   })
 
   const {
@@ -27,12 +28,14 @@ export async function createCard(request: FastifyRequest, reply: FastifyReply) {
     annual_fee,
     benefits,
     vip_lounges,
+    image_url,
   } = createCardBodySchema.parse(request.body)
 
   const createCardReturn = await knex('cards')
     .insert({
       id: randomUUID(),
       title,
+      image_url,
       card_brand_id: brand_id,
       financial_institution_id,
       points_currency,

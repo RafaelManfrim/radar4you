@@ -34,6 +34,7 @@ export interface Cartao {
   annual_fee?: number
   benefits?: string
   vip_lounges?: string
+  image_url?: string
 }
 
 export function Cartoes() {
@@ -178,6 +179,9 @@ export function Cartoes() {
                   Salas VIP
                 </Table.ColumnHeader>
                 <Table.ColumnHeader textAlign="center">
+                  Imagem
+                </Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
                   Admin
                 </Table.ColumnHeader>
               </Table.Row>
@@ -219,6 +223,9 @@ export function Cartoes() {
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     {cartao.vip_lounges || '-'}
+                  </Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {cartao.image_url || '-'}
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     <HStack justify="center" align="center">

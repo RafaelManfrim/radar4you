@@ -237,10 +237,16 @@ export function Profile() {
                           color="brand.title"
                           size="md"
                           fontWeight="bold"
+                          wordBreak="break-word"
                         >
                           {authData.user.first_name}
                         </Heading>
-                        <Text as="span" color="brand.secondary" fontSize="sm">
+                        <Text
+                          as="span"
+                          color="brand.secondary"
+                          fontSize="sm"
+                          wordBreak="break-word"
+                        >
                           {authData.user.email}
                         </Text>
                       </VStack>
@@ -275,158 +281,161 @@ export function Profile() {
                     </Flex>
                   </HStack>
                 </Flex>
-                <VStack
-                  w="full"
-                  p="4"
-                  borderWidth={1}
-                  borderColor="brand.text"
-                  borderRadius="md"
-                  gap="2"
-                >
-                  <Heading color="brand.title" mb="1">
-                    Meus Cartões
-                  </Heading>
-                  <Show
-                    when={!isLoading}
-                    children={cartoesUsuario?.map((cartao) => (
-                      <CartaoCard
-                        key={cartao.id}
-                        userCards={cartoesUsuario}
-                        card={
-                          cartoes?.find(
-                            (card) => card.id === cartao.card_id,
-                          ) as Cartao
-                        }
-                      />
-                    ))}
-                    fallback={Array.from({ length: 3 }, (_, i) => i).map(
-                      (_, index) => (
-                        <Skeleton
-                          key={index}
-                          className="dark"
-                          variant="shine"
-                          height="16"
-                          w="full"
-                        />
-                      ),
-                    )}
-                  />
-                  {cartoesUsuario?.length === 0 && (
-                    <NoItemsMessageCard message="Você ainda não possui cartões selecionados" />
-                  )}
-                </VStack>
-              </VStack>
-              <Flex bg="brand.text-transparent" w="full" borderRadius="md">
-                <Tabs.Root
-                  defaultValue="notifications"
-                  variant="line"
-                  className="dark"
-                  colorPalette="brand"
-                  w="full"
-                >
-                  <Tabs.List
-                    borderBottomColor="brand.text-transparent"
-                    _before={{
-                      borderBottomColor: 'brand.text-transparent',
-                    }}
+                <Flex bg="brand.text-transparent" w="full" borderRadius="md">
+                  <Tabs.Root
+                    defaultValue="notifications"
+                    variant="line"
+                    className="dark"
+                    colorPalette="brand"
+                    w="full"
                   >
-                    <Tabs.Trigger value="notifications">
-                      <LuSquareCheck />
-                      Notificações
-                    </Tabs.Trigger>
-                    {authData.user.login_provider === 'email' && (
-                      <Tabs.Trigger value="password">
-                        <LuLock />
-                        Alterar Senha
-                      </Tabs.Trigger>
-                    )}
-                  </Tabs.List>
-                  <Tabs.Content value="notifications" p="4">
-                    <Flex
-                      gap="4"
-                      flexDir="column"
-                      w="100%"
-                      borderWidth={1}
-                      borderColor="brand.text"
-                      p="4"
-                      borderRadius="6px"
+                    <Tabs.List
+                      borderBottomColor="brand.text-transparent"
+                      _before={{
+                        borderBottomColor: 'brand.text-transparent',
+                      }}
                     >
-                      <VStack
-                        alignSelf="start"
-                        justify="start"
-                        align="start"
-                        className="light"
+                      <Tabs.Trigger value="notifications">
+                        <LuSquareCheck />
+                        Notificações
+                      </Tabs.Trigger>
+                      {authData.user.login_provider === 'email' && (
+                        <Tabs.Trigger value="password">
+                          <LuLock />
+                          Alterar Senha
+                        </Tabs.Trigger>
+                      )}
+                    </Tabs.List>
+                    <Tabs.Content value="notifications" p="4">
+                      <Flex
+                        gap="4"
+                        flexDir="column"
+                        w="100%"
+                        borderWidth={1}
+                        borderColor="brand.text"
+                        p="4"
+                        borderRadius="6px"
                       >
-                        <Checkbox
-                          cursor="pointer"
-                          checked={
-                            indeterminateNotifications
-                              ? 'indeterminate'
-                              : allNotificationsChecked
-                          }
-                          colorPalette="brand"
-                          color="brand.text-light"
-                          onCheckedChange={(e) =>
-                            handleRootNotificationsClick(e)
-                          }
+                        <VStack
+                          alignSelf="start"
+                          justify="start"
+                          align="start"
+                          className="light"
                         >
-                          Habilitar todas as notificações
-                        </Checkbox>
-                        {notificationsSelected.map((item, index) => (
                           <Checkbox
-                            colorPalette="brand"
                             cursor="pointer"
-                            ms="6"
-                            key={item.value}
-                            checked={item.checked}
+                            checked={
+                              indeterminateNotifications
+                                ? 'indeterminate'
+                                : allNotificationsChecked
+                            }
+                            colorPalette="brand"
                             color="brand.text-light"
                             onCheckedChange={(e) =>
-                              handleItemNotificationClick(e, index)
+                              handleRootNotificationsClick(e)
                             }
                           >
-                            {item.label}
+                            Habilitar todas as notificações
                           </Checkbox>
-                        ))}
-                      </VStack>
-                      <Button color="brand.title">Salvar</Button>
-                    </Flex>
-                  </Tabs.Content>
-                  {authData.user.login_provider === 'email' && (
-                    <Tabs.Content value="password" p="4">
-                      <FormContainer
-                        maxW="full"
-                        onSubmit={changePasswordForm.handleSubmit(
-                          handleChangePassword,
-                        )}
-                      >
-                        <Input
-                          placeholder="Digite sua senha atual"
-                          type="password"
-                          register={changePasswordForm.register(
-                            'currentPassword',
-                          )}
-                        />
-                        <Input
-                          placeholder="Informe sua nova senha"
-                          type="password"
-                          register={changePasswordForm.register('newPassword')}
-                        />
-                        <Input
-                          placeholder="Confirme sua nova senha"
-                          type="password"
-                          register={changePasswordForm.register(
-                            'confirmNewPassword',
-                          )}
-                        />
-
-                        <Button color="brand.title" type="submit">
-                          Alterar
-                        </Button>
-                      </FormContainer>
+                          {notificationsSelected.map((item, index) => (
+                            <Checkbox
+                              colorPalette="brand"
+                              cursor="pointer"
+                              ms="6"
+                              key={item.value}
+                              checked={item.checked}
+                              color="brand.text-light"
+                              onCheckedChange={(e) =>
+                                handleItemNotificationClick(e, index)
+                              }
+                            >
+                              {item.label}
+                            </Checkbox>
+                          ))}
+                        </VStack>
+                        <Button color="brand.title">Salvar</Button>
+                      </Flex>
                     </Tabs.Content>
+                    {authData.user.login_provider === 'email' && (
+                      <Tabs.Content value="password" p="4">
+                        <FormContainer
+                          maxW="full"
+                          onSubmit={changePasswordForm.handleSubmit(
+                            handleChangePassword,
+                          )}
+                        >
+                          <Input
+                            placeholder="Digite sua senha atual"
+                            type="password"
+                            register={changePasswordForm.register(
+                              'currentPassword',
+                            )}
+                          />
+                          <Input
+                            placeholder="Informe sua nova senha"
+                            type="password"
+                            register={changePasswordForm.register(
+                              'newPassword',
+                            )}
+                          />
+                          <Input
+                            placeholder="Confirme sua nova senha"
+                            type="password"
+                            register={changePasswordForm.register(
+                              'confirmNewPassword',
+                            )}
+                          />
+
+                          <Button color="brand.title" type="submit">
+                            Alterar
+                          </Button>
+                        </FormContainer>
+                      </Tabs.Content>
+                    )}
+                  </Tabs.Root>
+                </Flex>
+              </VStack>
+              <VStack
+                w="full"
+                p="4"
+                borderWidth={1}
+                borderColor="brand.text"
+                borderRadius="md"
+                gap="2"
+              >
+                <Heading color="brand.title" mb="1">
+                  Meus Cartões
+                </Heading>
+                <Show
+                  when={!isLoading}
+                  children={cartoesUsuario?.map((cartao) => (
+                    <CartaoCard
+                      key={cartao.id}
+                      userCards={cartoesUsuario}
+                      card={
+                        cartoes?.find(
+                          (card) => card.id === cartao.card_id,
+                        ) as Cartao
+                      }
+                      isProfileVisualization
+                    />
+                  ))}
+                  fallback={Array.from({ length: 3 }, (_, i) => i).map(
+                    (_, index) => (
+                      <Skeleton
+                        key={index}
+                        className="dark"
+                        variant="shine"
+                        height="16"
+                        w="full"
+                      />
+                    ),
                   )}
-                </Tabs.Root>
-              </Flex>
+                />
+                {cartoesUsuario?.length === 0 && (
+                  <NoItemsMessageCard message="Você ainda não possui cartões selecionados" />
+                )}
+              </VStack>
             </Flex>
           </VStack>
         </VStack>

@@ -36,6 +36,7 @@ const schema = z.object({
   annual_fee: z.coerce.number().nonnegative().optional(),
   benefits: z.string().optional(),
   vip_lounges: z.string().optional(),
+  image_url: z.string().optional(),
 })
 
 type CreateOrEditCartaoFormSchema = z.infer<typeof schema>
@@ -73,6 +74,7 @@ export function CreateOrEditCartaoModal({
       benefits: selectedCartao?.benefits ?? '',
       vip_lounges: selectedCartao?.vip_lounges ?? '',
       is_recommended: selectedCartao?.is_recommended ?? false,
+      image_url: selectedCartao?.image_url ?? '',
     },
   })
 
@@ -87,6 +89,7 @@ export function CreateOrEditCartaoModal({
       annual_fee: data.annual_fee,
       benefits: data.benefits,
       vip_lounges: data.vip_lounges,
+      image_url: data.image_url,
     }
 
     try {
@@ -225,6 +228,14 @@ export function CreateOrEditCartaoModal({
               required: 'O nome é obrigatório',
             })}
           />
+        </Field>
+
+        <Field
+          label="URL da Imagem"
+          invalid={!!form.formState.errors.image_url}
+          errorText={form.formState.errors.image_url?.message}
+        >
+          <Input register={form.register('image_url')} />
         </Field>
 
         <Field
