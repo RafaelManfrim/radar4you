@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 interface HistoryCardContainerProps {
   simulacao: Simulacao
-  onDeleteSimulacao: (id: string) => Promise<void>
+  onDeleteSimulacao?: (id: string) => Promise<void>
 }
 
 export function HistoryCardContainer({
@@ -49,20 +49,22 @@ export function HistoryCardContainer({
           </Text>
         </Flex>
 
-        <RemoveWithConfirmationPopoverButton
-          buttonAriaLabel="Excluir simulação"
-          popoverContent={
-            <Text color="brand.title" fontSize="sm" textAlign="center">
-              Tem certeza que deseja excluir a simulação?
-            </Text>
-          }
-          onRemove={() => onDeleteSimulacao(simulacao.id)}
-          onOpenChange={(e) => setDeleteConfirmationOpen(e.open)}
-          open={deleteConfirmationOpen}
-        />
+        {onDeleteSimulacao && (
+          <RemoveWithConfirmationPopoverButton
+            buttonAriaLabel="Excluir simulação"
+            popoverContent={
+              <Text color="brand.title" fontSize="sm" textAlign="center">
+                Tem certeza que deseja excluir a simulação?
+              </Text>
+            }
+            onRemove={() => onDeleteSimulacao(simulacao.id)}
+            onOpenChange={(e) => setDeleteConfirmationOpen(e.open)}
+            open={deleteConfirmationOpen}
+          />
+        )}
       </Flex>
 
-      <Flex w="full" justify="space-between" align="start">
+      <Flex w="full" justify="space-between" align="start" gap="4">
         <Flex
           align="start"
           justify="start"
@@ -124,7 +126,6 @@ export function HistoryCardContainer({
             flexDir={['column', 'row']}
             align={['end', 'center']}
             justify="end"
-            w="full"
             color="brand.title"
             fontSize={['sm', 'md']}
             gap={[0, '1']}

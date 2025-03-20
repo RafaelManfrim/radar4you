@@ -1,4 +1,13 @@
-import { Text, HStack, Center, VStack, Heading, For } from '@chakra-ui/react'
+import {
+  Text,
+  HStack,
+  Center,
+  Heading,
+  For,
+  Flex,
+  VStack,
+  Box,
+} from '@chakra-ui/react'
 
 import { useEffect, useState } from 'react'
 
@@ -18,6 +27,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CalculatorCard } from '@/components/CalculatorCard'
 import { Simulacao } from './History'
+import { HistoryCardContainer } from '@/components/HistoryCardContainer'
 
 const tipos = [
   {
@@ -198,7 +208,7 @@ export function App() {
 
       if (response) {
         console.log(simulationResponse)
-        setSimulationResponse(response.data)
+        setSimulationResponse(response.data.simulation)
       }
 
       setSelectedCards([])
@@ -396,14 +406,18 @@ export function App() {
           </Heading>
 
           {tipo === 1 && (
-            <VStack
+            <Flex
               w="full"
-              maxW={400}
+              maxW="800px"
+              flexDir={['column', 'column', 'row']}
+              align="flex-end"
+              justify="start"
+              flexWrap="wrap"
+              gap="4"
+              p="4"
               borderWidth={1}
               borderColor="brand.text"
-              p="4"
               rounded="md"
-              align="end"
             >
               <Field
                 label="Valor Gasto"
@@ -411,6 +425,7 @@ export function App() {
                 invalid={!!tipo1Form.formState.errors.valorGasto}
                 errorText={tipo1Form.formState.errors.valorGasto?.message}
                 required
+                flex={1}
               >
                 <Input
                   register={tipo1Form.register('valorGasto', {
@@ -423,24 +438,29 @@ export function App() {
                 color="brand.title"
                 invalid={!!tipo1Form.formState.errors.produto}
                 errorText={tipo1Form.formState.errors.produto?.message}
+                flex={1}
               >
                 <Input register={tipo1Form.register('produto')} />
               </Field>
               <Button onClick={tipo1Form.handleSubmit(handleSimulate)}>
                 Simular
               </Button>
-            </VStack>
+            </Flex>
           )}
 
           {tipo === 2 && (
-            <VStack
+            <Flex
               w="full"
-              maxW={400}
+              maxW="800px"
+              flexDir={['column', 'column', 'row']}
+              align="flex-end"
+              justify="start"
+              flexWrap="wrap"
+              gap="4"
+              p="4"
               borderWidth={1}
               borderColor="brand.text"
-              p="4"
               rounded="md"
-              align="end"
             >
               <Field
                 label="Quantos pontos você quer acumular?"
@@ -448,6 +468,7 @@ export function App() {
                 invalid={!!tipo2Form.formState.errors.pontos}
                 errorText={tipo2Form.formState.errors.pontos?.message}
                 required
+                flex={1}
               >
                 <Input
                   register={tipo2Form.register('pontos', {
@@ -461,6 +482,7 @@ export function App() {
                 invalid={!!tipo2Form.formState.errors.meses}
                 errorText={tipo2Form.formState.errors.meses?.message}
                 required
+                flex={1}
               >
                 <Input
                   register={tipo2Form.register('meses', {
@@ -471,18 +493,22 @@ export function App() {
               <Button onClick={tipo2Form.handleSubmit(handleSimulate)}>
                 Simular
               </Button>
-            </VStack>
+            </Flex>
           )}
 
           {tipo === 3 && (
-            <VStack
+            <Flex
               w="full"
-              maxW={400}
+              maxW="800px"
+              flexDir={['column', 'column', 'row']}
+              align="flex-end"
+              justify="start"
+              flexWrap="wrap"
+              gap="4"
+              p="4"
               borderWidth={1}
               borderColor="brand.text"
-              p="4"
               rounded="md"
-              align="end"
             >
               <Field
                 label="Quantos pontos você quer acumular?"
@@ -490,6 +516,7 @@ export function App() {
                 invalid={!!tipo3Form.formState.errors.pontos}
                 errorText={tipo3Form.formState.errors.pontos?.message}
                 required
+                flex={1}
               >
                 <Input
                   register={tipo3Form.register('pontos', {
@@ -503,6 +530,7 @@ export function App() {
                 invalid={!!tipo3Form.formState.errors.gastoMensal}
                 errorText={tipo3Form.formState.errors.gastoMensal?.message}
                 required
+                flex={1}
               >
                 <Input
                   register={tipo3Form.register('gastoMensal', {
@@ -514,6 +542,114 @@ export function App() {
               <Button onClick={tipo3Form.handleSubmit(handleSimulate)}>
                 Simular
               </Button>
+            </Flex>
+          )}
+
+          {simulationResponse && (
+            <VStack
+              w="full"
+              p="4"
+              borderWidth={1}
+              borderColor="brand.text"
+              borderRadius="md"
+              gap="2"
+              mt="4"
+            >
+              <Heading color="brand.title" mb="1">
+                Resultado da simulação
+              </Heading>
+
+              <Flex
+                mb="2"
+                flexDir="row"
+                justify="center"
+                align="center"
+                wrap="wrap"
+                gap="4"
+              >
+                {simulationResponse.simulationCards.map((simulationCard) => {
+                  return (
+                    <Flex
+                      flexDir="column"
+                      key={simulationCard.card.id}
+                      justify="center"
+                      align="center"
+                      textAlign="center"
+                      gap="2"
+                      flex="1"
+                    >
+                      <Text
+                        color="brand.title"
+                        fontWeight="bold"
+                        fontSize={['xs', 'xs', 'md']}
+                        lineClamp="1"
+                      >
+                        {simulationCard.card.title}
+                      </Text>
+                      <Flex
+                        w="140px"
+                        h="140px"
+                        borderRadius="full"
+                        bg="brand.primary"
+                        p="4"
+                        flexDir="column"
+                        justify="center"
+                        align="center"
+                        borderWidth={1}
+                        borderColor="brand.secondary"
+                      >
+                        <Box
+                          color="brand.title"
+                          fontSize={['xs', 'xs', 'sm']}
+                          textAlign="center"
+                        >
+                          {simulationResponse.simulation_type === 'purchase' ? (
+                            <Box>
+                              <Text as="span">Pontos Ganhos: </Text>
+                              <Text
+                                as="span"
+                                fontWeight="semibold"
+                                color="brand.secondary"
+                              >
+                                {simulationCard.earned_points}
+                              </Text>
+                            </Box>
+                          ) : simulationResponse.simulation_type ===
+                            'monthly_spending' ? (
+                            <Box>
+                              <Text as="span">Gasto Mensal Necessário: </Text>
+                              <Text
+                                as="span"
+                                fontWeight="semibold"
+                                color="brand.secondary"
+                              >
+                                {Intl.NumberFormat('pt-BR', {
+                                  currency: 'BRL',
+                                  style: 'currency',
+                                }).format(
+                                  simulationCard.required_spending || 0,
+                                )}
+                              </Text>
+                            </Box>
+                          ) : (
+                            <Box>
+                              <Text as="span">Meses Necessários: </Text>
+                              <Text
+                                as="span"
+                                fontWeight="semibold"
+                                color="brand.secondary"
+                              >
+                                {simulationCard.required_months}
+                              </Text>
+                            </Box>
+                          )}
+                        </Box>
+                      </Flex>
+                    </Flex>
+                  )
+                })}
+              </Flex>
+              <HistoryCardContainer simulacao={simulationResponse} />
             </VStack>
           )}
         </Center>

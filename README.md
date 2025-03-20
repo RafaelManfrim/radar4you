@@ -85,7 +85,7 @@ Tela Inicial:
 
 Tela Cartões:
 
-- [ ] Serão mostradas mais informações relativas aos cartões
+- [x] Serão mostradas mais informações relativas aos cartões
 - [x] Botão para favoritar um cartão
 
 Tela Histórico:
@@ -97,7 +97,7 @@ Tela Histórico:
 Tela Perfil:
 
 - [x] Funcionalidade de alterar senha
-- [ ] A visualização dos cartões receberá mais detalhes
+- [x] A visualização dos cartões receberá mais detalhes
 - [ ] Implementar notificações de e-mail por tipo
 - [ ] Implementar e-mail customizado para recebimento de notificações
 
