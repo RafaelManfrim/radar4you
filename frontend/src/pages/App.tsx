@@ -9,7 +9,7 @@ import {
   Box,
 } from '@chakra-ui/react'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { LayoutContainer } from '@/components/LayoutContainer'
 import { SegmentedControl } from '@/components/ui/segmented-control'
@@ -79,6 +79,8 @@ type Tipo2FormType = z.infer<typeof tipo2Schema>
 type Tipo3FormType = z.infer<typeof tipo3Schema>
 
 export function App() {
+  const responseRef = useRef<HTMLDivElement | null>(null)
+
   const [tipo, setTipo] = useState(1)
 
   const [cartoes, setCartoes] = useState<Cartao[]>()
@@ -93,6 +95,7 @@ export function App() {
     resolver: zodResolver(tipo1Schema),
     defaultValues: {
       valorGasto: '',
+      produto: '',
     },
   })
 
@@ -235,6 +238,13 @@ export function App() {
           onClick: () => navigate('/calculadora/historico'),
         },
       })
+
+      setTimeout(() => {
+        responseRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        })
+      }, 100)
     } catch (err) {
       console.log(err)
       toaster.create({
@@ -569,6 +579,7 @@ export function App() {
                 align="center"
                 wrap="wrap"
                 gap="4"
+                ref={responseRef}
               >
                 {simulationResponse.simulationCards.map((simulationCard) => {
                   return (
