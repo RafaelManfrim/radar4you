@@ -11,6 +11,7 @@ import { CheckedChangeDetails } from 'node_modules/@chakra-ui/react/dist/types/c
 import { NoItemsMessageCard } from './NoItemsMessageCard'
 import { Cartao } from './admin/Cartoes'
 import { InstituicaoFinanceira } from './admin/InstituicoesFinanceiras'
+import { LayoutContainer } from '@/components/LayoutContainer'
 
 export type SimulationCard = {
   id: string
@@ -144,7 +145,7 @@ export function History() {
   })
 
   return (
-    <Flex w="full" justify="center" p="6">
+    <LayoutContainer>
       <Flex
         justify="start"
         align="start"
@@ -237,6 +238,6 @@ export function History() {
           )}
         </VStack>
       </Flex>
-    </Flex>
+    </LayoutContainer>
   )
 }

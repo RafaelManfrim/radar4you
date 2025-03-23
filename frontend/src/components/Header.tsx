@@ -9,7 +9,7 @@ export function Header() {
       as="header"
       w="full"
       justify="center"
-      p="6"
+      p={['4', '6']}
       borderBottomWidth={1}
       borderBottomColor="brand.text"
     >

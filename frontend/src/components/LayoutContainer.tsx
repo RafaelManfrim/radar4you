@@ -6,7 +6,7 @@ interface LayoutContainerProps {
 
 export function LayoutContainer(props: LayoutContainerProps) {
   return (
-    <Flex w="full" justify="center" p="6">
+    <Flex w="full" justify="center" p={['4', '6']}>
       <Box w="full" maxW={1280}>
         {props.children}
       </Box>

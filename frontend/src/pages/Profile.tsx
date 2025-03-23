@@ -28,6 +28,7 @@ import { FormContainer } from '@/components/FormContainer'
 import { Input } from '@/components/Form/Input'
 import { toaster } from '@/components/ui/toaster'
 import axios from 'axios'
+import { LayoutContainer } from '@/components/LayoutContainer'
 
 const changePasswordSchema = z
   .object({
@@ -179,7 +180,7 @@ export function Profile() {
   }
 
   return (
-    <Flex w="full" justify="center" p="6">
+    <LayoutContainer>
       <Flex justify="start" align="start" gap="4" w="full" maxW={1280}>
         <VStack align="start" justify="start" w="full">
           <VStack
@@ -440,6 +441,6 @@ export function Profile() {
           </VStack>
         </VStack>
       </Flex>
-    </Flex>
+    </LayoutContainer>
   )
 }

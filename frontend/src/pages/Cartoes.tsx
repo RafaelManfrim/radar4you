@@ -13,6 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { NoItemsMessageCard } from './NoItemsMessageCard'
 import axios from 'axios'
 import { toaster } from '@/components/ui/toaster'
+import { LayoutContainer } from '@/components/LayoutContainer'
 
 export interface UserCard {
   id: string
@@ -233,7 +234,7 @@ export function Cartoes() {
   }, [])
 
   return (
-    <Flex w="full" justify="center" p="6">
+    <LayoutContainer>
       <Flex
         justify="start"
         align="start"
@@ -353,6 +354,6 @@ export function Cartoes() {
           </VStack>
         </VStack>
       </Flex>
-    </Flex>
+    </LayoutContainer>
   )
 }

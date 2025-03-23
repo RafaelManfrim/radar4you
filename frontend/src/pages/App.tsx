@@ -296,7 +296,7 @@ export function App() {
           <SegmentedControl
             className="dark"
             size={['xs', 'xs', 'sm', 'md']}
-            mb="6"
+            mb={['4', '6']}
             defaultValue="1"
             onValueChange={(e) => setTipo(Number(e.value))}
             items={tipos.map((tipo) => {
@@ -401,7 +401,7 @@ export function App() {
             </For>
           </HStack>
 
-          <Heading as="h3" color="brand.title" textAlign="center" mb="4">
+          <Heading as="h3" color="brand.title" textAlign="center" mb="2">
             Preencha os valores para simular
           </Heading>
 
