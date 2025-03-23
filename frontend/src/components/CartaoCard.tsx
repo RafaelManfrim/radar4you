@@ -43,7 +43,7 @@ export function CartaoCard({
         borderColor="brand.background"
         pb="2"
       >
-        <Flex gap="1">
+        <Flex gap={[0, 0, '1']} flexDir={['column', 'column', 'row']}>
           <Text color="brand.title">{card.title}</Text>
           <Text>
             ({card.points_conversion_rate} ponto
