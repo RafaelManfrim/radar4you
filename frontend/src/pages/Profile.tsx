@@ -398,7 +398,7 @@ export function Profile() {
               </VStack>
               <VStack
                 w="full"
-                p="4"
+                p={['2', '4', '2', '4']}
                 borderWidth={1}
                 borderColor="brand.text"
                 borderRadius="md"

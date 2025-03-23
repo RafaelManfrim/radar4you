@@ -246,9 +246,11 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         } catch (error) {
           console.log(error)
 
+          const firstName = displayName?.split(' ')[0]
+
           await register({
             email,
-            first_name: displayName ?? 'Usuário Google',
+            first_name: firstName ?? 'Usuário Google',
             login_provider: 'google',
             firebase_uid: uid,
             profile_picture_url: photoURL ?? undefined,
