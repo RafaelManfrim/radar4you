@@ -441,6 +441,7 @@ export function App() {
                 flex={1}
               >
                 <Input
+                  type="number"
                   register={tipo1Form.register('valorGasto', {
                     required: 'Informe o valor gasto',
                   })}
@@ -484,6 +485,7 @@ export function App() {
                 flex={1}
               >
                 <Input
+                  type="number"
                   register={tipo2Form.register('pontos', {
                     required: 'Informe a quantidade de pontos',
                   })}
@@ -498,6 +500,7 @@ export function App() {
                 flex={1}
               >
                 <Input
+                  type="number"
                   register={tipo2Form.register('meses', {
                     required: 'Informe a quantidade de meses',
                   })}
@@ -532,6 +535,7 @@ export function App() {
                 flex={1}
               >
                 <Input
+                  type="number"
                   register={tipo3Form.register('pontos', {
                     required: 'Informe a quantidade de pontos',
                   })}
@@ -546,6 +550,7 @@ export function App() {
                 flex={1}
               >
                 <Input
+                  type="number"
                   register={tipo3Form.register('gastoMensal', {
                     required: 'Informe o gasto mensal',
                   })}

@@ -282,6 +282,7 @@ export function CreateOrEditCartaoModal({
           required
         >
           <Input
+            type="number"
             register={form.register('points_conversion_rate', {
               valueAsNumber: true,
             })}
@@ -294,6 +295,7 @@ export function CreateOrEditCartaoModal({
           errorText={form.formState.errors.annual_fee?.message}
         >
           <Input
+            type="number"
             register={form.register('annual_fee', {
               valueAsNumber: true,
             })}
