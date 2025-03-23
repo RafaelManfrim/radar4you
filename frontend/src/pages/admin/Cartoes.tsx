@@ -215,7 +215,10 @@ export function Cartoes() {
                   </Table.Cell>
                   <Table.Cell textAlign="center">
                     {cartao.annual_fee
-                      ? `R$ ${cartao.annual_fee.toFixed(2)}`
+                      ? Intl.NumberFormat('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        }).format(cartao.annual_fee)
                       : 'Grátis'}
                   </Table.Cell>
                   <Table.Cell textAlign="center">
