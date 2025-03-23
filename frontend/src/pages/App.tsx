@@ -27,7 +27,6 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CalculatorCard } from '@/components/CalculatorCard'
 import { Simulacao } from './History'
-import { HistoryCardContainer } from '@/components/HistoryCardContainer'
 
 const tipos = [
   {
@@ -159,6 +158,20 @@ export function App() {
     )
   }
 
+  function handleResetSelectedCards() {
+    if (cartoesUsuario) {
+      const cartaoUsuarioFavoritado = cartoesUsuario.find(
+        (userCard) => userCard.is_favorite,
+      )
+
+      const cartaoFavoritado = cartoes?.find(
+        (card) => card.id === cartaoUsuarioFavoritado?.card_id,
+      )
+
+      setSelectedCards(cartaoFavoritado ? [cartaoFavoritado] : [])
+    }
+  }
+
   async function handleSimulate(
     data: Tipo1FormType | Tipo2FormType | Tipo3FormType,
   ) {
@@ -211,7 +224,7 @@ export function App() {
         setSimulationResponse(response.data.simulation)
       }
 
-      setSelectedCards([])
+      handleResetSelectedCards()
 
       toaster.create({
         title: 'Sucesso!',
@@ -273,17 +286,7 @@ export function App() {
   }, [tipo])
 
   useEffect(() => {
-    if (cartoesUsuario) {
-      const cartaoUsuarioFavoritado = cartoesUsuario.find(
-        (userCard) => userCard.is_favorite,
-      )
-
-      const cartaoFavoritado = cartoes?.find(
-        (card) => card.id === cartaoUsuarioFavoritado?.card_id,
-      )
-
-      setSelectedCards(cartaoFavoritado ? [cartaoFavoritado] : [])
-    }
+    handleResetSelectedCards()
   }, [cartoesUsuario])
 
   return (
@@ -649,7 +652,6 @@ export function App() {
                   )
                 })}
               </Flex>
-              <HistoryCardContainer simulacao={simulationResponse} />
             </VStack>
           )}
         </Center>
