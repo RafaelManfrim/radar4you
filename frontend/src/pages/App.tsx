@@ -27,6 +27,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CalculatorCard } from '@/components/CalculatorCard'
 import { Simulacao } from './History'
+// import { ChakraCarousel } from '@/components/ChakraCarousel'
 
 const tipos = [
   {
@@ -354,7 +355,37 @@ export function App() {
             )
           </Heading>
 
-          <HStack>
+          {/* {cartoesUsuario && (
+            <ChakraCarousel gap={8}>
+              {cartoesUsuario?.map((userCard) => {
+                const cartao = cartoes?.find(
+                  (card) => card.id === userCard.card_id,
+                )
+
+                if (!cartao) return null
+
+                const isSelected =
+                  cartao.id ===
+                  selectedCards.find((card) => card.id === cartao.id)?.id
+
+                return (
+                  <CalculatorCard
+                    key={userCard.card_id}
+                    isSelected={isSelected}
+                    cartao={cartao}
+                    onClick={() => handleSelectCard(cartao)}
+                  />
+                )
+              })}
+            </ChakraCarousel>
+          )} */}
+
+          <Flex
+            flexDir={['column', 'column', 'column', 'row']}
+            gap="2"
+            w="full"
+            mb="4"
+          >
             <For each={cartoesUsuario}>
               {(userCard) => {
                 const cartao = cartoes?.find(
@@ -377,7 +408,7 @@ export function App() {
                 )
               }}
             </For>
-          </HStack>
+          </Flex>
 
           <Heading
             as="h4"
@@ -393,7 +424,12 @@ export function App() {
             )
           </Heading>
 
-          <HStack>
+          <Flex
+            flexDir={['column', 'column', 'column', 'row']}
+            gap="2"
+            w="full"
+            mb="4"
+          >
             <For each={suggestedCardsWithoutUserCards}>
               {(card) => {
                 const isSelected =
@@ -412,7 +448,7 @@ export function App() {
                 )
               }}
             </For>
-          </HStack>
+          </Flex>
 
           <Heading as="h3" color="brand.title" textAlign="center" mb="2">
             Preencha os valores para simular
