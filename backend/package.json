@@ -36,6 +36,7 @@
     "@types/node": "^22.10.5",
     "@types/nodemailer": "^6.4.17",
     "@types/nodemailer-express-handlebars": "^4.0.5",
+    "esbuild-plugin-handlebars": "^1.0.3",
     "eslint": "^8.33.0",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",

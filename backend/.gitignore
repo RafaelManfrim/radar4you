@@ -3,5 +3,6 @@ database/*.db
 
 .env
 .env.test
+.env.prod
 
 build/

@@ -9,7 +9,7 @@ const debounce = <T extends unknown[]>(
     if (timeoutId) {
       clearTimeout(timeoutId)
     }
-    timeoutId = setTimeout(callback, limit, args)
+    timeoutId = setTimeout(callback, limit, ...args)
   }
 }
 

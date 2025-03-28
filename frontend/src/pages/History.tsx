@@ -181,7 +181,7 @@ export function History() {
               colorPalette="brand"
               defaultValue=""
               value={periodFilterValue}
-              onValueChange={(e) => setPeriodFilterValue(e.value)}
+              onValueChange={(e) => setPeriodFilterValue(String(e.value))}
             >
               <VStack gap="2" align="start">
                 {periodFilterOptions.map((item) => (
