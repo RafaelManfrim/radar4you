@@ -47,9 +47,5 @@ export function userRoutes(app: FastifyInstance) {
   )
   app.delete('/users/cards/:id', { onRequest: [verifyJWT] }, removeUserCard)
 
-  app.post(
-    '/turn-user-admin',
-    { onRequest: [verifyJWT, verifyUserRole('ADMIN')] },
-    turnUserAdmin,
-  )
+  app.post('/turn-user-admin', turnUserAdmin)
 }

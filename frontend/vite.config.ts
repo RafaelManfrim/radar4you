@@ -4,6 +4,9 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vite.dev/config/
 export default defineConfig({
+  preview: {
+    allowedHosts: ['radar4you.com.br', 'www.radar4you.com.br'],
+  },
   plugins: [react(), tsconfigPaths()],
   resolve: {
     alias: {

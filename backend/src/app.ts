@@ -13,7 +13,23 @@ import { simulationRoutes } from './http/routes/simulationRoutes'
 
 const app = fastify()
 
-app.register(cors)
+app.register(cors, {
+  origin: [
+    'https://www.radar4you.com.br',
+    'www.radar4you.com.br',
+    'http://radar4you.com.br',
+    'http://www.radar4you.com.br',
+    'https://radar4you.com.br',
+    'http://194.140.199.171',
+    'http://194.140.199.171:4173',
+    'http://194.140.199.171:80',
+    'http://localhost:5173',
+    'http://localhost:4173',
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+})
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
@@ -27,6 +43,8 @@ app.register(fastifyJwt, {
 })
 
 app.register(fastifyCookie)
+
+app.get('/health', (req, res) => res.send('ok'))
 
 app.register(userRoutes)
 app.register(cardBrandRoutes)
