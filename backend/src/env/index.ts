@@ -4,6 +4,9 @@ import { z } from 'zod'
 
 if (process.env.NODE_ENV === 'test') {
   config({ path: '.env.test' })
+}
+if (process.env.NODE_ENV === 'production') {
+  config({ path: '.env.prod' })
 } else {
   config()
 }
