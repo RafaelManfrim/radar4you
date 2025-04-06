@@ -1,4 +1,4 @@
-import { Center, Separator, Text } from '@chakra-ui/react'
+import { Center, Flex, Separator, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import axios from 'axios'
@@ -13,15 +13,22 @@ import { toaster } from '@/components/ui/toaster'
 import { useAuth } from '@/contexts/AuthContext'
 import { OrSeparator } from '@/components/OrSeparator'
 import { FormContainer } from '@/components/FormContainer'
+import { Field } from '@/components/ui/field'
+import { useState } from 'react'
 
 const signInSchema = z.object({
-  email: z.string().email().nonempty(),
-  password: z.string().min(6),
+  email: z
+    .string()
+    .email('Informe um e-mail válido')
+    .nonempty('Campo obrigatório'),
+  password: z.string().min(6, 'A senha deve ter no mínimo 6 caracteres'),
 })
 
 export type SignInFormData = z.infer<typeof signInSchema>
 
 export function Login() {
+  const [isLoading, setIsLoading] = useState(false)
+
   const { signInwithGoogle, signIn } = useAuth()
 
   const form = useForm<SignInFormData>({
@@ -30,6 +37,7 @@ export function Login() {
 
   async function handleSignIn(data: SignInFormData) {
     try {
+      setIsLoading(true)
       await signIn({
         login_provider: 'email',
         credentials: {
@@ -52,6 +60,8 @@ export function Login() {
         description:
           'Erro ao fazer login, por favor, tente novamente mais tarde',
       })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -78,38 +88,67 @@ export function Login() {
 
   return (
     <Center h="100vh" px="6">
-      <FormContainer onSubmit={form.handleSubmit(handleSignIn)}>
+      <FormContainer
+        onSubmit={form.handleSubmit(handleSignIn)}
+        color="brand.title"
+      >
         <Center>
           <Logo my="6" />
         </Center>
 
-        <Input
-          placeholder="Digite seu e-mail"
-          register={form.register('email')}
-        />
-        <Input
-          placeholder="Digite sua senha"
-          type="password"
-          register={form.register('password')}
-        />
-
-        <Text
-          as="p"
-          color="brand.secondary"
-          fontSize="sm"
-          textAlign="right"
-          fontWeight="bold"
-          _hover={{
-            textDecoration: 'underline',
-            filter: 'brightness(0.9)',
-            transition: '0.2s ease',
-          }}
+        <Field
+          label="Email"
+          invalid={!!form.formState.errors.email}
+          errorText={form.formState.errors.email?.message}
+          required
         >
-          <Link to="/esqueci-minha-senha">Esqueci minha senha</Link>
-        </Text>
+          <Input
+            placeholder="Digite seu e-mail"
+            register={form.register('email')}
+            type="email"
+            autoComplete="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+          />
+        </Field>
+
+        <Field
+          label="Senha"
+          invalid={!!form.formState.errors.password}
+          errorText={form.formState.errors.password?.message}
+          required
+        >
+          <Input
+            placeholder="Digite sua senha"
+            type="password"
+            register={form.register('password')}
+            autoComplete="current-password"
+            autoCapitalize="none"
+            autoCorrect="off"
+          />
+        </Field>
+
+        <Flex justify="end">
+          <Link to="/esqueci-minha-senha">
+            <Text
+              as="span"
+              color="brand.secondary"
+              textAlign="right"
+              fontSize="sm"
+              fontWeight="bold"
+              _hover={{
+                textDecoration: 'underline',
+                filter: 'brightness(0.9)',
+                transition: '0.2s ease',
+              }}
+            >
+              Esqueci minha senha
+            </Text>
+          </Link>
+        </Flex>
 
         <Button type="submit" fontWeight="bold">
-          Entrar
+          {isLoading ? 'Entrando...' : 'Entrar'}
         </Button>
 
         <Separator borderColor="brand.text" />

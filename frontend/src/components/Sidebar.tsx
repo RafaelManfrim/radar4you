@@ -1,6 +1,5 @@
 import { Center, Flex, Text, useBreakpointValue } from '@chakra-ui/react'
 
-import { useRef } from 'react'
 import { SidebarNav } from './SidebarNav'
 import { Logo } from './Logo'
 import { Button } from './ui/button'
@@ -13,8 +12,6 @@ import { Isotipo } from './Isotipo'
 export function Sidebar() {
   const navigate = useNavigate()
   const { signOut } = useAuth()
-
-  const sidebarRef = useRef<HTMLDivElement>(null)
 
   const isSidebarIconsOnly = useBreakpointValue({
     base: true,
@@ -37,7 +34,6 @@ export function Sidebar() {
       borderRightColor="brand.text"
       borderRightWidth={1}
       borderStyle="solid"
-      ref={sidebarRef}
     >
       <Center my="4">
         <Logo maxW="32" hideBelow="md" />

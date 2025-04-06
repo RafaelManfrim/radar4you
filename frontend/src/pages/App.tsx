@@ -224,7 +224,6 @@ export function App() {
       }
 
       if (response) {
-        console.log(simulationResponse)
         setSimulationResponse(response.data.simulation)
       }
 
