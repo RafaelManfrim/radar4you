@@ -1,4 +1,4 @@
-import { Center, Flex, Separator, Text } from '@chakra-ui/react'
+import { Center, Flex, IconButton, Separator, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import axios from 'axios'
@@ -15,6 +15,7 @@ import { OrSeparator } from '@/components/OrSeparator'
 import { FormContainer } from '@/components/FormContainer'
 import { Field } from '@/components/ui/field'
 import { useState } from 'react'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 const signInSchema = z.object({
   email: z
@@ -28,12 +29,16 @@ export type SignInFormData = z.infer<typeof signInSchema>
 
 export function Login() {
   const [isLoading, setIsLoading] = useState(false)
-
+  const [showPassword, setShowPassword] = useState(false)
   const { signInwithGoogle, signIn } = useAuth()
 
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
   })
+
+  function togglePasswordVisibility() {
+    setShowPassword((prev) => !prev)
+  }
 
   async function handleSignIn(data: SignInFormData) {
     try {
@@ -118,14 +123,31 @@ export function Login() {
           errorText={form.formState.errors.password?.message}
           required
         >
-          <Input
-            placeholder="Digite sua senha"
-            type="password"
-            register={form.register('password')}
-            autoComplete="current-password"
-            autoCapitalize="none"
-            autoCorrect="off"
-          />
+          <Flex w="100%" align="center" gap="2">
+            <Input
+              placeholder="Digite sua senha"
+              type={showPassword ? 'text' : 'password'}
+              register={form.register('password')}
+              autoComplete="current-password"
+              autoCapitalize="none"
+              autoCorrect="off"
+            />
+
+            <IconButton
+              variant="ghost"
+              onClick={togglePasswordVisibility}
+              aria-label="Visualizar senha"
+              colorPalette="blackAlpha"
+              _hover={{
+                backgroundColor: 'brand.text-transparent',
+                color: 'brand.secondary',
+                transition: '0.2s ease',
+              }}
+              {...(showPassword && { color: 'brand.secondary' })}
+            >
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </IconButton>
+          </Flex>
         </Field>
 
         <Flex justify="end">
