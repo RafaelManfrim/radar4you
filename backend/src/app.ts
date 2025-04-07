@@ -14,18 +14,35 @@ import { simulationRoutes } from './http/routes/simulationRoutes'
 const app = fastify()
 
 app.register(cors, {
-  origin: [
-    'https://www.radar4you.com.br',
-    'www.radar4you.com.br',
-    'http://radar4you.com.br',
-    'http://www.radar4you.com.br',
-    'https://radar4you.com.br',
-    'http://194.140.199.171',
-    'http://194.140.199.171:4173',
-    'http://194.140.199.171:80',
-    'http://localhost:5173',
-    'http://localhost:4173',
-  ],
+  origin: (origin, cb) => {
+    const allowedOrigins = [
+      'http://194.140.199.171',
+      'http://194.140.199.171:80',
+      'https://www.radar4you.com.br',
+      'http://www.radar4you.com.br',
+      'http://radar4you.com.br',
+      'https://radar4you.com.br',
+
+      // ambientes de desenvolvimento
+      'http://localhost',
+      'http://localhost:5173',
+      'http://localhost:80',
+      'http://127.0.0.1',
+    ]
+
+    // Em chamadas sem Origin (ex: curl/postman), pode permitir
+    if (!origin) {
+      cb(null, true)
+      return
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      cb(null, true)
+    } else {
+      console.warn('🚫 Origin não permitida pelo CORS:', origin)
+      cb(new Error('Not allowed by CORS'), false)
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
