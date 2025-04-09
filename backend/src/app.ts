@@ -18,8 +18,10 @@ app.register(cors, {
     const allowedOrigins = [
       'http://194.140.199.171',
       'http://194.140.199.171:80',
-      'https://www.radar4you.com.br',
+      'https://194.140.199.171',
+      'https://194.140.199.171:443',
       'http://www.radar4you.com.br',
+      'https://www.radar4you.com.br',
       'http://radar4you.com.br',
       'https://radar4you.com.br',
 
