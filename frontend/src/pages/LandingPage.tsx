@@ -54,7 +54,7 @@ export function LandingPage() {
               <Button size={['xs', 'md']}>Entrar</Button>
             </Link>
             <Link to="/registro">
-              <Button size={['xs', 'md']}>Registre-se</Button>
+              <Button size={['xs', 'md']}>Crie sua conta</Button>
             </Link>
           </HStack>
         </Flex>

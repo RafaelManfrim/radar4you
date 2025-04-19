@@ -214,7 +214,7 @@ export function Register() {
         </Field>
 
         <Button type="submit">
-          {isLoading ? 'Registrando...' : 'Registrar-se'}
+          {isLoading ? 'Criando sua conta...' : 'Criar conta'}
         </Button>
 
         <Separator borderColor="brand.text" />

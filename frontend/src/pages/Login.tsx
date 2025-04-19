@@ -188,7 +188,7 @@ export function Login() {
                 transition: '0.2s ease',
               }}
             >
-              Registre-se
+              Crie sua conta
             </Text>
           </Link>
         </Text>
