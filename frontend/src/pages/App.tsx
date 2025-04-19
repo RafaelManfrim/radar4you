@@ -85,7 +85,7 @@ export function App() {
   const [tipo, setTipo] = useState(1)
 
   const [cartoes, setCartoes] = useState<Cartao[]>()
-  const [cartoesSugeridos, setCartoesSugeridos] = useState<Cartao[]>()
+  // const [cartoesSugeridos, setCartoesSugeridos] = useState<Cartao[]>()
   const [cartoesUsuario, setCartoesUsuario] = useState<UserCard[]>()
 
   const [selectedCards, setSelectedCards] = useState<Cartao[]>([])
@@ -118,9 +118,9 @@ export function App() {
 
   const navigate = useNavigate()
 
-  const suggestedCardsWithoutUserCards = cartoesSugeridos?.filter((card) =>
-    cartoesUsuario?.every((userCard) => userCard.card_id !== card.id),
-  )
+  // const suggestedCardsWithoutUserCards = cartoesSugeridos?.filter((card) =>
+  //   cartoesUsuario?.every((userCard) => userCard.card_id !== card.id),
+  // )
 
   function handleSelectCard(card: Cartao) {
     const cardIsSelected = selectedCards.some((c) => c.id === card.id)
@@ -265,14 +265,14 @@ export function App() {
       }
     }
 
-    async function fetchCartoesSugeridos() {
-      try {
-        const response = await api.get('/cards/suggestions')
-        setCartoesSugeridos(response.data.cards)
-      } catch (err) {
-        console.log(err)
-      }
-    }
+    // async function fetchCartoesSugeridos() {
+    //   try {
+    //     const response = await api.get('/cards/suggestions')
+    //     setCartoesSugeridos(response.data.cards)
+    //   } catch (err) {
+    //     console.log(err)
+    //   }
+    // }
 
     async function fetchCartoesUsuario() {
       try {
@@ -285,7 +285,7 @@ export function App() {
     }
 
     fetchCartoes()
-    fetchCartoesSugeridos()
+    // fetchCartoesSugeridos()
     fetchCartoesUsuario()
   }, [])
 
@@ -409,7 +409,7 @@ export function App() {
             </For>
           </Flex>
 
-          <Heading
+          {/* <Heading
             as="h4"
             textAlign="center"
             mb="2"
@@ -447,7 +447,7 @@ export function App() {
                 )
               }}
             </For>
-          </Flex>
+          </Flex> */}
 
           <Heading as="h3" color="brand.title" textAlign="center" mb="2">
             Preencha os valores para simular
