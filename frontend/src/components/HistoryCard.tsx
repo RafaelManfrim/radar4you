@@ -44,14 +44,14 @@ export function HistoryCard({ simulationCard, simulacao }: HistoryCardProps) {
         {simulacao.simulation_type === 'purchase' ? (
           <Box>
             <Text as="span">Pontos Ganhos: </Text>
-            <Text as="span" fontWeight="semibold" color="brand.secondary">
+            <Text as="span" fontWeight="semibold" color="brand.success">
               {simulationCard.earned_points}
             </Text>
           </Box>
         ) : simulacao.simulation_type === 'monthly_spending' ? (
           <Box>
             <Text as="span">Gasto Mensal Necessário: </Text>
-            <Text as="span" fontWeight="semibold" color="brand.secondary">
+            <Text as="span" fontWeight="semibold" color="brand.success">
               {Intl.NumberFormat('pt-BR', {
                 currency: 'BRL',
                 style: 'currency',
@@ -61,7 +61,7 @@ export function HistoryCard({ simulationCard, simulacao }: HistoryCardProps) {
         ) : (
           <Box>
             <Text as="span">Meses Necessários: </Text>
-            <Text as="span" fontWeight="semibold" color="brand.secondary">
+            <Text as="span" fontWeight="semibold" color="brand.success">
               {simulationCard.required_months}
             </Text>
           </Box>

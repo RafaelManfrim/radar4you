@@ -1,13 +1,4 @@
-import {
-  Text,
-  HStack,
-  Center,
-  Heading,
-  For,
-  Flex,
-  VStack,
-  Box,
-} from '@chakra-ui/react'
+import { Text, HStack, Heading, For, Flex, VStack, Box } from '@chakra-ui/react'
 
 import { useEffect, useRef, useState } from 'react'
 
@@ -32,20 +23,20 @@ import { Simulacao } from './History'
 const tipos = [
   {
     value: 1,
-    label: 'Pontos por Compra',
-    shortLabel: 'Pontos',
+    label: 'Por Transação',
+    shortLabel: 'Transação',
     icon: FaShoppingBag,
   },
   {
     value: 2,
-    label: 'Gasto Mensal',
-    shortLabel: 'Gasto',
+    label: 'Por Periodo',
+    shortLabel: 'Periodo',
     icon: FaNewspaper,
   },
   {
     value: 3,
-    label: 'Tempo Necessário',
-    shortLabel: 'Tempo',
+    label: 'Por uso do Cartão',
+    shortLabel: 'Uso',
     icon: FaHourglass,
   },
 ]
@@ -302,9 +293,9 @@ export function App() {
   return (
     <div>
       <LayoutContainer>
-        <Center flexDir="column">
-          <Heading as="h3" textAlign="center" color="brand.title" mb="4">
-            Escolha seu tipo de simulação
+        <VStack w="full" align="start">
+          <Heading as="h4" color="brand.title" mb="2">
+            Maneiras de acumular pontos e milhas
           </Heading>
           <SegmentedControl
             className="dark"
@@ -340,13 +331,7 @@ export function App() {
             })}
           />
 
-          <Heading
-            as="h4"
-            textAlign="center"
-            mb="2"
-            fontSize="md"
-            color="brand.title"
-          >
+          <Heading as="h4" mb="2" fontSize="md" color="brand.title">
             Meus Cartões (
             <Text as="span" fontSize="sm" color="brand.secondary">
               <Link to="/calculadora/cartoes">Adicionar</Link>
@@ -449,154 +434,132 @@ export function App() {
             </For>
           </Flex> */}
 
-          <Heading as="h3" color="brand.title" textAlign="center" mb="2">
+          <Heading as="h4" color="brand.title" mb="2">
             Preencha os valores para simular
           </Heading>
 
-          {tipo === 1 && (
-            <Flex
-              w="full"
-              maxW="800px"
-              flexDir={['column', 'column', 'row']}
-              align="flex-end"
-              justify="start"
-              flexWrap="wrap"
-              gap="4"
-              p="4"
-              borderWidth={1}
-              borderColor="brand.text"
-              rounded="md"
-            >
-              <Field
-                label="Valor Gasto"
-                color="brand.title"
-                invalid={!!tipo1Form.formState.errors.valorGasto}
-                errorText={tipo1Form.formState.errors.valorGasto?.message}
-                required
-                flex={1}
-              >
-                <Input
-                  type="number"
-                  register={tipo1Form.register('valorGasto', {
-                    required: 'Informe o valor gasto',
-                  })}
-                />
-              </Field>
-              <Field
-                label="Produto"
-                color="brand.title"
-                invalid={!!tipo1Form.formState.errors.produto}
-                errorText={tipo1Form.formState.errors.produto?.message}
-                flex={1}
-              >
-                <Input register={tipo1Form.register('produto')} />
-              </Field>
-              <Button onClick={tipo1Form.handleSubmit(handleSimulate)}>
-                Simular
-              </Button>
-            </Flex>
-          )}
+          <Flex
+            w="full"
+            // maxW="800px"
+            flexDir={['column', 'column', 'row']}
+            align="flex-end"
+            justify="start"
+            flexWrap="wrap"
+            gap="4"
+            p="4"
+            borderWidth={1}
+            borderColor="brand.text"
+            rounded="md"
+          >
+            {tipo === 1 && (
+              <>
+                <Field
+                  label="Valor Gasto"
+                  color="brand.title"
+                  invalid={!!tipo1Form.formState.errors.valorGasto}
+                  errorText={tipo1Form.formState.errors.valorGasto?.message}
+                  required
+                  flex={1}
+                >
+                  <Input
+                    type="number"
+                    register={tipo1Form.register('valorGasto', {
+                      required: 'Informe o valor gasto',
+                    })}
+                  />
+                </Field>
+                <Field
+                  label="Produto"
+                  color="brand.title"
+                  invalid={!!tipo1Form.formState.errors.produto}
+                  errorText={tipo1Form.formState.errors.produto?.message}
+                  flex={1}
+                >
+                  <Input register={tipo1Form.register('produto')} />
+                </Field>
+                <Button onClick={tipo1Form.handleSubmit(handleSimulate)}>
+                  Simular
+                </Button>
+              </>
+            )}
 
-          {tipo === 2 && (
-            <Flex
-              w="full"
-              maxW="800px"
-              flexDir={['column', 'column', 'row']}
-              align="flex-end"
-              justify="start"
-              flexWrap="wrap"
-              gap="4"
-              p="4"
-              borderWidth={1}
-              borderColor="brand.text"
-              rounded="md"
-            >
-              <Field
-                label="Quantos pontos você quer acumular?"
-                color="brand.title"
-                invalid={!!tipo2Form.formState.errors.pontos}
-                errorText={tipo2Form.formState.errors.pontos?.message}
-                required
-                flex={1}
-              >
-                <Input
-                  type="number"
-                  register={tipo2Form.register('pontos', {
-                    required: 'Informe a quantidade de pontos',
-                  })}
-                />
-              </Field>
-              <Field
-                label="Em quantos meses?"
-                color="brand.title"
-                invalid={!!tipo2Form.formState.errors.meses}
-                errorText={tipo2Form.formState.errors.meses?.message}
-                required
-                flex={1}
-              >
-                <Input
-                  type="number"
-                  register={tipo2Form.register('meses', {
-                    required: 'Informe a quantidade de meses',
-                  })}
-                />
-              </Field>
-              <Button onClick={tipo2Form.handleSubmit(handleSimulate)}>
-                Simular
-              </Button>
-            </Flex>
-          )}
+            {tipo === 2 && (
+              <>
+                <Field
+                  label="Quantos pontos você quer acumular?"
+                  color="brand.title"
+                  invalid={!!tipo2Form.formState.errors.pontos}
+                  errorText={tipo2Form.formState.errors.pontos?.message}
+                  required
+                  flex={1}
+                >
+                  <Input
+                    type="number"
+                    register={tipo2Form.register('pontos', {
+                      required: 'Informe a quantidade de pontos',
+                    })}
+                  />
+                </Field>
+                <Field
+                  label="Em quantos meses?"
+                  color="brand.title"
+                  invalid={!!tipo2Form.formState.errors.meses}
+                  errorText={tipo2Form.formState.errors.meses?.message}
+                  required
+                  flex={1}
+                >
+                  <Input
+                    type="number"
+                    register={tipo2Form.register('meses', {
+                      required: 'Informe a quantidade de meses',
+                    })}
+                  />
+                </Field>
+                <Button onClick={tipo2Form.handleSubmit(handleSimulate)}>
+                  Simular
+                </Button>
+              </>
+            )}
 
-          {tipo === 3 && (
-            <Flex
-              w="full"
-              maxW="800px"
-              flexDir={['column', 'column', 'row']}
-              align="flex-end"
-              justify="start"
-              flexWrap="wrap"
-              gap="4"
-              p="4"
-              borderWidth={1}
-              borderColor="brand.text"
-              rounded="md"
-            >
-              <Field
-                label="Quantos pontos você quer acumular?"
-                color="brand.title"
-                invalid={!!tipo3Form.formState.errors.pontos}
-                errorText={tipo3Form.formState.errors.pontos?.message}
-                required
-                flex={1}
-              >
-                <Input
-                  type="number"
-                  register={tipo3Form.register('pontos', {
-                    required: 'Informe a quantidade de pontos',
-                  })}
-                />
-              </Field>
-              <Field
-                label="Qual seu gasto mensal?"
-                color="brand.title"
-                invalid={!!tipo3Form.formState.errors.gastoMensal}
-                errorText={tipo3Form.formState.errors.gastoMensal?.message}
-                required
-                flex={1}
-              >
-                <Input
-                  type="number"
-                  register={tipo3Form.register('gastoMensal', {
-                    required: 'Informe o gasto mensal',
-                  })}
-                />
-              </Field>
+            {tipo === 3 && (
+              <>
+                <Field
+                  label="Quantos pontos você quer acumular?"
+                  color="brand.title"
+                  invalid={!!tipo3Form.formState.errors.pontos}
+                  errorText={tipo3Form.formState.errors.pontos?.message}
+                  required
+                  flex={1}
+                >
+                  <Input
+                    type="number"
+                    register={tipo3Form.register('pontos', {
+                      required: 'Informe a quantidade de pontos',
+                    })}
+                  />
+                </Field>
+                <Field
+                  label="Qual seu gasto mensal?"
+                  color="brand.title"
+                  invalid={!!tipo3Form.formState.errors.gastoMensal}
+                  errorText={tipo3Form.formState.errors.gastoMensal?.message}
+                  required
+                  flex={1}
+                >
+                  <Input
+                    type="number"
+                    register={tipo3Form.register('gastoMensal', {
+                      required: 'Informe o gasto mensal',
+                    })}
+                  />
+                </Field>
 
-              <Button onClick={tipo3Form.handleSubmit(handleSimulate)}>
-                Simular
-              </Button>
-            </Flex>
-          )}
+                <Button onClick={tipo3Form.handleSubmit(handleSimulate)}>
+                  Simular
+                </Button>
+              </>
+            )}
+          </Flex>
 
           {simulationResponse && (
             <VStack
@@ -705,7 +668,7 @@ export function App() {
               </Flex>
             </VStack>
           )}
-        </Center>
+        </VStack>
       </LayoutContainer>
     </div>
   )

@@ -37,7 +37,7 @@ export function HistoryCardContainer({
           flexDir={['column', 'row']}
           gap={[0, '2']}
         >
-          <Heading as="strong" fontSize={['sm', 'md']} color="brand.secondary">
+          <Heading as="strong" fontSize={['sm', 'md']} color="brand.title">
             {simulacao.simulation_type === 'purchase'
               ? 'Pontos por Compra'
               : simulacao.simulation_type === 'monthly_spending'

@@ -33,7 +33,7 @@ export function FavoriteWithConfirmationPopoverButton({
       <PopoverTrigger asChild>
         <IconButton
           aria-label={buttonAriaLabel}
-          size="xs"
+          size="2xs"
           className="dark"
           variant="surface"
           bgColor={favoriteStatus ? 'yellow.600' : 'brand.text'}

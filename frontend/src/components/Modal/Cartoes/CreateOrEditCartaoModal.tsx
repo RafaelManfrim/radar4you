@@ -46,8 +46,17 @@ const schema = z.object({
   //   z.union([z.undefined(), z.number().min(1, 'Informe um valor válido')]),
   // ),
   annual_fee: z
-    .union([z.literal(''), z.number().min(1, 'Informe um valor válido')])
-    .optional(),
+    .string()
+    .optional()
+    .refine(
+      (val) =>
+        val === undefined ||
+        val === '' ||
+        (!isNaN(Number(val)) && Number(val) >= 0),
+      {
+        message: 'Informe um valor válido',
+      },
+    ),
   benefits: z.string().optional(),
   vip_lounges: z.string().optional(),
   image_url: z.string().optional(),
@@ -84,7 +93,7 @@ export function CreateOrEditCartaoModal({
       financial_institution_id: [selectedCartao?.financial_institution_id],
       card_brand_id: [selectedCartao?.card_brand_id],
       points_conversion_rate: selectedCartao?.points_conversion_rate,
-      annual_fee: selectedCartao?.annual_fee ?? undefined,
+      annual_fee: String(selectedCartao?.annual_fee) ?? undefined,
       benefits: selectedCartao?.benefits ?? '',
       vip_lounges: selectedCartao?.vip_lounges ?? '',
       is_recommended: selectedCartao?.is_recommended ?? false,
@@ -103,10 +112,12 @@ export function CreateOrEditCartaoModal({
       benefits: data.benefits,
       vip_lounges: data.vip_lounges,
       image_url: data.image_url,
-      ...(data.annual_fee === ''
-        ? {}
+      ...(data.annual_fee === undefined || data.annual_fee === ''
+        ? {
+            annual_fee: 0,
+          }
         : {
-            annual_fee: data.annual_fee,
+            annual_fee: Number(data.annual_fee),
           }),
     }
 

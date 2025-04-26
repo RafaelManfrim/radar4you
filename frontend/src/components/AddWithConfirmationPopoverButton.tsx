@@ -31,7 +31,7 @@ export function AddWithConfirmationPopoverButton({
       <PopoverTrigger asChild>
         <IconButton
           aria-label={buttonAriaLabel}
-          size="xs"
+          size="2xs"
           className="dark"
           variant="surface"
           bgColor="brand.primary"

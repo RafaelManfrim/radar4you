@@ -158,7 +158,7 @@ export function CartaoCard({
             p="2"
             w="full"
             flexDir="column"
-            fontSize={['sm', 'sm', 'sm', 'md']}
+            fontSize={['xs', 'xs', 'xs', 'sm']}
             {...(isProfileVisualization && { fontSize: 'sm', p: '1' })}
           >
             <Text color="brand.title">Benefícios</Text>
@@ -171,7 +171,7 @@ export function CartaoCard({
             p="2"
             w="full"
             flexDir="column"
-            fontSize={['sm', 'sm', 'sm', 'md']}
+            fontSize={['xs', 'xs', 'xs', 'sm']}
             {...(isProfileVisualization && { fontSize: 'sm', p: '1' })}
           >
             <Text color="brand.title">Salas VIP</Text>
@@ -180,7 +180,7 @@ export function CartaoCard({
               : 'Nenhuma sala VIP informada.'}
           </Flex>
         </Flex>
-        <Text color="brand.text" fontSize="sm" textAlign="right">
+        <Text color="brand.text" fontSize="xs" textAlign="right">
           Anuidade:{' '}
           <Text as="span" color="brand.secondary">
             {card.annual_fee
