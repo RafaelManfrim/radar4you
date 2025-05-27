@@ -1,8 +1,17 @@
-import { Box, Flex, Heading, Text, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  VStack,
+  Tooltip,
+  Icon,
+} from '@chakra-ui/react'
 import { Simulacao } from '@/pages/History'
 import { HistoryCard } from './HistoryCard'
 import { RemoveWithConfirmationPopoverButton } from './RemoveWithConfirmationPopoverButton'
 import { useState } from 'react'
+import { MdInfo } from 'react-icons/md'
 
 interface HistoryCardContainerProps {
   simulacao: Simulacao
@@ -14,6 +23,12 @@ export function HistoryCardContainer({
   onDeleteSimulacao,
 }: HistoryCardContainerProps) {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
+
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleMouseEnter = () => setIsOpen(true)
+  const handleMouseLeave = () => setIsOpen(false)
+  const handleClick = () => setIsOpen(true) // não fecha ao clicar novamente
 
   return (
     <VStack
@@ -32,21 +47,52 @@ export function HistoryCardContainer({
         pb="2"
         align="center"
       >
-        <Flex
-          align={['start', 'center']}
-          flexDir={['column', 'row']}
-          gap={[0, '2']}
-        >
-          <Heading as="strong" fontSize={['sm', 'md']} color="brand.title">
-            {simulacao.simulation_type === 'purchase'
-              ? 'Pontos por Compra'
-              : simulacao.simulation_type === 'monthly_spending'
-                ? 'Encontrar Gasto Mensal'
-                : 'Descobrir Tempo Necessário'}
-          </Heading>
-          <Text as="span" fontSize="xs" color="brand.text" mt={[0, '1']}>
-            {new Date(simulacao.created_at).toLocaleString()}
-          </Text>
+        <Flex gap="2" align={['start', 'center']} w="full">
+          <Flex
+            align={['start', 'center']}
+            flexDir={['column', 'row']}
+            gap={[0, '2']}
+          >
+            <Heading as="strong" fontSize={['sm', 'md']} color="brand.title">
+              {simulacao.simulation_type === 'purchase'
+                ? 'Pontos por Compra'
+                : simulacao.simulation_type === 'monthly_spending'
+                  ? 'Encontrar Gasto Mensal'
+                  : 'Descobrir Tempo Necessário'}
+            </Heading>
+            <Text as="span" fontSize="xs" color="brand.text" mt={[0, '1']}>
+              {new Date(simulacao.created_at).toLocaleString()}
+            </Text>
+          </Flex>
+          <Tooltip.Root open={isOpen} onOpenChange={(e) => setIsOpen(e.open)}>
+            <Tooltip.Trigger asChild>
+              <Icon
+                fontSize="sm"
+                color="brand.secondary"
+                mt={['10px', '1']}
+                cursor="pointer"
+                onClick={handleClick}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <MdInfo />
+              </Icon>
+            </Tooltip.Trigger>
+            <Tooltip.Positioner>
+              <Tooltip.Content
+                fontSize="md"
+                p="3"
+                lineHeight="moderate"
+                borderWidth={1}
+                borderColor="brand.text"
+                textAlign="justify"
+              >
+                Os valores são aproximados podendo alterar de acordo com a
+                variação cambial do dólar e também de acordo com o ágio da
+                instituição financeira.
+              </Tooltip.Content>
+            </Tooltip.Positioner>
+          </Tooltip.Root>
         </Flex>
 
         {onDeleteSimulacao && (
