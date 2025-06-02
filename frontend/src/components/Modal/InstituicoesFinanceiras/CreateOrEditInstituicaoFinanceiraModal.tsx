@@ -121,7 +121,11 @@ export function CreateOrEditInstituicaoFinanceiraModal({
           invalid={!!form.formState.errors.markup}
           errorText={form.formState.errors.markup?.message}
         >
-          <Input type="number" register={form.register('markup')} />
+          <Input
+            type="number"
+            appearance="textfield"
+            register={form.register('markup')}
+          />
         </Field>
 
         <Field

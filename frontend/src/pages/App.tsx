@@ -1,4 +1,13 @@
-import { Text, HStack, Heading, For, Flex, VStack, Box } from '@chakra-ui/react'
+import {
+  Text,
+  HStack,
+  Heading,
+  For,
+  Flex,
+  VStack,
+  Box,
+  IconButton,
+} from '@chakra-ui/react'
 
 import { useEffect, useRef, useState } from 'react'
 
@@ -18,6 +27,9 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CalculatorCard } from '@/components/CalculatorCard'
 import { Simulacao } from './History'
+import { FaX } from 'react-icons/fa6'
+import { BestResult, getBestResult } from '@/utils/getBestResult'
+import { formatNumberToPortuguese } from '@/utils/formatNumberToPortuguese'
 // import { ChakraCarousel } from '@/components/ChakraCarousel'
 
 const tipos = [
@@ -81,7 +93,11 @@ export function App() {
 
   const [selectedCards, setSelectedCards] = useState<Cartao[]>([])
 
-  const [simulationResponse, setSimulationResponse] = useState<Simulacao>()
+  const [simulationResponse, setSimulationResponse] = useState<
+    Simulacao & {
+      bestResult: BestResult
+    }
+  >()
 
   const tipo1Form = useForm<Tipo1FormType>({
     resolver: zodResolver(tipo1Schema),
@@ -215,7 +231,12 @@ export function App() {
       }
 
       if (response) {
-        setSimulationResponse(response.data.simulation)
+        const simulation: Simulacao = response.data.simulation
+
+        setSimulationResponse({
+          ...simulation,
+          bestResult: getBestResult(simulation),
+        })
       }
 
       handleResetSelectedCards()
@@ -284,6 +305,8 @@ export function App() {
     tipo1Form.reset()
     tipo2Form.reset()
     tipo3Form.reset()
+
+    setSimulationResponse(undefined)
   }, [tipo])
 
   useEffect(() => {
@@ -294,7 +317,7 @@ export function App() {
     <div>
       <LayoutContainer>
         <VStack w="full" align="start">
-          <Heading as="h4" color="brand.title" mb="2">
+          <Heading as="h4" fontSize="md" color="brand.title" mb="2">
             Maneiras de acumular pontos e milhas
           </Heading>
           <SegmentedControl
@@ -434,7 +457,7 @@ export function App() {
             </For>
           </Flex> */}
 
-          <Heading as="h4" color="brand.title" mb="2">
+          <Heading as="h4" fontSize="md" color="brand.title" mb="2">
             Preencha os valores para simular
           </Heading>
 
@@ -463,6 +486,7 @@ export function App() {
                 >
                   <Input
                     type="number"
+                    appearance="textfield"
                     register={tipo1Form.register('valorGasto', {
                       required: 'Informe o valor gasto',
                     })}
@@ -495,6 +519,7 @@ export function App() {
                 >
                   <Input
                     type="number"
+                    appearance="textfield"
                     register={tipo2Form.register('pontos', {
                       required: 'Informe a quantidade de pontos',
                     })}
@@ -510,6 +535,7 @@ export function App() {
                 >
                   <Input
                     type="number"
+                    appearance="textfield"
                     register={tipo2Form.register('meses', {
                       required: 'Informe a quantidade de meses',
                     })}
@@ -533,6 +559,7 @@ export function App() {
                 >
                   <Input
                     type="number"
+                    appearance="textfield"
                     register={tipo3Form.register('pontos', {
                       required: 'Informe a quantidade de pontos',
                     })}
@@ -548,6 +575,7 @@ export function App() {
                 >
                   <Input
                     type="number"
+                    appearance="textfield"
                     register={tipo3Form.register('gastoMensal', {
                       required: 'Informe o gasto mensal',
                     })}
@@ -564,16 +592,35 @@ export function App() {
           {simulationResponse && (
             <VStack
               w="full"
-              p="4"
+              p="2"
               borderWidth={1}
               borderColor="brand.text"
               borderRadius="md"
               gap="2"
               mt="4"
             >
-              <Heading color="brand.title" mb="1">
-                Resultado da simulação
-              </Heading>
+              <Flex mb="1" w="full" justify="space-between" align="center">
+                <Heading
+                  color="brand.title"
+                  position="relative"
+                  left="50%"
+                  transform="translateX(-50%)"
+                >
+                  Resultado da simulação
+                </Heading>
+
+                <IconButton
+                  size="2xs"
+                  onClick={() => setSimulationResponse(undefined)}
+                  marginLeft="auto"
+                  _icon={{
+                    width: '2.5',
+                    height: '2.5',
+                  }}
+                >
+                  <FaX />
+                </IconButton>
+              </Flex>
 
               <Flex
                 mb="2"
@@ -585,6 +632,10 @@ export function App() {
                 ref={responseRef}
               >
                 {simulationResponse.simulationCards.map((simulationCard) => {
+                  const isBestResult =
+                    simulationCard.card.id ===
+                    simulationResponse.bestResult.card.id
+
                   return (
                     <Flex
                       flexDir="column"
@@ -612,8 +663,14 @@ export function App() {
                         flexDir="column"
                         justify="center"
                         align="center"
-                        borderWidth={1}
-                        borderColor="brand.secondary"
+                        borderWidth={2}
+                        {...(isBestResult
+                          ? {
+                              borderColor: 'brand.warning',
+                            }
+                          : {
+                              borderColor: 'brand.text-transparent',
+                            })}
                       >
                         <Box
                           color="brand.title"
@@ -625,10 +682,17 @@ export function App() {
                               <Text as="span">Pontos Ganhos: </Text>
                               <Text
                                 as="span"
-                                fontWeight="semibold"
-                                color="brand.secondary"
+                                fontWeight="bold"
+                                color={
+                                  isBestResult
+                                    ? 'brand.warning'
+                                    : 'brand.secondary'
+                                }
+                                fontSize={['sm', 'sm', 'md']}
                               >
-                                {simulationCard.earned_points}
+                                {formatNumberToPortuguese(
+                                  simulationCard.earned_points || 0,
+                                )}
                               </Text>
                             </Box>
                           ) : simulationResponse.simulation_type ===
@@ -637,8 +701,13 @@ export function App() {
                               <Text as="span">Gasto Mensal Necessário: </Text>
                               <Text
                                 as="span"
-                                fontWeight="semibold"
-                                color="brand.secondary"
+                                fontWeight="bold"
+                                color={
+                                  isBestResult
+                                    ? 'brand.warning'
+                                    : 'brand.secondary'
+                                }
+                                fontSize={['sm', 'sm', 'md']}
                               >
                                 {Intl.NumberFormat('pt-BR', {
                                   currency: 'BRL',
@@ -653,8 +722,13 @@ export function App() {
                               <Text as="span">Meses Necessários: </Text>
                               <Text
                                 as="span"
-                                fontWeight="semibold"
-                                color="brand.secondary"
+                                fontWeight="bold"
+                                color={
+                                  isBestResult
+                                    ? 'brand.warning'
+                                    : 'brand.secondary'
+                                }
+                                fontSize={['sm', 'sm', 'md']}
                               >
                                 {simulationCard.required_months}
                               </Text>

@@ -16,6 +16,7 @@ import { CreateOrEditCartaoModal } from '@/components/Modal/Cartoes/CreateOrEdit
 import { getMoedaByCurrency } from '@/utils/getMoedaByCurrency'
 import { FaPencil } from 'react-icons/fa6'
 import { FaTrash } from 'react-icons/fa'
+import { formatNumberToPortuguese } from '@/utils/formatNumberToPortuguese'
 
 export interface Cartao {
   id: string
@@ -40,6 +41,10 @@ export interface Cartao {
 export function Cartoes() {
   const [cartoes, setCartoes] = useState<Cartao[]>()
   const [selectedCartao, setSelectedCartao] = useState<Cartao>()
+  const [visualizarBeneficios, setVisualizarBeneficios] =
+    useState<boolean>(false)
+  const [visualizarSalasVIP, setVisualizarSalasVIP] = useState<boolean>(false)
+  const [visualizarUrlImagem, setVisualizarUrlImagem] = useState<boolean>(false)
 
   const [bandeiras, setBandeiras] = useState<Bandeira[]>()
   const [instituicoesFinanceiras, setInstituicoesFinanceiras] =
@@ -172,13 +177,28 @@ export function Cartoes() {
                 <Table.ColumnHeader textAlign="center">
                   Anuidade
                 </Table.ColumnHeader>
-                <Table.ColumnHeader textAlign="center">
+                <Table.ColumnHeader
+                  textAlign="center"
+                  onClick={() => setVisualizarBeneficios(!visualizarBeneficios)}
+                  cursor="pointer"
+                  {...(visualizarBeneficios && { color: 'brand.danger' })}
+                >
                   Benefícios
                 </Table.ColumnHeader>
-                <Table.ColumnHeader textAlign="center">
+                <Table.ColumnHeader
+                  textAlign="center"
+                  onClick={() => setVisualizarSalasVIP(!visualizarSalasVIP)}
+                  cursor="pointer"
+                  {...(visualizarSalasVIP && { color: 'brand.danger' })}
+                >
                   Salas VIP
                 </Table.ColumnHeader>
-                <Table.ColumnHeader textAlign="center">
+                <Table.ColumnHeader
+                  textAlign="center"
+                  onClick={() => setVisualizarUrlImagem(!visualizarUrlImagem)}
+                  cursor="pointer"
+                  {...(visualizarUrlImagem && { color: 'brand.danger' })}
+                >
                   Imagem
                 </Table.ColumnHeader>
                 <Table.ColumnHeader textAlign="center">
@@ -187,89 +207,121 @@ export function Cartoes() {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {cartoes?.map((cartao) => (
-                <Table.Row key={cartao.id}>
-                  <Table.Cell textAlign="center">{cartao.id}</Table.Cell>
-                  <Table.Cell textAlign="center">{cartao.title}</Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {cartao.financial_institution_name}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {cartao.card_brand_name}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {cartao.points_conversion_rate} ponto
-                    {cartao.points_conversion_rate !== 1 && 's'} /{' '}
-                    {getMoedaByCurrency(
-                      cartao.points_currency,
-                    ).toLocaleLowerCase()}
-                  </Table.Cell>
-                  <Table.Cell
-                    textAlign="center"
-                    {...(cartao.is_recommended && {
-                      // bgColor: 'brand.primary',
-                      color: 'brand.secondary',
-                    })}
-                  >
-                    {cartao.is_recommended ? 'Sim' : 'Não'}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {cartao.annual_fee
-                      ? Intl.NumberFormat('pt-BR', {
-                          style: 'currency',
-                          currency: 'BRL',
-                        }).format(cartao.annual_fee)
-                      : 'Grátis'}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {cartao.benefits || '-'}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {cartao.vip_lounges || '-'}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    {cartao.image_url || '-'}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
-                    <HStack justify="center" align="center">
-                      <IconButton
-                        aria-label="Editar cartão"
-                        size="xs"
-                        className="dark"
-                        variant="surface"
-                        bgColor="brand.primary"
-                        color="brand.title"
-                        borderWidth={0}
-                        ring="none"
-                        _hover={{
-                          filter: 'brightness(0.9)',
-                          transition: 'filter 0.2s ease',
-                        }}
-                        onClick={() => handleUpdateCartao(cartao)}
-                      >
-                        <FaPencil />
-                      </IconButton>
-                      <IconButton
-                        aria-label="Excluir cartão"
-                        size="xs"
-                        className="dark"
-                        variant="surface"
-                        bgColor="brand.danger"
-                        color="brand.title"
-                        borderWidth={0}
-                        ring="none"
-                        _hover={{
-                          filter: 'brightness(0.9)',
-                          transition: 'filter 0.2s ease',
-                        }}
-                        onClick={() => handleDeleteCartao(cartao)}
-                      >
-                        <FaTrash />
-                      </IconButton>
-                    </HStack>
-                  </Table.Cell>
-                </Table.Row>
-              ))}
+              {cartoes?.map((cartao) => {
+                const formattedAnuidade = cartao.annual_fee
+                  ? Intl.NumberFormat('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
+                    }).format(cartao.annual_fee)
+                  : 'Grátis'
+
+                const isRecommended = cartao.is_recommended ? 'Sim' : 'Não'
+
+                const formattedPointsConversionRate = formatNumberToPortuguese(
+                  cartao.points_conversion_rate,
+                )
+
+                return (
+                  <Table.Row key={cartao.id}>
+                    <Table.Cell textAlign="center">{cartao.id}</Table.Cell>
+                    <Table.Cell textAlign="center">{cartao.title}</Table.Cell>
+                    <Table.Cell textAlign="center">
+                      {cartao.financial_institution_name}
+                    </Table.Cell>
+                    <Table.Cell textAlign="center">
+                      {cartao.card_brand_name}
+                    </Table.Cell>
+                    <Table.Cell textAlign="center">
+                      {formattedPointsConversionRate} ponto
+                      {Number(cartao.points_conversion_rate) !== 1 &&
+                        's'} /{' '}
+                      {getMoedaByCurrency(
+                        cartao.points_currency,
+                      ).toLocaleLowerCase()}
+                    </Table.Cell>
+                    <Table.Cell
+                      textAlign="center"
+                      {...(cartao.is_recommended && {
+                        color: 'brand.secondary',
+                      })}
+                    >
+                      {isRecommended}
+                    </Table.Cell>
+                    <Table.Cell textAlign="center">
+                      {formattedAnuidade}
+                    </Table.Cell>
+                    <Table.Cell
+                      textAlign="center"
+                      onClick={() =>
+                        setVisualizarBeneficios(!visualizarBeneficios)
+                      }
+                      cursor="pointer"
+                    >
+                      {visualizarBeneficios
+                        ? cartao.benefits || '-'
+                        : 'Visualizar'}
+                    </Table.Cell>
+                    <Table.Cell
+                      textAlign="center"
+                      onClick={() => setVisualizarSalasVIP(!visualizarSalasVIP)}
+                      cursor="pointer"
+                    >
+                      {visualizarSalasVIP
+                        ? cartao.vip_lounges || '-'
+                        : 'Visualizar'}
+                    </Table.Cell>
+                    <Table.Cell
+                      textAlign="center"
+                      onClick={() =>
+                        setVisualizarUrlImagem(!visualizarUrlImagem)
+                      }
+                      cursor="pointer"
+                    >
+                      {visualizarUrlImagem
+                        ? cartao.image_url || '-'
+                        : 'Visualizar'}
+                    </Table.Cell>
+                    <Table.Cell textAlign="center">
+                      <HStack justify="center" align="center">
+                        <IconButton
+                          aria-label="Editar cartão"
+                          size="xs"
+                          className="dark"
+                          variant="surface"
+                          bgColor="brand.primary"
+                          color="brand.title"
+                          borderWidth={0}
+                          ring="none"
+                          _hover={{
+                            filter: 'brightness(0.9)',
+                            transition: 'filter 0.2s ease',
+                          }}
+                          onClick={() => handleUpdateCartao(cartao)}
+                        >
+                          <FaPencil />
+                        </IconButton>
+                        <IconButton
+                          aria-label="Excluir cartão"
+                          size="xs"
+                          className="dark"
+                          variant="surface"
+                          bgColor="brand.danger"
+                          color="brand.title"
+                          borderWidth={0}
+                          ring="none"
+                          _hover={{
+                            filter: 'brightness(0.9)',
+                            transition: 'filter 0.2s ease',
+                          }}
+                          onClick={() => handleDeleteCartao(cartao)}
+                        >
+                          <FaTrash />
+                        </IconButton>
+                      </HStack>
+                    </Table.Cell>
+                  </Table.Row>
+                )
+              })}
             </Table.Body>
           </Table.Root>
         </Table.ScrollArea>

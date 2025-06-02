@@ -44,6 +44,10 @@ export function FavoriteWithConfirmationPopoverButton({
             filter: 'brightness(0.9)',
             transition: 'filter 0.2s ease',
           }}
+          _icon={{
+            width: '3',
+            height: '3',
+          }}
         >
           <FaStar />
         </IconButton>

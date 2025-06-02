@@ -1,23 +1,34 @@
 import { Simulacao, SimulationCard } from '@/pages/History'
+import { formatNumberToPortuguese } from '@/utils/formatNumberToPortuguese'
+import { BestResult } from '@/utils/getBestResult'
 import { getMoedaByCurrency } from '@/utils/getMoedaByCurrency'
 import { Box, Flex, Text } from '@chakra-ui/react'
 
 interface HistoryCardProps {
   simulationCard: SimulationCard
   simulacao: Simulacao
+  bestResult: BestResult
 }
 
-export function HistoryCard({ simulationCard, simulacao }: HistoryCardProps) {
+export function HistoryCard({
+  simulationCard,
+  simulacao,
+  bestResult,
+}: HistoryCardProps) {
+  const isBestResult = bestResult.card.id === simulationCard.card.id
+
   return (
     <Flex
       key={simulationCard.id}
       gap="2"
-      p="2"
+      p="1"
       bgColor="brand.background"
       w="full"
       justify="space-between"
       fontSize={['sm', 'md']}
       flexDir={['column', 'row']}
+      borderWidth={0.5}
+      borderColor={isBestResult ? 'brand.warning' : 'brand.background'}
     >
       <Flex flexDir={['column', 'row']} gap={[0, '1']}>
         <Text as="strong" color="brand.title">
@@ -45,7 +56,7 @@ export function HistoryCard({ simulationCard, simulacao }: HistoryCardProps) {
           <Box>
             <Text as="span">Pontos Ganhos: </Text>
             <Text as="span" fontWeight="semibold" color="brand.success">
-              {simulationCard.earned_points}
+              {formatNumberToPortuguese(simulationCard.earned_points || 0)}
             </Text>
           </Box>
         ) : simulacao.simulation_type === 'monthly_spending' ? (

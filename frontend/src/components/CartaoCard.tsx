@@ -8,6 +8,7 @@ import { RemoveWithConfirmationPopoverButton } from './RemoveWithConfirmationPop
 import { AddWithConfirmationPopoverButton } from './AddWithConfirmationPopoverButton'
 import { FavoriteWithConfirmationPopoverButton } from './FavoriteWithConfirmationPopoverButton'
 import { getMoedaByCurrency } from '@/utils/getMoedaByCurrency'
+import { formatNumberToPortuguese } from '@/utils/formatNumberToPortuguese'
 
 interface CartaoCardProps {
   card: Cartao
@@ -33,6 +34,17 @@ export function CartaoCard({
 
   const userCard = userCards.find((userCard) => userCard.card_id === card.id)
 
+  const formattedPointsConversionRate = formatNumberToPortuguese(
+    card.points_conversion_rate,
+  )
+
+  const formattedAnuidade = card.annual_fee
+    ? formatNumberToPortuguese(card.annual_fee, {
+        style: 'currency',
+        currency: 'BRL',
+      })
+    : 'Grátis'
+
   return (
     <VStack w="full" bgColor="brand.text-transparent" borderRadius="sm" p="2">
       <Flex
@@ -46,8 +58,8 @@ export function CartaoCard({
         <Flex gap={[0, 0, '1']} flexDir={['column', 'column', 'row']}>
           <Text color="brand.title">{card.title}</Text>
           <Text>
-            ({card.points_conversion_rate} ponto
-            {card.points_conversion_rate !== 1 && 's'} /{' '}
+            ({formattedPointsConversionRate} ponto
+            {Number(card.points_conversion_rate) !== 1 && 's'} /{' '}
             {getMoedaByCurrency(card.points_currency).toLocaleLowerCase()})
           </Text>
         </Flex>
@@ -183,12 +195,7 @@ export function CartaoCard({
         <Text color="brand.text" fontSize="xs" textAlign="right">
           Anuidade:{' '}
           <Text as="span" color="brand.secondary">
-            {card.annual_fee
-              ? Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                }).format(card.annual_fee ?? 0)
-              : 'Grátis'}
+            {formattedAnuidade}
           </Text>
         </Text>
       </Flex>

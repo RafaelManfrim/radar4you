@@ -312,6 +312,7 @@ export function CreateOrEditCartaoModal({
         >
           <Input
             type="number"
+            appearance="textfield"
             register={form.register('points_conversion_rate', {
               valueAsNumber: true,
             })}
@@ -323,7 +324,11 @@ export function CreateOrEditCartaoModal({
           invalid={!!form.formState.errors.annual_fee}
           errorText={form.formState.errors.annual_fee?.message}
         >
-          <Input type="number" register={form.register('annual_fee')} />
+          <Input
+            type="number"
+            appearance="textfield"
+            register={form.register('annual_fee')}
+          />
         </Field>
 
         <Field label="Benefícios">

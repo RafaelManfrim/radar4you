@@ -12,6 +12,7 @@ import { HistoryCard } from './HistoryCard'
 import { RemoveWithConfirmationPopoverButton } from './RemoveWithConfirmationPopoverButton'
 import { useState } from 'react'
 import { MdInfo } from 'react-icons/md'
+import { getBestResult } from '@/utils/getBestResult'
 
 interface HistoryCardContainerProps {
   simulacao: Simulacao
@@ -29,6 +30,8 @@ export function HistoryCardContainer({
   const handleMouseEnter = () => setIsOpen(true)
   const handleMouseLeave = () => setIsOpen(false)
   const handleClick = () => setIsOpen(true) // não fecha ao clicar novamente
+
+  const bestResult = getBestResult(simulacao)
 
   return (
     <VStack
@@ -186,6 +189,7 @@ export function HistoryCardContainer({
           </Flex>
         )}
       </Flex>
+
       <VStack gap="2" w="full">
         {simulacao.simulationCards.map((simulationCard) => {
           return (
@@ -193,6 +197,7 @@ export function HistoryCardContainer({
               key={simulationCard.id}
               simulationCard={simulationCard}
               simulacao={simulacao}
+              bestResult={bestResult}
             />
           )
         })}
