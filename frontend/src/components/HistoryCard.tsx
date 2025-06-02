@@ -17,6 +17,10 @@ export function HistoryCard({
 }: HistoryCardProps) {
   const isBestResult = bestResult.card.id === simulationCard.card.id
 
+  const formattedPointsConversionRate = formatNumberToPortuguese(
+    simulationCard.card.points_conversion_rate,
+  )
+
   return (
     <Flex
       key={simulationCard.id}
@@ -35,7 +39,7 @@ export function HistoryCard({
           {simulationCard.card.title}
         </Text>
         <Text as="span" color="brand.secondary">
-          ({simulationCard.card.points_conversion_rate} ponto
+          ({formattedPointsConversionRate} ponto
           {simulationCard.card.points_conversion_rate !== 1 && 's'} /{' '}
           {getMoedaByCurrency(
             simulationCard.card.points_currency,

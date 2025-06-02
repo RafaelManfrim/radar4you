@@ -605,6 +605,7 @@ export function App() {
                   position="relative"
                   left="50%"
                   transform="translateX(-50%)"
+                  fontSize="md"
                 >
                   Resultado da simulação
                 </Heading>
