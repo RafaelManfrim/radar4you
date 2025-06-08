@@ -128,9 +128,13 @@ export async function createSimulation(
           throw new Error('Instituição financeira não encontrada')
         }
 
+        const financialInstitutionMarkupInDecimal =
+          (financialInstitution.markup ?? 0) / 100
+
         const dollarQuotesWithMarkup =
           card.points_currency === 'USD' && dollar_quotes
-            ? dollar_quotes.exchange_rate * (1 + financialInstitution.markup)
+            ? dollar_quotes.exchange_rate *
+              (1 + financialInstitutionMarkupInDecimal)
             : undefined
 
         // Valor gasto está em reais
@@ -146,6 +150,7 @@ export async function createSimulation(
             earned_points = Math.floor(amount * card.points_conversion_rate)
           } else if (card.points_currency === 'USD' && dollarQuotesWithMarkup) {
             amountInDollar = amount / dollarQuotesWithMarkup
+
             // Pontos ganhos com a compra
             earned_points = Math.floor(
               amountInDollar * card.points_conversion_rate,

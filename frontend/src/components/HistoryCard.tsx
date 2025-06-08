@@ -51,6 +51,7 @@ export function HistoryCard({
             Ágio:{' '}
             {Intl.NumberFormat('pt-BR', {
               style: 'percent',
+              maximumFractionDigits: 2,
             }).format((simulationCard.financialInstitution.markup ?? 0) / 100)}
           </Text>
         )}
