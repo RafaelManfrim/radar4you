@@ -114,6 +114,10 @@ export function History() {
   }, [])
 
   const filteredSimulations = simulacoes?.filter((simulacao) => {
+    if (simulacao.simulationCards.length === 0) {
+      return false
+    }
+
     if (typesFilter.some((value) => value.checked)) {
       const typeFilter = typesFilter.find(
         (filter) => filter.value === simulacao.simulation_type,
