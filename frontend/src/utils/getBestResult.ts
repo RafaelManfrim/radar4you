@@ -23,7 +23,7 @@ export function getBestResult(simulation: Simulacao) {
 
         return best
       },
-      { card: simulation.simulationCards[0].card, earned_points: 0 },
+      { card: simulation.simulationCards[0]?.card, earned_points: 0 },
     )
   } else if (simulation.simulation_type === 'monthly_spending') {
     const worstRequiredSpending = Math.max(
@@ -45,7 +45,7 @@ export function getBestResult(simulation: Simulacao) {
         return best
       },
       {
-        card: simulation.simulationCards[0].card,
+        card: simulation.simulationCards[0]?.card,
         required_spending: worstRequiredSpending,
       },
     )
@@ -69,7 +69,7 @@ export function getBestResult(simulation: Simulacao) {
         return best
       },
       {
-        card: simulation.simulationCards[0].card,
+        card: simulation.simulationCards[0]?.card,
         required_months: worstRequiredMonths,
       },
     )

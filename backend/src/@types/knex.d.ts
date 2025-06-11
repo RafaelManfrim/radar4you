@@ -56,6 +56,7 @@ declare module 'knex/types/tables' {
     annual_fee?: number
     benefits?: string
     vip_lounges?: string
+    additional_info?: string
     created_at: Date
     updated_at: Date
   }

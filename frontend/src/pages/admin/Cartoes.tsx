@@ -17,6 +17,7 @@ import { getMoedaByCurrency } from '@/utils/getMoedaByCurrency'
 import { FaPencil } from 'react-icons/fa6'
 import { FaTrash } from 'react-icons/fa'
 import { formatNumberToPortuguese } from '@/utils/formatNumberToPortuguese'
+import { ImportCartoesModal } from '@/components/Modal/Cartoes/ImportCartoesModal'
 
 export interface Cartao {
   id: string
@@ -36,15 +37,19 @@ export interface Cartao {
   benefits?: string
   vip_lounges?: string
   image_url?: string
+  additional_info?: string
 }
 
 export function Cartoes() {
   const [cartoes, setCartoes] = useState<Cartao[]>()
   const [selectedCartao, setSelectedCartao] = useState<Cartao>()
-  const [visualizarBeneficios, setVisualizarBeneficios] =
-    useState<boolean>(false)
-  const [visualizarSalasVIP, setVisualizarSalasVIP] = useState<boolean>(false)
-  const [visualizarUrlImagem, setVisualizarUrlImagem] = useState<boolean>(false)
+
+  const [visualizarId, setVisualizarId] = useState(false)
+  const [visualizarBeneficios, setVisualizarBeneficios] = useState(false)
+  const [visualizarSalasVIP, setVisualizarSalasVIP] = useState(false)
+  const [visualizarUrlImagem, setVisualizarUrlImagem] = useState(false)
+  const [visualizarInformacoesAdicionais, setVisualizarInformacoesAdicionais] =
+    useState(false)
 
   const [bandeiras, setBandeiras] = useState<Bandeira[]>()
   const [instituicoesFinanceiras, setInstituicoesFinanceiras] =
@@ -53,10 +58,15 @@ export function Cartoes() {
 
   const createOrEditCartaoDisclosure = useDisclosure()
   const deleteCartaoDisclosure = useDisclosure()
+  const importCartaoDisclosure = useDisclosure()
 
   function handleCreateCartao() {
     setSelectedCartao(undefined)
     createOrEditCartaoDisclosure.onOpen()
+  }
+
+  function handleImportCartao() {
+    importCartaoDisclosure.onOpen()
   }
 
   function handleUpdateCartao(cartao: Cartao) {
@@ -108,20 +118,20 @@ export function Cartoes() {
     )
   }
 
+  async function fetchCartoes() {
+    try {
+      const response = await api.get('cards')
+      setCartoes(response.data.cards)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     async function fetchBandeiras() {
       try {
         const response = await api.get('card-brands')
         setBandeiras(response.data.cardBrands)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-
-    async function fetchCartoes() {
-      try {
-        const response = await api.get('cards')
-        setCartoes(response.data.cards)
       } catch (err) {
         console.log(err)
       }
@@ -146,8 +156,13 @@ export function Cartoes() {
       <Card
         headerTitle="Cartões"
         extraHeader={
-          <Flex>
-            <Button onClick={handleCreateCartao}>Cadastrar</Button>
+          <Flex gap="2">
+            <Button size="sm" onClick={handleCreateCartao}>
+              Cadastrar
+            </Button>
+            <Button size="sm" onClick={handleImportCartao}>
+              Importar
+            </Button>
           </Flex>
         }
       >
@@ -160,7 +175,14 @@ export function Cartoes() {
           >
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeader textAlign="center">ID</Table.ColumnHeader>
+                <Table.ColumnHeader
+                  textAlign="center"
+                  onClick={() => setVisualizarId(!visualizarId)}
+                  cursor="pointer"
+                  {...(visualizarId && { color: 'brand.danger' })}
+                >
+                  ID
+                </Table.ColumnHeader>
                 <Table.ColumnHeader textAlign="center">Nome</Table.ColumnHeader>
                 <Table.ColumnHeader textAlign="center">
                   Instituição Financeira
@@ -195,6 +217,20 @@ export function Cartoes() {
                 </Table.ColumnHeader>
                 <Table.ColumnHeader
                   textAlign="center"
+                  onClick={() =>
+                    setVisualizarInformacoesAdicionais(
+                      !visualizarInformacoesAdicionais,
+                    )
+                  }
+                  cursor="pointer"
+                  {...(visualizarInformacoesAdicionais && {
+                    color: 'brand.danger',
+                  })}
+                >
+                  Informações Adicionais
+                </Table.ColumnHeader>
+                <Table.ColumnHeader
+                  textAlign="center"
                   onClick={() => setVisualizarUrlImagem(!visualizarUrlImagem)}
                   cursor="pointer"
                   {...(visualizarUrlImagem && { color: 'brand.danger' })}
@@ -223,7 +259,14 @@ export function Cartoes() {
 
                 return (
                   <Table.Row key={cartao.id}>
-                    <Table.Cell textAlign="center">{cartao.id}</Table.Cell>
+                    <Table.Cell
+                      textAlign="center"
+                      onClick={() => setVisualizarId(!visualizarId)}
+                      cursor="pointer"
+                      {...(!visualizarId && { color: 'brand.text' })}
+                    >
+                      {visualizarId ? cartao.id || '-' : 'Ver'}
+                    </Table.Cell>
                     <Table.Cell textAlign="center">{cartao.title}</Table.Cell>
                     <Table.Cell textAlign="center">
                       {cartao.financial_institution_name}
@@ -256,19 +299,33 @@ export function Cartoes() {
                         setVisualizarBeneficios(!visualizarBeneficios)
                       }
                       cursor="pointer"
+                      {...(!visualizarBeneficios && { color: 'brand.text' })}
                     >
-                      {visualizarBeneficios
-                        ? cartao.benefits || '-'
-                        : 'Visualizar'}
+                      {visualizarBeneficios ? cartao.benefits || '-' : 'Ver'}
                     </Table.Cell>
                     <Table.Cell
                       textAlign="center"
                       onClick={() => setVisualizarSalasVIP(!visualizarSalasVIP)}
                       cursor="pointer"
+                      {...(!visualizarSalasVIP && { color: 'brand.text' })}
                     >
-                      {visualizarSalasVIP
-                        ? cartao.vip_lounges || '-'
-                        : 'Visualizar'}
+                      {visualizarSalasVIP ? cartao.vip_lounges || '-' : 'Ver'}
+                    </Table.Cell>
+                    <Table.Cell
+                      textAlign="center"
+                      onClick={() =>
+                        setVisualizarInformacoesAdicionais(
+                          !visualizarInformacoesAdicionais,
+                        )
+                      }
+                      cursor="pointer"
+                      {...(!visualizarInformacoesAdicionais && {
+                        color: 'brand.text',
+                      })}
+                    >
+                      {visualizarInformacoesAdicionais
+                        ? cartao.additional_info || '-'
+                        : 'Ver'}
                     </Table.Cell>
                     <Table.Cell
                       textAlign="center"
@@ -276,10 +333,9 @@ export function Cartoes() {
                         setVisualizarUrlImagem(!visualizarUrlImagem)
                       }
                       cursor="pointer"
+                      {...(!visualizarUrlImagem && { color: 'brand.text' })}
                     >
-                      {visualizarUrlImagem
-                        ? cartao.image_url || '-'
-                        : 'Visualizar'}
+                      {visualizarUrlImagem ? cartao.image_url || '-' : 'Ver'}
                     </Table.Cell>
                     <Table.Cell textAlign="center">
                       <HStack justify="center" align="center">
@@ -338,6 +394,16 @@ export function Cartoes() {
             moedas={moedas}
           />
         )}
+
+      {importCartaoDisclosure.open && (
+        <ImportCartoesModal
+          disclosure={importCartaoDisclosure}
+          onImport={() => {
+            importCartaoDisclosure.onClose()
+            fetchCartoes()
+          }}
+        />
+      )}
 
       {deleteCartaoDisclosure.open && selectedCartao && (
         <DeleteCartaoModal

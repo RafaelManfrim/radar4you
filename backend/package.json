@@ -18,6 +18,7 @@
     "@fastify/cookie": "^11.0.2",
     "@fastify/cors": "^10.0.2",
     "@fastify/jwt": "^9.0.3",
+    "@fastify/multipart": "^9.0.3",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.7",
     "fastify": "^5.2.0",
@@ -27,12 +28,14 @@
     "nodemailer-express-handlebars": "^7.0.0",
     "pg": "^8.13.3",
     "sqlite3": "^5.1.7",
+    "xlsx": "^0.18.5",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^1.2.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.9",
+    "@types/multer": "^1.4.13",
     "@types/node": "^22.10.5",
     "@types/nodemailer": "^6.4.17",
     "@types/nodemailer-express-handlebars": "^4.0.5",

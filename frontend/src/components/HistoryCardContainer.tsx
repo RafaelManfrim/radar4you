@@ -123,7 +123,7 @@ export function HistoryCardContainer({
         >
           {simulacao.simulation_type === 'purchase' ? (
             <Box>
-              <Text as="span">Gasto</Text>{' '}
+              <Text as="span">Valor</Text>{' '}
               <Text as="span" fontWeight="semibold" color="brand.secondary">
                 {Intl.NumberFormat('pt-BR', {
                   currency: 'BRL',
@@ -175,12 +175,12 @@ export function HistoryCardContainer({
             flexDir={['column', 'row']}
             align={['end', 'center']}
             justify="end"
-            color="brand.title"
+            color="brand.text"
             fontSize={['sm', 'md']}
             gap={[0, '1']}
           >
             <Text as="span">Dólar: </Text>
-            <Text as="span" fontWeight="semibold" color="brand.secondary">
+            <Text as="span" fontWeight="semibold">
               {Intl.NumberFormat('pt-BR', {
                 style: 'currency',
                 currency: 'BRL',

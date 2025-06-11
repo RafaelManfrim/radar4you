@@ -134,7 +134,7 @@ export function CartaoCard({
       <Flex
         justify="space-between"
         w="full"
-        gap="4"
+        gap="2"
         flexDir={['column', 'column', 'row']}
       >
         <Flex
@@ -143,25 +143,41 @@ export function CartaoCard({
           flexDir={['column', 'column', 'row']}
           align={['center', 'center', 'flex-start']}
         >
-          {card.image_url ? (
-            <Image
-              minH="80px"
-              minW="128px"
-              maxH="80px"
-              maxW="128px"
-              src={card.image_url}
-              alt={`Imagem do cartão ${card.title}`}
-            />
-          ) : (
-            <Box
-              minW="128px"
-              minH="80px"
-              maxW="128px"
-              maxH="80px"
-              bgColor="brand.background"
+          <VStack w={['full', 'full', '128px']}>
+            {card.image_url ? (
+              <Image
+                minH="80px"
+                minW="128px"
+                maxH="80px"
+                maxW="128px"
+                src={card.image_url}
+                alt={`Imagem do cartão ${card.title}`}
+              />
+            ) : (
+              <Box
+                minW="128px"
+                minH="80px"
+                maxW="128px"
+                maxH="80px"
+                bgColor="brand.background"
+                borderRadius="sm"
+              ></Box>
+            )}
+
+            <Flex
+              borderWidth={1}
+              borderColor="brand.background"
               borderRadius="sm"
-            ></Box>
-          )}
+              p="2"
+              w="full"
+              flexDir="column"
+              fontSize={['xs', 'xs', 'xs', 'sm']}
+              {...(isProfileVisualization && { fontSize: 'sm', p: '1' })}
+            >
+              <Text color="brand.title">Informações</Text>
+              {card.additional_info ? card.additional_info : '-'}
+            </Flex>
+          </VStack>
 
           <Flex
             borderWidth={1}

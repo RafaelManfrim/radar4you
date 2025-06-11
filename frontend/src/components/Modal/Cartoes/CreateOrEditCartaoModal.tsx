@@ -60,6 +60,10 @@ const schema = z.object({
   benefits: z.string().optional(),
   vip_lounges: z.string().optional(),
   image_url: z.string().optional(),
+  additional_info: z
+    .string()
+    .max(50, 'As informações adicionais não podem conter mais de 50 caracteres')
+    .optional(),
 })
 
 type CreateOrEditCartaoFormSchema = z.infer<typeof schema>
@@ -98,6 +102,7 @@ export function CreateOrEditCartaoModal({
       vip_lounges: selectedCartao?.vip_lounges ?? '',
       is_recommended: selectedCartao?.is_recommended ?? false,
       image_url: selectedCartao?.image_url ?? '',
+      additional_info: selectedCartao?.additional_info ?? '',
     },
   })
 
@@ -112,6 +117,7 @@ export function CreateOrEditCartaoModal({
       benefits: data.benefits,
       vip_lounges: data.vip_lounges,
       image_url: data.image_url,
+      additional_info: data.additional_info,
       ...(data.annual_fee === undefined || data.annual_fee === ''
         ? {
             annual_fee: 0,
@@ -342,6 +348,17 @@ export function CreateOrEditCartaoModal({
           <Input
             register={form.register('vip_lounges')}
             placeholder="Digite as salas VIP do cartão"
+          />
+        </Field>
+
+        <Field
+          label="Informações Adicionais"
+          invalid={!!form.formState.errors.additional_info}
+          errorText={form.formState.errors.additional_info?.message}
+        >
+          <Input
+            register={form.register('additional_info')}
+            placeholder="Digite informações adicionais do cartão"
           />
         </Field>
 

@@ -1,17 +1,21 @@
 import { useCallback, useEffect, useState, useMemo, ReactNode } from 'react'
-import { useMediaQuery } from '@chakra-ui/react'
+import { Box, BoxProps, useMediaQuery } from '@chakra-ui/react'
 
 import { system } from '@/styles/theme'
 import { Item } from './Item'
 import { Track } from './Track'
 import { Slider } from './Slider'
 
-interface ChakraCarouselProps {
+interface ChakraCarouselProps extends BoxProps {
   children: ReactNode[]
   gap: number
 }
 
-export function ChakraCarousel({ children, gap }: ChakraCarouselProps) {
+export function ChakraCarousel({
+  children,
+  gap,
+  ...rest
+}: ChakraCarouselProps) {
   const [trackIsActive, setTrackIsActive] = useState(false)
   const [multiplier, setMultiplier] = useState(0.35)
   const [sliderWidth, setSliderWidth] = useState(0)
@@ -96,14 +100,16 @@ export function ChakraCarousel({ children, gap }: ChakraCarouselProps) {
   }
 
   return (
-    <Slider {...sliderProps}>
-      <Track {...trackProps}>
-        {children.map((child, index) => (
-          <Item {...itemProps} index={index} key={index}>
-            {child}
-          </Item>
-        ))}
-      </Track>
-    </Slider>
+    <Box w="full" {...rest}>
+      <Slider {...sliderProps}>
+        <Track {...trackProps}>
+          {children.map((child, index) => (
+            <Item {...itemProps} index={index} key={index}>
+              {child}
+            </Item>
+          ))}
+        </Track>
+      </Slider>
+    </Box>
   )
 }

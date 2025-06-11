@@ -107,7 +107,7 @@ export function InstituicoesFinanceiras() {
         headerTitle="Instituições Financeiras"
         extraHeader={
           <Flex>
-            <Button onClick={handleCreateInstituicaoFinanceira}>
+            <Button size="sm" onClick={handleCreateInstituicaoFinanceira}>
               Cadastrar
             </Button>
           </Flex>

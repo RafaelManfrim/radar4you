@@ -2,6 +2,7 @@ import fastify from 'fastify'
 import cors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
+import fastifyMultipart from '@fastify/multipart'
 import { ZodError } from 'zod'
 
 import { userRoutes } from './http/routes/userRoutes'
@@ -30,6 +31,7 @@ app.register(cors, {
       'http://localhost:5173',
       'http://localhost:80',
       'http://127.0.0.1',
+      'http://192.168.0.106:5173',
     ]
 
     // Em chamadas sem Origin (ex: curl/postman), pode permitir
@@ -62,6 +64,8 @@ app.register(fastifyJwt, {
 })
 
 app.register(fastifyCookie)
+
+app.register(fastifyMultipart)
 
 app.get('/health', (req, res) => res.send('ok'))
 

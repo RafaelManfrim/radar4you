@@ -13,7 +13,12 @@ import { useEffect, useRef, useState } from 'react'
 
 import { LayoutContainer } from '@/components/LayoutContainer'
 import { SegmentedControl } from '@/components/ui/segmented-control'
-import { FaHourglass, FaNewspaper, FaShoppingBag } from 'react-icons/fa'
+import {
+  FaHourglass,
+  FaNewspaper,
+  FaShoppingBag,
+  FaTrash,
+} from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
 import { Field } from '@/components/ui/field'
 import { Input } from '@/components/Form/Input'
@@ -27,9 +32,24 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CalculatorCard } from '@/components/CalculatorCard'
 import { Simulacao } from './History'
-import { FaX } from 'react-icons/fa6'
+
 import { BestResult, getBestResult } from '@/utils/getBestResult'
 import { formatNumberToPortuguese } from '@/utils/formatNumberToPortuguese'
+
+// import { EmblaCarousel } from '@/components/EmblaCarousel'
+// import { EmblaOptionsType } from 'embla-carousel'
+
+// import { Swiper, SwiperSlide } from 'swiper/react'
+// import { Autoplay, Navigation } from 'swiper/modules'
+
+// import 'swiper/css'
+// import 'swiper/css/autoplay'
+// import 'swiper/css/navigation'
+// import { Ad } from '@/components/Ad'
+
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+import { ReactSlickCarousel } from '@/components/ReactSlickCarousel'
 // import { ChakraCarousel } from '@/components/ChakraCarousel'
 
 const tipos = [
@@ -83,6 +103,10 @@ type Tipo2FormType = z.infer<typeof tipo2Schema>
 type Tipo3FormType = z.infer<typeof tipo3Schema>
 
 export function App() {
+  // const OPTIONS: EmblaOptionsType = { loop: true }
+  // const SLIDE_COUNT = 5
+  // const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+
   const responseRef = useRef<HTMLDivElement | null>(null)
 
   const [tipo, setTipo] = useState(1)
@@ -477,7 +501,7 @@ export function App() {
             {tipo === 1 && (
               <>
                 <Field
-                  label="Valor Gasto"
+                  label="Valor"
                   color="brand.title"
                   invalid={!!tipo1Form.formState.errors.valorGasto}
                   errorText={tipo1Form.formState.errors.valorGasto?.message}
@@ -614,12 +638,22 @@ export function App() {
                   size="2xs"
                   onClick={() => setSimulationResponse(undefined)}
                   marginLeft="auto"
+                  className="dark"
+                  variant="surface"
+                  bgColor="brand.danger"
+                  color="brand.title"
+                  borderWidth={0}
+                  ring="none"
+                  _hover={{
+                    filter: 'brightness(0.9)',
+                    transition: 'filter 0.2s ease',
+                  }}
                   _icon={{
                     width: '2.5',
                     height: '2.5',
                   }}
                 >
-                  <FaX />
+                  <FaTrash />
                 </IconButton>
               </Flex>
 
@@ -649,7 +683,6 @@ export function App() {
                     >
                       <Text
                         color="brand.title"
-                        fontWeight="bold"
                         fontSize={['xs', 'xs', 'md']}
                         lineClamp="1"
                       >
@@ -743,6 +776,63 @@ export function App() {
               </Flex>
             </VStack>
           )}
+
+          {/* <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+
+          <ChakraCarousel gap={8} mt="4">
+            <Box bgColor="#FF0000" w="full">
+              Teste
+            </Box>
+            <Box bgColor="#00FF00" w="full">
+              Teste 2
+            </Box>
+            <Box bgColor="#0000FF" w="full">
+              Teste 3
+            </Box>
+            <Box bgColor="#666600" w="full">
+              Teste 4
+            </Box>
+            <Box bgColor="#660066" w="full">
+              Teste 5
+            </Box>
+            <Box bgColor="#006666" w="full">
+              Teste 6
+            </Box>
+          </ChakraCarousel> */}
+
+          <Box maxW="full" px="10" mt="8">
+            <ReactSlickCarousel />
+          </Box>
+
+          {/* <Box maxW="full" mt="4">
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={10}
+              modules={[Autoplay, Navigation]}
+              autoplay={{ delay: 2500 }}
+              navigation
+              rewind={true}
+            >
+              <SwiperSlide>
+                <Ad />
+              </SwiperSlide>
+              <SwiperSlide>
+                <Ad />
+              </SwiperSlide>
+              <SwiperSlide>
+                <Ad />
+              </SwiperSlide>
+              <SwiperSlide>
+                <Ad />
+              </SwiperSlide>
+              <SwiperSlide>
+                <Ad />
+              </SwiperSlide>
+              <SwiperSlide>
+                <Ad />
+              </SwiperSlide>
+            </Swiper>
+          </Box> */}
         </VStack>
       </LayoutContainer>
     </div>

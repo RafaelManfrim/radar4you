@@ -16,6 +16,7 @@ export async function createCard(request: FastifyRequest, reply: FastifyReply) {
     benefits: z.string().optional(),
     vip_lounges: z.string().optional(),
     image_url: z.string().optional(),
+    additional_info: z.string().max(50).optional(),
   })
 
   const {
@@ -29,6 +30,7 @@ export async function createCard(request: FastifyRequest, reply: FastifyReply) {
     benefits,
     vip_lounges,
     image_url,
+    additional_info,
   } = createCardBodySchema.parse(request.body)
 
   const createCardReturn = await knex('cards')
@@ -44,6 +46,7 @@ export async function createCard(request: FastifyRequest, reply: FastifyReply) {
       annual_fee,
       benefits,
       vip_lounges,
+      additional_info,
       created_at: new Date(),
       updated_at: new Date(),
     })

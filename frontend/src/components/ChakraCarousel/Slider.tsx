@@ -92,6 +92,7 @@ export function Slider({
           color="gray.200"
           // variant="link"
           minW={0}
+          size="xs"
         >
           <FaChevronLeft
           // boxSize={9}
@@ -102,7 +103,7 @@ export function Slider({
           value={percentage(activeItem, positions.length - constraint)}
           alignSelf="center"
           borderRadius="2px"
-          bg="base.d100"
+          bg="brand.background"
           flex={1}
           h="3px"
           // sx={{
@@ -111,8 +112,8 @@ export function Slider({
           //   },
           // }}
         >
-          <Progress.Track>
-            <Progress.Range />
+          <Progress.Track bg="brand.text-transparent">
+            <Progress.Range bg="brand.primary" />
           </Progress.Track>
           <Progress.Label />
           <Progress.ValueText />
@@ -126,6 +127,7 @@ export function Slider({
           // variant="link"
           zIndex={2}
           minW={0}
+          size="xs"
         >
           <FaChevronRight
           // boxSize={9}

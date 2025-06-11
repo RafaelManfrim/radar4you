@@ -92,7 +92,9 @@ export function Bandeiras() {
         headerTitle="Bandeiras"
         extraHeader={
           <Flex>
-            <Button onClick={handleCreateBandeira}>Cadastrar</Button>
+            <Button size="sm" onClick={handleCreateBandeira}>
+              Cadastrar
+            </Button>
           </Flex>
         }
       >

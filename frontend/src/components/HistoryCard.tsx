@@ -34,11 +34,15 @@ export function HistoryCard({
       borderWidth={0.5}
       borderColor={isBestResult ? 'brand.warning' : 'brand.background'}
     >
-      <Flex flexDir={['column', 'row']} gap={[0, '1']}>
+      <Flex
+        flexDir={['column', 'row']}
+        gap={[0, '1']}
+        align={['start', 'center']}
+      >
         <Text as="strong" color="brand.title">
           {simulationCard.card.title}
         </Text>
-        <Text as="span" color="brand.secondary">
+        <Text as="span" color="brand.text" fontSize="sm">
           ({formattedPointsConversionRate} ponto
           {simulationCard.card.points_conversion_rate !== 1 && 's'} /{' '}
           {getMoedaByCurrency(
@@ -47,7 +51,7 @@ export function HistoryCard({
           )
         </Text>
         {simulationCard.card.points_currency === 'USD' && (
-          <Text as="span" color="brand.text">
+          <Text as="span" color="brand.text" fontSize="sm">
             Ágio:{' '}
             {Intl.NumberFormat('pt-BR', {
               style: 'percent',
@@ -59,15 +63,15 @@ export function HistoryCard({
       <Box color="brand.title">
         {simulacao.simulation_type === 'purchase' ? (
           <Box>
-            <Text as="span">Pontos Ganhos: </Text>
-            <Text as="span" fontWeight="semibold" color="brand.success">
+            <Text as="span">Pontos/Milhas: </Text>
+            <Text as="span" fontWeight="semibold" color="brand.secondary">
               {formatNumberToPortuguese(simulationCard.earned_points || 0)}
             </Text>
           </Box>
         ) : simulacao.simulation_type === 'monthly_spending' ? (
           <Box>
             <Text as="span">Gasto Mensal Necessário: </Text>
-            <Text as="span" fontWeight="semibold" color="brand.success">
+            <Text as="span" fontWeight="semibold" color="brand.secondary">
               {Intl.NumberFormat('pt-BR', {
                 currency: 'BRL',
                 style: 'currency',
@@ -77,7 +81,7 @@ export function HistoryCard({
         ) : (
           <Box>
             <Text as="span">Meses Necessários: </Text>
-            <Text as="span" fontWeight="semibold" color="brand.success">
+            <Text as="span" fontWeight="semibold" color="brand.secondary">
               {simulationCard.required_months}
             </Text>
           </Box>
