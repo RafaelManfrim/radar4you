@@ -10,48 +10,30 @@ import {
 } from '@chakra-ui/react'
 
 import { useEffect, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FaX } from 'react-icons/fa6'
+import { FaHourglass, FaNewspaper, FaShoppingBag } from 'react-icons/fa'
+import { z } from 'zod'
 
-import { LayoutContainer } from '@/components/LayoutContainer'
-import { SegmentedControl } from '@/components/ui/segmented-control'
-import {
-  FaHourglass,
-  FaNewspaper,
-  FaShoppingBag,
-  FaTrash,
-} from 'react-icons/fa'
-import { Button } from '@/components/ui/button'
-import { Field } from '@/components/ui/field'
 import { Input } from '@/components/Form/Input'
+import { CalculatorCard } from '@/components/CalculatorCard'
+import { LayoutContainer } from '@/components/LayoutContainer'
+import { ReactSlickCarousel } from '@/components/ReactSlickCarousel'
+
+import { Field } from '@/components/ui/field'
+import { Button } from '@/components/ui/button'
+import { toaster } from '@/components/ui/toaster'
+import { SegmentedControl } from '@/components/ui/segmented-control'
+
 import { api } from '@/lib/axios'
 import { Cartao } from './admin/Cartoes'
 import { UserCard } from './Cartoes'
-import { Link, useNavigate } from 'react-router-dom'
-import { toaster } from '@/components/ui/toaster'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { CalculatorCard } from '@/components/CalculatorCard'
 import { Simulacao } from './History'
 
 import { BestResult, getBestResult } from '@/utils/getBestResult'
 import { formatNumberToPortuguese } from '@/utils/formatNumberToPortuguese'
-
-// import { EmblaCarousel } from '@/components/EmblaCarousel'
-// import { EmblaOptionsType } from 'embla-carousel'
-
-// import { Swiper, SwiperSlide } from 'swiper/react'
-// import { Autoplay, Navigation } from 'swiper/modules'
-
-// import 'swiper/css'
-// import 'swiper/css/autoplay'
-// import 'swiper/css/navigation'
-// import { Ad } from '@/components/Ad'
-
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
-import { ReactSlickCarousel } from '@/components/ReactSlickCarousel'
-import { FaX } from 'react-icons/fa6'
-// import { ChakraCarousel } from '@/components/ChakraCarousel'
 
 const tipos = [
   {
@@ -83,15 +65,11 @@ const tipo1Schema = z.object({
 })
 
 const tipo2Schema = z.object({
-  // pontos: z.coerce.number().min(1, 'Informe o valor'),
-  // meses: z.coerce.number().min(1, 'Informe o valor'),
   pontos: z.union([z.coerce.number().min(1, 'Informe o valor'), z.literal('')]),
   meses: z.union([z.coerce.number().min(1, 'Informe o valor'), z.literal('')]),
 })
 
 const tipo3Schema = z.object({
-  // pontos: z.coerce.number().min(1, 'Informe o valor'),
-  // gastoMensal: z.coerce.number().min(0.01, 'Informe o valor'),
   pontos: z.union([z.coerce.number().min(1, 'Informe o valor'), z.literal('')]),
   gastoMensal: z.union([
     z.coerce.number().min(0.01, 'Informe o valor'),
@@ -104,10 +82,6 @@ type Tipo2FormType = z.infer<typeof tipo2Schema>
 type Tipo3FormType = z.infer<typeof tipo3Schema>
 
 export function App() {
-  // const OPTIONS: EmblaOptionsType = { loop: true }
-  // const SLIDE_COUNT = 5
-  // const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
-
   const responseRef = useRef<HTMLDivElement | null>(null)
 
   const [tipo, setTipo] = useState(1)
@@ -775,62 +749,9 @@ export function App() {
             </VStack>
           )}
 
-          {/* <EmblaCarousel slides={SLIDES} options={OPTIONS} />
-
-          <ChakraCarousel gap={8} mt="4">
-            <Box bgColor="#FF0000" w="full">
-              Teste
-            </Box>
-            <Box bgColor="#00FF00" w="full">
-              Teste 2
-            </Box>
-            <Box bgColor="#0000FF" w="full">
-              Teste 3
-            </Box>
-            <Box bgColor="#666600" w="full">
-              Teste 4
-            </Box>
-            <Box bgColor="#660066" w="full">
-              Teste 5
-            </Box>
-            <Box bgColor="#006666" w="full">
-              Teste 6
-            </Box>
-          </ChakraCarousel> */}
-
           <Box maxW="full" px="10" mt="8">
             <ReactSlickCarousel />
           </Box>
-
-          {/* <Box maxW="full" mt="4">
-            <Swiper
-              slidesPerView={3}
-              spaceBetween={10}
-              modules={[Autoplay, Navigation]}
-              autoplay={{ delay: 2500 }}
-              navigation
-              rewind={true}
-            >
-              <SwiperSlide>
-                <Ad />
-              </SwiperSlide>
-              <SwiperSlide>
-                <Ad />
-              </SwiperSlide>
-              <SwiperSlide>
-                <Ad />
-              </SwiperSlide>
-              <SwiperSlide>
-                <Ad />
-              </SwiperSlide>
-              <SwiperSlide>
-                <Ad />
-              </SwiperSlide>
-              <SwiperSlide>
-                <Ad />
-              </SwiperSlide>
-            </Swiper>
-          </Box> */}
         </VStack>
       </LayoutContainer>
     </div>

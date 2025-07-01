@@ -14,9 +14,6 @@
     "@emotion/react": "^11.14.0",
     "@hookform/resolvers": "^3.10.0",
     "axios": "^1.7.9",
-    "embla-carousel": "^8.6.0",
-    "embla-carousel-autoplay": "^8.6.0",
-    "embla-carousel-react": "^8.6.0",
     "firebase": "^11.2.0",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
@@ -32,7 +29,6 @@
     "react-social-login-buttons": "^4.1.0",
     "reactjs-social-login": "^2.6.3",
     "slick-carousel": "^1.8.1",
-    "swiper": "^11.2.8",
     "zod": "^3.24.1"
   },
   "devDependencies": {
