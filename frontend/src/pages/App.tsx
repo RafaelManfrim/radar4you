@@ -50,6 +50,7 @@ import { formatNumberToPortuguese } from '@/utils/formatNumberToPortuguese'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { ReactSlickCarousel } from '@/components/ReactSlickCarousel'
+import { FaX } from 'react-icons/fa6'
 // import { ChakraCarousel } from '@/components/ChakraCarousel'
 
 const tipos = [
@@ -574,22 +575,6 @@ export function App() {
             {tipo === 3 && (
               <>
                 <Field
-                  label="Quantos pontos você quer acumular?"
-                  color="brand.title"
-                  invalid={!!tipo3Form.formState.errors.pontos}
-                  errorText={tipo3Form.formState.errors.pontos?.message}
-                  required
-                  flex={1}
-                >
-                  <Input
-                    type="number"
-                    appearance="textfield"
-                    register={tipo3Form.register('pontos', {
-                      required: 'Informe a quantidade de pontos',
-                    })}
-                  />
-                </Field>
-                <Field
                   label="Qual seu gasto mensal?"
                   color="brand.title"
                   invalid={!!tipo3Form.formState.errors.gastoMensal}
@@ -602,6 +587,23 @@ export function App() {
                     appearance="textfield"
                     register={tipo3Form.register('gastoMensal', {
                       required: 'Informe o gasto mensal',
+                    })}
+                  />
+                </Field>
+
+                <Field
+                  label="Quantos pontos você quer acumular?"
+                  color="brand.title"
+                  invalid={!!tipo3Form.formState.errors.pontos}
+                  errorText={tipo3Form.formState.errors.pontos?.message}
+                  required
+                  flex={1}
+                >
+                  <Input
+                    type="number"
+                    appearance="textfield"
+                    register={tipo3Form.register('pontos', {
+                      required: 'Informe a quantidade de pontos',
                     })}
                   />
                 </Field>
@@ -639,10 +641,6 @@ export function App() {
                   onClick={() => setSimulationResponse(undefined)}
                   marginLeft="auto"
                   className="dark"
-                  variant="surface"
-                  bgColor="brand.danger"
-                  color="brand.title"
-                  borderWidth={0}
                   ring="none"
                   _hover={{
                     filter: 'brightness(0.9)',
@@ -653,7 +651,7 @@ export function App() {
                     height: '2.5',
                   }}
                 >
-                  <FaTrash />
+                  <FaX />
                 </IconButton>
               </Flex>
 

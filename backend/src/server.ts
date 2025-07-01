@@ -4,7 +4,7 @@ import { env } from './env'
 app
   .listen({
     port: env.PORT,
-    host: env.NODE_ENV === 'production' ? '0.0.0.0' : '192.168.0.106',
+    host: env.NODE_ENV === 'production' ? '0.0.0.0' : '192.168.0.105',
   })
   .then(() => {
     console.log('HTTP Server is running on http://localhost:' + env.PORT)

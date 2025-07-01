@@ -31,7 +31,7 @@ app.register(cors, {
       'http://localhost:5173',
       'http://localhost:80',
       'http://127.0.0.1',
-      'http://192.168.0.106:5173',
+      'http://192.168.0.105:5173',
     ]
 
     // Em chamadas sem Origin (ex: curl/postman), pode permitir
