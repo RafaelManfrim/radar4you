@@ -22,6 +22,8 @@ import { Bandeira } from '@/pages/admin/Bandeiras'
 import { InstituicaoFinanceira } from '@/pages/admin/InstituicoesFinanceiras'
 import { getMoedaByCurrency } from '@/utils/getMoedaByCurrency'
 import { Checkbox } from '@/components/ui/checkbox'
+import { zCurrency } from '@/lib/zCurrency'
+import { formatCurrencyMask } from '@/utils/formatCurrencyMask'
 
 const schema = z.object({
   title: z.string().nonempty('O nome é obrigatório'),
@@ -36,27 +38,7 @@ const schema = z.object({
     required_error: 'A taxa de conversão é obrigatória',
   }),
   is_recommended: z.coerce.boolean().optional(),
-  // annual_fee: z.preprocess(
-  //   (val) => {
-  //     console.log('val ', val)
-  //     if (val === '' || val === null || val === undefined) return undefined
-  //     const coerced = Number(val)
-  //     return isNaN(coerced) ? val : coerced
-  //   },
-  //   z.union([z.undefined(), z.number().min(1, 'Informe um valor válido')]),
-  // ),
-  annual_fee: z
-    .string()
-    .optional()
-    .refine(
-      (val) =>
-        val === undefined ||
-        val === '' ||
-        (!isNaN(Number(val)) && Number(val) >= 0),
-      {
-        message: 'Informe um valor válido',
-      },
-    ),
+  annual_fee: zCurrency({ allowEmpty: true, message: 'Informe o valor da anuidade' }),
   benefits: z.string().optional(),
   vip_lounges: z.string().optional(),
   image_url: z.string().optional(),
@@ -97,7 +79,7 @@ export function CreateOrEditCartaoModal({
       financial_institution_id: [selectedCartao?.financial_institution_id],
       card_brand_id: [selectedCartao?.card_brand_id],
       points_conversion_rate: selectedCartao?.points_conversion_rate,
-      annual_fee: String(selectedCartao?.annual_fee) ?? undefined,
+      annual_fee: selectedCartao?.annual_fee ?? "",
       benefits: selectedCartao?.benefits ?? '',
       vip_lounges: selectedCartao?.vip_lounges ?? '',
       is_recommended: selectedCartao?.is_recommended ?? false,
@@ -118,13 +100,7 @@ export function CreateOrEditCartaoModal({
       vip_lounges: data.vip_lounges,
       image_url: data.image_url,
       additional_info: data.additional_info,
-      ...(data.annual_fee === undefined || data.annual_fee === ''
-        ? {
-            annual_fee: 0,
-          }
-        : {
-            annual_fee: Number(data.annual_fee),
-          }),
+      annual_fee: data.annual_fee,
     }
 
     try {
@@ -329,11 +305,19 @@ export function CreateOrEditCartaoModal({
           label="Anuidade"
           invalid={!!form.formState.errors.annual_fee}
           errorText={form.formState.errors.annual_fee?.message}
+          required
         >
           <Input
-            type="number"
+            type="text"
+            inputMode='numeric'
             appearance="textfield"
-            register={form.register('annual_fee')}
+            register={form.register('annual_fee', {
+              onChange: (e) => {
+                const rawValue = e.target.value.replace(/\D/g, '');
+                const formatted = formatCurrencyMask(rawValue);
+                e.target.value = formatted;
+              },
+            })}
           />
         </Field>
 

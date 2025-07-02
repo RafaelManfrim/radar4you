@@ -140,6 +140,14 @@ const customConfig = defineConfig({
       bg: 'brand.secondary',
       color: 'brand.background',
     },
+    'input[type=number]::-webkit-outer-spin-button': {
+      WebkitAppearance: 'none',
+      margin: 0,
+    },
+    'input[type=number]::-webkit-inner-spin-button': {
+      WebkitAppearance: 'none',
+      margin: 0,
+    },
   },
   theme: {
     slotRecipes: {
