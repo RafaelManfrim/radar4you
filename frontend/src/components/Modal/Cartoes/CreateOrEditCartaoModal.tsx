@@ -38,7 +38,10 @@ const schema = z.object({
     required_error: 'A taxa de conversão é obrigatória',
   }),
   is_recommended: z.coerce.boolean().optional(),
-  annual_fee: zCurrency({ allowEmpty: true, message: 'Informe o valor da anuidade' }),
+  annual_fee: zCurrency({
+    allowEmpty: true,
+    message: 'Informe o valor da anuidade',
+  }),
   benefits: z.string().optional(),
   vip_lounges: z.string().optional(),
   image_url: z.string().optional(),
@@ -79,7 +82,11 @@ export function CreateOrEditCartaoModal({
       financial_institution_id: [selectedCartao?.financial_institution_id],
       card_brand_id: [selectedCartao?.card_brand_id],
       points_conversion_rate: selectedCartao?.points_conversion_rate,
-      annual_fee: selectedCartao?.annual_fee ?? "",
+      annual_fee: selectedCartao?.annual_fee
+        ? (formatCurrencyMask(
+            String(selectedCartao.annual_fee * 100),
+          ) as unknown as number)
+        : '',
       benefits: selectedCartao?.benefits ?? '',
       vip_lounges: selectedCartao?.vip_lounges ?? '',
       is_recommended: selectedCartao?.is_recommended ?? false,
@@ -309,13 +316,13 @@ export function CreateOrEditCartaoModal({
         >
           <Input
             type="text"
-            inputMode='numeric'
+            inputMode="numeric"
             appearance="textfield"
             register={form.register('annual_fee', {
               onChange: (e) => {
-                const rawValue = e.target.value.replace(/\D/g, '');
-                const formatted = formatCurrencyMask(rawValue);
-                e.target.value = formatted;
+                const rawValue = e.target.value.replace(/\D/g, '')
+                const formatted = formatCurrencyMask(rawValue)
+                e.target.value = formatted
               },
             })}
           />
