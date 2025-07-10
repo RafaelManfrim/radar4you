@@ -43,18 +43,24 @@ const tipos = [
     label: 'Por Transação',
     shortLabel: 'Transação',
     icon: FaShoppingBag,
+    description:
+      'Digite o valor da compra e veja, na hora, quantos pontos você ganha, é simples e direto!',
   },
   {
     value: 2,
     label: 'Por Periodo',
     shortLabel: 'Periodo',
     icon: FaNewspaper,
+    description:
+      'Quer atingir uma meta? Informe quantas milhas deseja e o período, e descubra quanto deve gastar por mês.',
   },
   {
     value: 3,
     label: 'Por uso do Cartão',
     shortLabel: 'Uso',
     icon: FaHourglass,
+    description:
+      'Saiba quantos pontos acumula com seus gastos atuais, basta informar o valor que você já gasta por mês.',
   },
 ]
 
@@ -70,7 +76,7 @@ const tipo2Schema = z.object({
 
 const tipo3Schema = z.object({
   pontos: z.union([z.coerce.number().min(1, 'Informe o valor'), z.literal('')]),
-  gastoMensal: zCurrency()
+  gastoMensal: zCurrency(),
 })
 
 type Tipo1FormType = z.infer<typeof tipo1Schema>
@@ -327,7 +333,7 @@ export function App() {
               return {
                 value: String(tipo.value),
                 label: (
-                  <HStack>
+                  <HStack title={tipo.description}>
                     <Icon />
                     {
                       <>
@@ -486,9 +492,9 @@ export function App() {
                     register={tipo1Form.register('valorGasto', {
                       required: 'Informe o valor gasto',
                       onChange: (e) => {
-                        const rawValue = e.target.value.replace(/\D/g, '');
-                        const formatted = formatCurrencyMask(rawValue);
-                        e.target.value = formatted;
+                        const rawValue = e.target.value.replace(/\D/g, '')
+                        const formatted = formatCurrencyMask(rawValue)
+                        e.target.value = formatted
                       },
                     })}
                   />
@@ -565,9 +571,9 @@ export function App() {
                     register={tipo3Form.register('gastoMensal', {
                       required: 'Informe o gasto mensal',
                       onChange: (e) => {
-                        const rawValue = e.target.value.replace(/\D/g, '');
-                        const formatted = formatCurrencyMask(rawValue);
-                        e.target.value = formatted;
+                        const rawValue = e.target.value.replace(/\D/g, '')
+                        const formatted = formatCurrencyMask(rawValue)
+                        e.target.value = formatted
                       },
                     })}
                   />
