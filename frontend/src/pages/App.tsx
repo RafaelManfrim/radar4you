@@ -35,7 +35,9 @@ import { Simulacao } from './History'
 import { formatCurrencyMask } from '@/utils/formatCurrencyMask'
 import { BestResult, getBestResult } from '@/utils/getBestResult'
 import { formatNumberToPortuguese } from '@/utils/formatNumberToPortuguese'
+import { formatThousandSeparator } from '@/utils/formatThousandSeparator'
 import { zCurrency } from '@/lib/zCurrency'
+import { zFormattedNumber } from '@/lib/zFormattedNumber'
 
 const tipos = [
   {
@@ -70,12 +72,12 @@ const tipo1Schema = z.object({
 })
 
 const tipo2Schema = z.object({
-  pontos: z.union([z.coerce.number().min(1, 'Informe o valor'), z.literal('')]),
-  meses: z.union([z.coerce.number().min(1, 'Informe o valor'), z.literal('')]),
+  pontos: zFormattedNumber({ message: 'Informe a quantidade de pontos' }),
+  meses: zFormattedNumber({ message: 'Informe a quantidade de meses' }),
 })
 
 const tipo3Schema = z.object({
-  pontos: z.union([z.coerce.number().min(1, 'Informe o valor'), z.literal('')]),
+  pontos: zFormattedNumber({ message: 'Informe a quantidade de pontos' }),
   gastoMensal: zCurrency(),
 })
 
@@ -525,10 +527,16 @@ export function App() {
                   flex={1}
                 >
                   <Input
-                    type="number"
+                    type="text"
+                    inputMode="numeric"
                     appearance="textfield"
                     register={tipo2Form.register('pontos', {
                       required: 'Informe a quantidade de pontos',
+                      onChange: (e) => {
+                        const rawValue = e.target.value
+                        const formatted = formatThousandSeparator(rawValue)
+                        e.target.value = formatted
+                      },
                     })}
                   />
                 </Field>
@@ -541,10 +549,16 @@ export function App() {
                   flex={1}
                 >
                   <Input
-                    type="number"
+                    type="text"
+                    inputMode="numeric"
                     appearance="textfield"
                     register={tipo2Form.register('meses', {
                       required: 'Informe a quantidade de meses',
+                      onChange: (e) => {
+                        const rawValue = e.target.value
+                        const formatted = formatThousandSeparator(rawValue)
+                        e.target.value = formatted
+                      },
                     })}
                   />
                 </Field>
@@ -588,10 +602,16 @@ export function App() {
                   flex={1}
                 >
                   <Input
-                    type="number"
+                    type="text"
+                    inputMode="numeric"
                     appearance="textfield"
                     register={tipo3Form.register('pontos', {
                       required: 'Informe a quantidade de pontos',
+                      onChange: (e) => {
+                        const rawValue = e.target.value
+                        const formatted = formatThousandSeparator(rawValue)
+                        e.target.value = formatted
+                      },
                     })}
                   />
                 </Field>

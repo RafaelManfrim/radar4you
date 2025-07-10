@@ -13,6 +13,7 @@ import { RemoveWithConfirmationPopoverButton } from './RemoveWithConfirmationPop
 import { useState } from 'react'
 import { MdInfo } from 'react-icons/md'
 import { getBestResult } from '@/utils/getBestResult'
+import { formatNumberToPortuguese } from '@/utils/formatNumberToPortuguese'
 
 interface HistoryCardContainerProps {
   simulacao: Simulacao
@@ -145,18 +146,19 @@ export function HistoryCardContainer({
             <Box>
               <Text as="span">Desejados </Text>
               <Text as="span" fontWeight="semibold" color="brand.secondary">
-                {simulacao.desired_points}
+                {formatNumberToPortuguese(simulacao.desired_points!)}
               </Text>{' '}
               <Text as="span">Pontos em </Text>
               <Text as="span" fontWeight="semibold" color="brand.secondary">
-                {simulacao.months} {simulacao.months === 1 ? 'mês' : 'meses'}
+                {formatNumberToPortuguese(simulacao.months!)}{' '}
+                {simulacao.months === 1 ? 'mês' : 'meses'}
               </Text>
             </Box>
           ) : (
             <Box>
               <Text as="span">Desejados </Text>
               <Text as="span" fontWeight="semibold" color="brand.secondary">
-                {simulacao.desired_points}
+                {formatNumberToPortuguese(simulacao.desired_points!)}
               </Text>{' '}
               <Text as="span">Pontos com Gasto Mensal de </Text>
               <Text as="span" fontWeight="semibold" color="brand.secondary">

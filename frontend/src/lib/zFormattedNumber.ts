@@ -1,24 +1,25 @@
 import { z } from 'zod'
 
-/**
- * Zod schema for Brazilian Real currency inputs masked as strings (e.g., "R$ 1.234,56"),
- * parsing into numbers and validating minimum value.
- * Allows empty string for optional fields if needed.
- */
-
 type zCurrencyOptions = {
   message?: string
   allowEmpty?: boolean
 }
 
-export const zCurrency = (opts?: zCurrencyOptions) => {
+export const zFormattedNumber = (opts?: zCurrencyOptions) => {
   const { message = 'Informe o valor', allowEmpty = false } = opts ?? {}
 
   return z.preprocess(
     (val) => {
       if (typeof val !== 'string') return undefined
-      const raw = val.replace(/\D/g, '')
-      const num = parseFloat(raw) / 100
+
+      // Remove tudo exceto dígitos e vírgula
+      const cleaned = val.replace(/[^\d,]/g, '')
+
+      // Substitui vírgula decimal por ponto para parseFloat
+      const normalized = cleaned.replace(',', '.')
+
+      const num = parseFloat(normalized)
+
       return isNaN(num) ? undefined : num
     },
     allowEmpty
