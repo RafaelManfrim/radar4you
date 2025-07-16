@@ -17,14 +17,14 @@ const app = fastify()
 app.register(cors, {
   origin: (origin, cb) => {
     const allowedOrigins = [
-      'http://194.140.199.171',
-      'http://194.140.199.171:80',
-      'https://194.140.199.171',
-      'https://194.140.199.171:443',
       'http://www.radar4you.com.br',
       'https://www.radar4you.com.br',
       'http://radar4you.com.br',
       'https://radar4you.com.br',
+      'http://www.beta.radar4you.com.br',
+      'https://www.beta.radar4you.com.br',
+      'http://beta.radar4you.com.br',
+      'https://beta.radar4you.com.br',
 
       // ambientes de desenvolvimento
       'http://localhost',
