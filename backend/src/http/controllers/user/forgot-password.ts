@@ -1,12 +1,10 @@
 import jwt from 'jsonwebtoken'
-// import nodemailer from 'nodemailer'
-// import hbs from 'nodemailer-express-handlebars'
 import { FastifyReply, FastifyRequest } from 'fastify'
-// import path from 'node:path'
 import { z } from 'zod'
 
 import { knex } from '@/database'
 import { env } from '@/env'
+import { sendResetPasswordEmail } from '@/utils/send-reset-password-email'
 
 export async function forgotPassword(
   request: FastifyRequest,
@@ -36,55 +34,17 @@ export async function forgotPassword(
   })
 
   const resetLink = `https://www.radar4you.com.br/nova-senha/${token}`
-  console.log(resetLink)
 
-  // const transporter = nodemailer.createTransport({
-  //   service: 'gmail', // Ou outro provedor
-  //   auth: {
-  //     user: 'seuemail@gmail.com',
-  //     pass: 'suaSenhaOuAppPassword',
-  //   },
-  // })
+  try {
+    await sendResetPasswordEmail({ recipientEmail: user.email, resetLink })
+  } catch (error) {
+    console.log('Erro ao enviar e-mail de redefinição de senha:', error)
+    return reply.status(500).send({
+      message: 'Houve um erro ao enviar e-mail de redefinição de senha',
+    })
+  }
 
-  // transporter.use(
-  //   'compile',
-  //   hbs({
-  //     viewEngine: {
-  //       extname: '.hbs',
-  //       partialsDir: path.resolve(
-  //         __dirname,
-  //         '..',
-  //         '..',
-  //         '..',
-  //         'assets',
-  //         'templates',
-  //       ),
-  //       defaultLayout: false,
-  //     },
-  //     viewPath: path.resolve(
-  //       __dirname,
-  //       '..',
-  //       '..',
-  //       '..',
-  //       'assets',
-  //       'templates',
-  //     ),
-  //     extName: '.hbs',
-  //   }),
-  // )
-
-  // const mailOptions = {
-  //   from: '"Suporte" <suporte@seusite.com>',
-  //   to: email,
-  //   subject: 'Recuperação de Senha',
-  //   template: 'reset-password',
-  //   context: {
-  //     name: user.first_name,
-  //     resetLink,
-  //   },
-  // }
-
-  // await transporter.sendMail(mailOptions)
-
-  return reply.send()
+  return reply.send({
+    message: 'E-mail de redefinição de senha enviado com sucesso',
+  })
 }

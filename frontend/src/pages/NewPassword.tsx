@@ -31,7 +31,7 @@ export function NewPassword() {
 
   async function handleSubmit(data: NewPasswordFormData) {
     try {
-      await api.post('/new-password', {
+      await api.post('/reset-password', {
         token: params.token,
         password: data.password,
       })

@@ -23,7 +23,7 @@ export function ForgotMyPassword() {
 
   async function handleSubmit(data: ForgotMyPasswordFormData) {
     try {
-      await api.post('/forgot-my-password', {
+      await api.post('/forgot-password', {
         email: data.email,
       })
     } catch (error) {
