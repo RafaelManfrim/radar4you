@@ -4,7 +4,6 @@ import { App } from '@pages/App'
 import { Login } from '@pages/Login'
 import { History } from '@pages/History'
 import { Profile } from '@pages/Profile'
-import { LandingPage } from '@pages/LandingPage'
 import { Register } from '@/pages/Register'
 import { ForgotMyPassword } from '@/pages/ForgotMyPassword'
 import { NewPassword } from '@/pages/NewPassword'
@@ -21,7 +20,7 @@ import { Cartoes } from '@/pages/Cartoes'
 export function Router() {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+      {/* <Route path="/" element={<LandingPage />} /> */}
       <Route path="/login" element={<Login />} />
       <Route path="/registro" element={<Register />} />
       <Route path="/esqueci-minha-senha" element={<ForgotMyPassword />} />
