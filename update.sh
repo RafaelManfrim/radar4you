@@ -21,6 +21,8 @@ npx knex migrate:latest
 
 echo "Reiniciando o backend no PM2..."
 pm2 restart radar4you-api
+pm2 start ecosystem.config.js
+pm2 save
 
 echo "Instalando dependências e buildando frontend..."
 cd ../frontend
