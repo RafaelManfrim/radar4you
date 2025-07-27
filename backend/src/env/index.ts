@@ -21,6 +21,7 @@ const envSchema = z.object({
   EMAIL_USER: z.string().email(),
   EMAIL_PASS: z.string(),
   EMAIL_HOST: z.string(),
+  DOMAIN: z.string(),
   // DB_USERNAME: z.string().optional(),
   // DB_PASSWORD: z.string().optional(),
   // DB_DATABASE: z.string().optional(),

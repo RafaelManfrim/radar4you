@@ -33,7 +33,7 @@ export async function forgotPassword(
     expiresIn: '1h',
   })
 
-  const resetLink = `https://www.radar4you.com.br/nova-senha/${token}`
+  const resetLink = `https://www.${env.DOMAIN}/nova-senha/${token}`
 
   try {
     await sendResetPasswordEmail({ recipientEmail: user.email, resetLink })
