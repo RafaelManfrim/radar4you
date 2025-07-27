@@ -36,7 +36,11 @@ export async function forgotPassword(
   const resetLink = `https://www.${env.DOMAIN}/nova-senha/${token}`
 
   try {
-    await sendResetPasswordEmail({ recipientEmail: user.email, resetLink })
+    await sendResetPasswordEmail({
+      recipientEmail: user.email,
+      resetLink,
+      userName: user.first_name,
+    })
   } catch (error) {
     console.log('Erro ao enviar e-mail de redefinição de senha:', error)
     return reply.status(500).send({
