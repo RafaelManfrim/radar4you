@@ -133,7 +133,12 @@ const tableSlotRecipe = defineSlotRecipe({
 const customConfig = defineConfig({
   globalCss: {
     body: {
-      bg: 'brand.background',
+      // bg: 'brand.background',
+      // bgGradient: 'radial(0% 0%, circle, #010313, #2f3da5, #010313)',
+      bgGradient: 'to-br',
+      gradientFrom: '#000000',
+      gradientVia: '#010313',
+      gradientTo: '#2f3da5',
       color: 'brand.text',
     },
     '::selection': {

@@ -23,8 +23,13 @@ export function ForgotMyPassword() {
 
   async function handleSubmit(data: ForgotMyPasswordFormData) {
     try {
-      await api.post('/forgot-my-password', {
+      await api.post('/forgot-password', {
         email: data.email,
+      })
+
+      toaster.create({
+        title: 'E-mail enviado',
+        description: 'Por favor, verifique seu e-mail para redefinir sua senha',
       })
     } catch (error) {
       console.log(error)
@@ -33,6 +38,7 @@ export function ForgotMyPassword() {
         title: 'Houve um erro',
         description:
           'Erro ao solicitar a recuperação de senha, por favor, tente novamente mais tarde',
+        type: 'error',
       })
     }
   }
