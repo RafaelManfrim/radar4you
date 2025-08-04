@@ -81,9 +81,11 @@ export function ImportCartoesModal({
 
       disclosure.onClose()
 
+      const { cartoesCadastrados, rowCount } = response.data
+
       toaster.create({
-        title: 'Cartões importados com sucesso',
-        description: `Foram importados ${response.data.rowCount} cartões.`,
+        title: 'Planilha processada com sucesso',
+        description: `Foram importados ${cartoesCadastrados} de ${rowCount} cartões.`,
         type: 'success',
       })
     } catch (error) {
