@@ -117,7 +117,7 @@ export function CreateOrEditInstituicaoFinanceiraModal({
         </Field>
 
         <Field
-          label="Ágio"
+          label="Spread"
           invalid={!!form.formState.errors.markup}
           errorText={form.formState.errors.markup?.message}
         >

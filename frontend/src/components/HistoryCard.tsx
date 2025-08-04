@@ -42,7 +42,7 @@ export function HistoryCard({
         <Text as="strong" color="brand.title">
           {simulationCard.card.title}
         </Text>
-        <Text as="span" color="brand.text" fontSize="sm">
+        <Text as="span" color="brand.text" fontSize="xs">
           ({formattedPointsConversionRate} ponto
           {simulationCard.card.points_conversion_rate !== 1 && 's'} /{' '}
           {getMoedaByCurrency(
@@ -51,8 +51,8 @@ export function HistoryCard({
           )
         </Text>
         {simulationCard.card.points_currency === 'USD' && (
-          <Text as="span" color="brand.text" fontSize="sm">
-            Ágio:{' '}
+          <Text as="span" color="brand.text" fontSize="xs">
+            Spread:{' '}
             {Intl.NumberFormat('pt-BR', {
               style: 'percent',
               maximumFractionDigits: 2,
