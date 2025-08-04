@@ -689,7 +689,7 @@ export function App() {
                     >
                       <Text
                         color="brand.title"
-                        fontSize={['xs', 'xs', 'md']}
+                        fontSize={['xs', 'xs', 'sm']}
                         lineClamp="1"
                       >
                         {simulationCard.card.title}
@@ -703,13 +703,13 @@ export function App() {
                         flexDir="column"
                         justify="center"
                         align="center"
-                        borderWidth={2}
+                        borderWidth={3}
                         {...(isBestResult
                           ? {
                               borderColor: 'brand.warning',
                             }
                           : {
-                              borderColor: 'brand.text-transparent',
+                              borderColor: '#2c2c35',
                             })}
                       >
                         <Box
