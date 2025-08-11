@@ -47,7 +47,7 @@ export function ForgotMyPassword() {
     <Center h="100vh" px="6">
       <FormContainer onSubmit={form.handleSubmit(handleSubmit)}>
         <Center>
-          <Link to="/">
+          <Link to="https://radar4you.com.br">
             <Logo my="6" />
           </Link>
         </Center>

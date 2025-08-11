@@ -124,7 +124,9 @@ export function InstituicoesFinanceiras() {
               <Table.Row>
                 <Table.ColumnHeader textAlign="center">ID</Table.ColumnHeader>
                 <Table.ColumnHeader textAlign="center">Nome</Table.ColumnHeader>
-                <Table.ColumnHeader textAlign="center">Ágio</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign="center">
+                  Spread
+                </Table.ColumnHeader>
                 <Table.ColumnHeader textAlign="center">
                   Logo URL
                 </Table.ColumnHeader>

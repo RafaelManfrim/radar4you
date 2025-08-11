@@ -117,8 +117,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     if (!authEnabled) return
 
     try {
-      const landingPagePath = '/'
-      const securePath = '/calculadora'
+      const landingPagePath = '/site'
+      const securePath = '/'
       const adminPath = '/admin'
       const otherPaths = ['/acesso-negado']
 
@@ -129,7 +129,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         '/nova-senha',
       ]
 
-      if (pathname.includes(securePath) || pathname.includes(adminPath)) {
+      if (
+        (pathname.includes(securePath) || pathname.includes(adminPath)) &&
+        unauthenticatedPaths.every(
+          (unauthenticatedPath) => !pathname.includes(unauthenticatedPath),
+        )
+      ) {
         const { access } = getTokens()
 
         if (access) {
@@ -277,11 +282,11 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       }
 
       setAuthData(undefined)
-      navigate('/')
+      navigate('https://radar4you.com.br')
     } catch (err: unknown) {
       console.log(err)
       setAuthData(undefined)
-      navigate('/')
+      navigate('https://radar4you.com.br')
     }
   }
 

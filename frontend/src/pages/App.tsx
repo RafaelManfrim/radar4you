@@ -88,7 +88,7 @@ type Tipo3FormType = z.infer<typeof tipo3Schema>
 export function App() {
   const responseRef = useRef<HTMLDivElement | null>(null)
 
-  const [tipo, setTipo] = useState(1)
+  const [tipoSelecionado, setTipoSelecionado] = useState(1)
 
   const [cartoes, setCartoes] = useState<Cartao[]>()
   // const [cartoesSugeridos, setCartoesSugeridos] = useState<Cartao[]>()
@@ -200,7 +200,7 @@ export function App() {
     try {
       let response
 
-      if (tipo === 1 && isTipo1Form(data)) {
+      if (tipoSelecionado === 1 && isTipo1Form(data)) {
         response = await api.post('simulations', {
           cards_ids: selectedCards.map((card) => card.id),
           simulation_type: 'purchase',
@@ -211,7 +211,7 @@ export function App() {
         tipo1Form.reset()
       }
 
-      if (tipo === 2 && isTipo2Form(data)) {
+      if (tipoSelecionado === 2 && isTipo2Form(data)) {
         response = await api.post('simulations', {
           cards_ids: selectedCards.map((card) => card.id),
           simulation_type: 'monthly_spending',
@@ -222,7 +222,7 @@ export function App() {
         tipo2Form.reset()
       }
 
-      if (tipo === 3 && isTipo3Form(data)) {
+      if (tipoSelecionado === 3 && isTipo3Form(data)) {
         response = await api.post('simulations', {
           cards_ids: selectedCards.map((card) => card.id),
           simulation_type: 'period',
@@ -310,7 +310,7 @@ export function App() {
     tipo3Form.reset()
 
     setSimulationResponse(undefined)
-  }, [tipo])
+  }, [tipoSelecionado])
 
   useEffect(() => {
     handleResetSelectedCards()
@@ -328,14 +328,19 @@ export function App() {
             size={['xs', 'xs', 'sm', 'md']}
             mb={['4', '6']}
             defaultValue="1"
-            onValueChange={(e) => setTipo(Number(e.value))}
+            onValueChange={(e) => setTipoSelecionado(Number(e.value))}
             items={tipos.map((tipo) => {
               const Icon = tipo.icon
 
               return {
                 value: String(tipo.value),
                 label: (
-                  <HStack title={tipo.description}>
+                  <HStack
+                    title={tipo.description}
+                    {...(tipoSelecionado === tipo.value && {
+                      color: 'brand.secondary',
+                    })}
+                  >
                     <Icon />
                     {
                       <>
@@ -477,7 +482,7 @@ export function App() {
             borderColor="brand.text"
             rounded="md"
           >
-            {tipo === 1 && (
+            {tipoSelecionado === 1 && (
               <>
                 <Field
                   label="Valor"
@@ -516,7 +521,7 @@ export function App() {
               </>
             )}
 
-            {tipo === 2 && (
+            {tipoSelecionado === 2 && (
               <>
                 <Field
                   label="Quantos pontos você quer acumular?"
@@ -568,7 +573,7 @@ export function App() {
               </>
             )}
 
-            {tipo === 3 && (
+            {tipoSelecionado === 3 && (
               <>
                 <Field
                   label="Qual seu gasto mensal?"
@@ -689,7 +694,7 @@ export function App() {
                     >
                       <Text
                         color="brand.title"
-                        fontSize={['xs', 'xs', 'md']}
+                        fontSize={['xs', 'xs', 'sm']}
                         lineClamp="1"
                       >
                         {simulationCard.card.title}
@@ -703,13 +708,13 @@ export function App() {
                         flexDir="column"
                         justify="center"
                         align="center"
-                        borderWidth={2}
+                        borderWidth={3}
                         {...(isBestResult
                           ? {
                               borderColor: 'brand.warning',
                             }
                           : {
-                              borderColor: 'brand.text-transparent',
+                              borderColor: '#2c2c35',
                             })}
                       >
                         <Box

@@ -55,9 +55,13 @@ export function CartaoCard({
         borderColor="brand.background"
         pb="2"
       >
-        <Flex gap={[0, 0, '1']} flexDir={['column', 'column', 'row']}>
+        <Flex
+          gap={[0, 0, '1']}
+          flexDir={['column', 'column', 'row']}
+          align={['start', 'start', 'center']}
+        >
           <Text color="brand.title">{card.title}</Text>
-          <Text>
+          <Text fontSize="xs">
             ({formattedPointsConversionRate} ponto
             {Number(card.points_conversion_rate) !== 1 && 's'} /{' '}
             {getMoedaByCurrency(card.points_currency).toLocaleLowerCase()})
@@ -171,8 +175,8 @@ export function CartaoCard({
               p="2"
               w="full"
               flexDir="column"
-              fontSize={['xs', 'xs', 'xs', 'sm']}
-              {...(isProfileVisualization && { fontSize: 'sm', p: '1' })}
+              fontSize={['xs', 'xs', 'xs', 'xs']}
+              {...(isProfileVisualization && { p: '1' })}
             >
               <Text color="brand.title">Informações</Text>
               {card.additional_info ? card.additional_info : '-'}
@@ -186,8 +190,8 @@ export function CartaoCard({
             p="2"
             w="full"
             flexDir="column"
-            fontSize={['xs', 'xs', 'xs', 'sm']}
-            {...(isProfileVisualization && { fontSize: 'sm', p: '1' })}
+            fontSize={['xs', 'xs', 'xs', 'xs']}
+            {...(isProfileVisualization && { p: '1' })}
           >
             <Text color="brand.title">Benefícios</Text>
             {card.benefits ? card.benefits : 'Nenhum benefício informado.'}
@@ -199,8 +203,8 @@ export function CartaoCard({
             p="2"
             w="full"
             flexDir="column"
-            fontSize={['xs', 'xs', 'xs', 'sm']}
-            {...(isProfileVisualization && { fontSize: 'sm', p: '1' })}
+            fontSize={['xs', 'xs', 'xs', 'xs']}
+            {...(isProfileVisualization && { p: '1' })}
           >
             <Text color="brand.title">Salas VIP</Text>
             {card.vip_lounges

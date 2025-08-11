@@ -8,7 +8,7 @@ export function AcessoNegado() {
 
   useEffect(() => {
     setTimeout(() => {
-      navigate('/')
+      navigate('https://radar4you.com.br')
     }, 3000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
