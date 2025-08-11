@@ -25,13 +25,17 @@ app.register(cors, {
       'https://www.beta.radar4you.com.br',
       'http://beta.radar4you.com.br',
       'https://beta.radar4you.com.br',
+      'http://www.app.radar4you.com.br',
+      'https://www.app.radar4you.com.br',
+      'http://app.radar4you.com.br',
+      'https://app.radar4you.com.br',
 
       // ambientes de desenvolvimento
       'http://localhost',
       'http://localhost:5173',
       'http://localhost:80',
       'http://127.0.0.1',
-      'http://192.168.0.105:5173',
+      'http://192.168.0.108:5173',
     ]
 
     // Em chamadas sem Origin (ex: curl/postman), pode permitir
