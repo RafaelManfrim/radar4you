@@ -250,7 +250,7 @@ export function App() {
         type: 'success',
         action: {
           label: 'Visualizar',
-          onClick: () => navigate('/calculadora/historico'),
+          onClick: () => navigate('/historico'),
         },
       })
 
@@ -365,7 +365,7 @@ export function App() {
           <Heading as="h4" mb="2" fontSize="md" color="brand.title">
             Meus Cartões (
             <Text as="span" fontSize="sm" color="brand.secondary">
-              <Link to="/calculadora/cartoes">Adicionar</Link>
+              <Link to="/cartoes">Adicionar</Link>
             </Text>
             )
           </Heading>
@@ -434,7 +434,7 @@ export function App() {
           >
             Sugestão de Cartões (
             <Text as="span" fontSize="sm" color="brand.secondary">
-              <Link to="/calculadora/cartoes">Ver todos</Link>
+              <Link to="/cartoes">Ver todos</Link>
             </Text>
             )
           </Heading>

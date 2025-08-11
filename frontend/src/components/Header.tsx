@@ -14,7 +14,7 @@ export function Header() {
       borderBottomColor="brand.text"
     >
       <Flex justify="space-between" align="center" w="full" maxW={1280}>
-        <Link to="/calculadora">
+        <Link to="/">
           <Logo maxW={['24', '32']} />
         </Link>
         <Menu />
