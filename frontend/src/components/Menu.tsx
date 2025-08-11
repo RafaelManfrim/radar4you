@@ -15,10 +15,10 @@ import { Avatar, AvatarGroup } from './ui/avatar'
 import { HStack, Text } from '@chakra-ui/react'
 
 const navegacao = [
-  { title: 'Calculadora', to: '/calculadora' },
-  { title: 'Cartões', to: '/calculadora/cartoes' },
-  { title: 'Histórico', to: '/calculadora/historico' },
-  { title: 'Perfil', to: '/calculadora/perfil' },
+  { title: 'Calculadora', to: '/' },
+  { title: 'Cartões', to: '/cartoes' },
+  { title: 'Histórico', to: '/historico' },
+  { title: 'Perfil', to: '/perfil' },
 ]
 
 export function Menu() {

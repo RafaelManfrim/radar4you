@@ -19,7 +19,7 @@ export function AdminLayout() {
   const canAccess = authData?.user.role === 'ADMIN'
 
   if (!canAccess) {
-    navigate('/calculadora')
+    navigate('/')
   }
 
   return (

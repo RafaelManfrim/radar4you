@@ -139,7 +139,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
         if (access) {
           if (unauthenticatedPaths.some((path) => pathname.includes(path))) {
-            return navigate('/calculadora')
+            return navigate('/')
           }
 
           try {
@@ -165,7 +165,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         const { refresh } = getTokens()
 
         if (refresh) {
-          navigate('/calculadora')
+          navigate('/')
         }
       }
     } catch (error: unknown) {
@@ -224,7 +224,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         user,
       })
 
-      navigate('/calculadora')
+      navigate('/')
     } catch (error) {
       console.log(error)
       throw error

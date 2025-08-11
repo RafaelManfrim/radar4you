@@ -19,7 +19,7 @@ export function Sidebar() {
   })
 
   function handleGoBackToApp() {
-    navigate('/calculadora')
+    navigate('/')
   }
 
   return (
