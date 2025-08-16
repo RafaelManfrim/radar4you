@@ -14,7 +14,7 @@ export function AcessoNegado() {
   }, [])
 
   return (
-    <Center h="100vh" flexDir="column">
+    <Center minH="100vh" flexDir="column">
       <Icon fontSize="8xl" color="red.700">
         <MdBlock />
       </Icon>

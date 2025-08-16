@@ -92,7 +92,7 @@ export function Login() {
   }
 
   return (
-    <Center h="100vh" px="6">
+    <Center minH="100vh" px="6">
       <FormContainer
         onSubmit={form.handleSubmit(handleSignIn)}
         color="brand.title"

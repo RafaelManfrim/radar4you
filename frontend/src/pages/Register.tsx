@@ -97,7 +97,7 @@ export function Register() {
   }
 
   return (
-    <Center h="100vh" px="6">
+    <Center minH="100vh" px="6">
       <FormContainer
         onSubmit={form.handleSubmit(handleRegistration)}
         color="brand.title"

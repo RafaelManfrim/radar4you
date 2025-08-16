@@ -58,7 +58,7 @@ export function NewPassword() {
   }
 
   return (
-    <Center h="100vh" px="6">
+    <Center minH="100vh" px="6">
       <FormContainer onSubmit={form.handleSubmit(handleSubmit)}>
         <Center>
           <Link to="https://radar4you.com.br">
