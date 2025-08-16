@@ -98,7 +98,9 @@ export function Login() {
         color="brand.title"
       >
         <Center>
-          <Logo my="6" />
+          <Link to="https://radar4you.com.br">
+            <Logo my="6" />
+          </Link>
         </Center>
 
         <Field

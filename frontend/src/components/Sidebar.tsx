@@ -6,7 +6,7 @@ import { Button } from './ui/button'
 import { FaComputer } from 'react-icons/fa6'
 import { FaSignOutAlt } from 'react-icons/fa'
 import { useAuth } from '@/contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Isotipo } from './Isotipo'
 
 export function Sidebar() {
@@ -36,8 +36,10 @@ export function Sidebar() {
       borderStyle="solid"
     >
       <Center my="4">
-        <Logo maxW="32" hideBelow="md" />
-        <Isotipo maxW="8" hideFrom="md" />
+        <Link to="/admin">
+          <Logo maxW="32" hideBelow="md" />
+          <Isotipo maxW="8" hideFrom="md" />
+        </Link>
       </Center>
       <Text
         as="strong"
