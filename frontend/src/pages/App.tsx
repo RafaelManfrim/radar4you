@@ -173,12 +173,12 @@ export function App() {
   }
 
   function handleResetSelectedCards() {
-    if (cartoesUsuario) {
-      const cartaoUsuarioFavoritado = cartoesUsuario.find(
-        (userCard) => userCard.is_favorite,
+    if (cartoes && cartoesUsuario) {
+      const cartaoUsuarioFavoritado = cartoesUsuario.find((userCard) =>
+        Boolean(userCard.is_favorite),
       )
 
-      const cartaoFavoritado = cartoes?.find(
+      const cartaoFavoritado = cartoes.find(
         (card) => card.id === cartaoUsuarioFavoritado?.card_id,
       )
 
@@ -314,7 +314,7 @@ export function App() {
 
   useEffect(() => {
     handleResetSelectedCards()
-  }, [cartoesUsuario])
+  }, [cartoes, cartoesUsuario])
 
   return (
     <div>
