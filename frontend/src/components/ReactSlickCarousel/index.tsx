@@ -103,12 +103,12 @@ export function ReactSlickCarousel() {
         prevArrow={<SamplePrevArrow />}
         responsive={responsiveSettings}
       >
-        <Ad isFirst index={1} />
-        <Ad index={2} />
-        <Ad index={3} />
-        <Ad isFirst index={4} />
-        <Ad index={5} />
-        <Ad index={6} />
+        <Ad isFirst />
+        <Ad />
+        <Ad />
+        <Ad isFirst />
+        <Ad />
+        <Ad />
       </Slider>
     </div>
   )
