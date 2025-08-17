@@ -92,13 +92,15 @@ export function Login() {
   }
 
   return (
-    <Center h="100vh" px="6">
+    <Center minH="100vh" px="6">
       <FormContainer
         onSubmit={form.handleSubmit(handleSignIn)}
         color="brand.title"
       >
         <Center>
-          <Logo my="6" />
+          <Link to="https://radar4you.com.br">
+            <Logo my="6" />
+          </Link>
         </Center>
 
         <Field

@@ -140,6 +140,7 @@ const customConfig = defineConfig({
       gradientVia: '#010313',
       gradientTo: '#2f3da5',
       color: 'brand.text',
+      minHeight: '100vh',
     },
     '::selection': {
       bg: 'brand.secondary',

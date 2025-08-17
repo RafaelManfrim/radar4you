@@ -1,21 +1,20 @@
 import { Center, Heading, Icon, Text } from '@chakra-ui/react'
 import { useEffect } from 'react'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { MdBlock } from 'react-icons/md'
 
 export function AcessoNegado() {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setTimeout(() => {
-      // navigate('https://radar4you.com.br')
-      window.location.href = 'https://radar4you.com.br'
+      navigate('/login')
     }, 3000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
-    <Center h="100vh" flexDir="column">
+    <Center minH="100vh" flexDir="column">
       <Icon fontSize="8xl" color="red.700">
         <MdBlock />
       </Icon>

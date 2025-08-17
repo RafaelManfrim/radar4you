@@ -282,13 +282,11 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       }
 
       setAuthData(undefined)
-      window.location.href = 'https://radar4you.com.br'
-      // navigate('https://radar4you.com.br')
+      navigate('/login')
     } catch (err: unknown) {
       console.log(err)
       setAuthData(undefined)
-      // navigate('https://radar4you.com.br')
-      window.location.href = 'https://radar4you.com.br'
+      navigate('/login')
     }
   }
 
