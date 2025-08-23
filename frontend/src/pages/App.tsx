@@ -782,6 +782,11 @@ export function App() {
                 )
               })}
             </Flex>
+            <Text as="span" color="white" fontSize="2xs" textAlign="center">
+              Os valores são aproximados podendo alterar de acordo com a
+              variação cambial do dólar e também de acordo com o ágio da
+              instituição financeira.
+            </Text>
           </VStack>
         )}
 
