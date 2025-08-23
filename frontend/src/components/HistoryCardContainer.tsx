@@ -92,7 +92,7 @@ export function HistoryCardContainer({
                 textAlign="justify"
               >
                 Os valores são aproximados podendo alterar de acordo com a
-                variação cambial do dólar e também de acordo com o ágio da
+                variação cambial do dólar e também de acordo com o spread da
                 instituição financeira.
               </Tooltip.Content>
             </Tooltip.Positioner>
