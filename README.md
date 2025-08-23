@@ -43,8 +43,8 @@
 - [x] Proteção da aplicação para usuário logado
 - [x] Proteção do admin para usuário logado e com permissões administrativas
 
-- [ ] Melhorias na Experiência do Usuário
-- [ ] Melhorias Visuais
+- [x] Melhorias na Experiência do Usuário
+- [x] Melhorias Visuais
 
 ### Banco de dados
 
@@ -78,10 +78,10 @@
 
 Tela Inicial:
 
-- [ ] Aprimorar Design
+- [x] Aprimorar Design
 - [x] Implementar rota de sugestão de cartões
 - [x] Fazer cartão favorito ser selecionado automaticamente
-- [ ] Mostrar cotação do dólar utilizada na simulação
+- [x] Mostrar cotação do dólar utilizada na simulação
 
 Tela Cartões:
 
@@ -110,4 +110,4 @@ Tela Admin:
 
 Funcionalidade de Esqueci Minha Senha:
 
-- [ ] Será enviado o e-mail
+- [x] Será enviado o e-mail
