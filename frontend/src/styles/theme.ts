@@ -132,6 +132,9 @@ const tableSlotRecipe = defineSlotRecipe({
 
 const customConfig = defineConfig({
   globalCss: {
+    '[translate="no"]': {
+      translate: 'no',
+    },
     body: {
       // bg: 'brand.background',
       // bgGradient: 'radial(0% 0%, circle, #010313, #2f3da5, #010313)',
