@@ -161,9 +161,17 @@ const customConfig = defineConfig({
     },
     tokens: {
       fonts: {
-        body: { value: 'Inter, sans-serif' },
-        heading: { value: 'Plus Jakarta Sans, sans-serif' },
-        mono: { value: 'Menlo, monospace' },
+        body: {
+          value:
+            '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        },
+        heading: {
+          value:
+            '"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        },
+        mono: {
+          value: '"Menlo", "Monaco", "Courier New", monospace',
+        },
       },
       sizes: {
         '100': { value: '25rem' },
