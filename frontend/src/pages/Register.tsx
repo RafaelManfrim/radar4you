@@ -196,7 +196,7 @@ export function Register() {
               </Text>
             </Link>{' '}
             e a{' '}
-            <Link to="/politicas-de-privacidade.pdf" target="_blank">
+            <Link to="/politica-de-privacidade.pdf" target="_blank">
               <Text
                 as="span"
                 color="brand.secondary"
