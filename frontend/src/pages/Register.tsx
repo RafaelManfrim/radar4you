@@ -181,7 +181,7 @@ export function Register() {
             checked={form.getValues('terms')}
           >
             Eu aceito os{' '}
-            <Link to="https://google.com" target="_blank">
+            <Link to="/termos-de-uso.pdf" target="_blank">
               <Text
                 as="span"
                 color="brand.secondary"
@@ -196,7 +196,7 @@ export function Register() {
               </Text>
             </Link>{' '}
             e a{' '}
-            <Link to="https://google.com" target="_blank">
+            <Link to="/politicas-de-privacidade.pdf" target="_blank">
               <Text
                 as="span"
                 color="brand.secondary"
